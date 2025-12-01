@@ -1,0 +1,2319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 BAR EXAM REVIEW TRACKER</title>
+    <!-- FIX: Updated favicon link -->
+    <link rel="icon" href="https://raw.githubusercontent.com/ariiannemay/2026-Bar-Exam-Tracker/main/Images/LAWLOGO.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- ADDED: Calendar Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- END: Calendar Dependencies -->
+    
+    <style>
+        /* Attempt to import a decorative font for the quote */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@1,600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+
+        /* --- CORE AESTHETIC VARIABLES (FIXED MAROON) --- */
+        :root {
+            --color-primary-dark: #330066; 
+            --color-secondary-gold: #B266FF; 
+            --color-light-bg: #F4F7F9;
+        }
+        /* Calendar Stylesheet START */
+        /* Minified/Consolidated Styles */
+        .calendar-wrapper{max-width:1280px;margin:0 auto;padding:0 1rem;margin-top:0;padding-bottom:1.9rem;overflow-x:hidden}.calendar-wrapper.mx-auto{max-width:1280px;padding:0}.calendar-wrapper.p-0{padding:0}#calendar-grid-container{display:grid;grid-template-columns:3fr 1fr;gap:1.5rem;align-items:start;padding:.25rem .5rem .5rem .5rem}#calendar-details{border-radius:.75rem;overflow:hidden}#calendar-details summary{background-color:var(--color-primary-dark);color:#fff;border-bottom:3px solid var(--color-secondary-gold);padding:.75rem 1.5rem;font-size:1.125rem;font-weight:700}.toggle-indicator{transition:transform .2s}#notepad-sidebar{background-color:#fff;border-radius:.75rem;box-shadow:0 4px 12px rgba(0,0,0,.1);padding:1.5rem;display:flex;flex-direction:column;border:1px solid #e5e7eb;grid-column:2}#calendar-details[data-calendar-ready=true] #notepad-sidebar{min-height:var(--calendar-height,450px)}#notepad-sidebar h3{background-color:var(--color-primary-dark);color:#fff;border-radius:.375rem .375rem 0 0;padding:.4rem .75rem;margin:calc(-1.5rem - 1px) -1.5rem .75rem -1.5rem;text-transform:uppercase;font-weight:800;font-size:.9rem;border-bottom:3px solid var(--color-secondary-gold)}#review-notes{width:100%;flex-grow:1;padding:1.5rem 1rem 1rem 1rem;font-size:.95rem;border:none;border-radius:.5rem;box-shadow:inset 0 1px 4px rgba(0,0,0,.1);resize:none;font-family:'Dancing Script',cursive;font-weight:600;line-height:1.95;color:#333;overflow-y:auto;background-color:#f7f7f7;background-image:url(https://img.freepik.com/free-vector/blank-cream-notepaper-design_53876-97377.jpg?semt=ais_hybrid&w=740&q=80);background-size:cover;background-position:center;background-repeat:no-repeat}#review-notes::placeholder{font-family:'Dancing Script',cursive;font-weight:700;color:#b33a3a;opacity:.8;transform:translateY(-5px);display:block}#calendar-content{grid-column:1;padding:0}#calendar-card{background-color:#fff;border-radius:.75rem;box-shadow:0 4px 12px rgba(0,0,0,.1);padding:0}.fc-toolbar{padding:.1rem .75rem;background-color:var(--color-primary-dark);margin-bottom:0;border:0 solid var(--color-secondary-gold);color:#fff;border-radius:.5rem;display:flex;align-items:center;font-size:.85rem}#customMonthTitle{color:#fff;font-weight:800;text-transform:uppercase;font-size:1.4em;padding:.3em .6em;margin-right:.5rem;font-family:inherit}.fc-widget-header{background-color:var(--color-primary-dark) !important;color:#fff !important;text-transform:uppercase !important;font-weight:700 !important;padding:.05rem 0;height:100%}.fc-view-container .fc-view>table{border-top:none !important}.fc-toolbar + div{border-top:none !important}.fc-head{border-top:none !important;border-bottom:3px solid var(--color-secondary-gold) !important}#calendar{padding:0 !important}.fc-view-container{border-top:none !important}.fc-unthemed,.fc-unthemed table{border-top:none !important;border-color:transparent !important}.fc-unthemed td,.fc-unthemed th{border-color:#e5e7eb}#dateJump{display:none !important;visibility:hidden !important;position:absolute;top:0;left:0}#dateJump.temp-visible{display:block !important;visibility:visible !important;position:fixed !important;z-index:9999;width:200px;height:40px;opacity:.01;pointer-events:auto}.fc-toolbar .fc-right{flex-grow:1;display:flex;justify-content:flex-end;margin:0 !important;width:auto !important}.fc-toolbar .fc-button-group:last-child{margin-left:.5rem}.fc-toolbar .fc-button,#jumpToDateButton{padding:.3em .6em !important;line-height:1.2 !important;font-size:.75rem !important;background-color:#fff !important;color:var(--color-primary-dark) !important;border-color:var(--color-primary-dark) !important;box-shadow:none;text-transform:uppercase;font-weight:700;border-radius:.25rem;margin-left:.5rem}#jumpToDateButton{background-color:var(--color-secondary-gold) !important;color:var(--color-primary-dark) !important;border-color:var(--color-primary-dark) !important}.fc-toolbar .fc-button:hover:not(.fc-state-active),#jumpToDateButton:hover{background-color:#f0f0f0 !important;color:var(--color-primary-dark) !important}#jumpToDateButton:hover{filter:brightness(.9)}.fc-toolbar .fc-state-active,.fc-toolbar .fc-state-active:hover{background-color:var(--color-secondary-gold) !important;color:var(--color-primary-dark) !important;border-color:var(--color-primary-dark) !important}.fc-toolbar .fc-today-button.fc-state-active{background-color:var(--color-secondary-gold) !important;color:var(--color-primary-dark) !important}.fc-day-number{display:inline-block;background-color:transparent;color:#4b5563;font-weight:700;padding:2px 4px;margin-right:0;float:right;line-height:1.2;font-size:.9rem}.fc-other-month .fc-day-number{color:#9ca3af;background-color:transparent}.fc-event{border-radius:.25rem !important;border:1px solid rgba(0,0,0,.1);font-size:.6rem;font-weight:600;padding:2px 5px;white-space:normal;text-transform:uppercase}.fc-event-title-wrap{display:flex;align-items:center}.event-status-icon{font-size:.8rem;margin-right:.5rem;width:1.25rem;text-align:center}.event-icon-book{color:#fff}.modal{z-index:1000;background-color:rgba(0,0,0,.75)}.modal-content{background-color:#fff !important;padding:1.5rem;border-radius:.75rem;box-shadow:0 25px 50px -12px rgba(0, 0, 0, 0.5);min-width:300px;width:90%;max-width:500px}.syllabus-select-wrapper select{min-height:200px}
+        /* Calendar Stylesheet END */
+
+        /* -------------------------------------------------------------------------- */
+        /* 1. CORE LAYOUT & TYPOGRAPHY STYLES */
+        /* -------------------------------------------------------------------------- */
+        
+        /* Global & Countdown Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex; 
+            flex-direction: column;
+        }
+        .main-content-wrapper { flex-grow: 1; }
+        .header-font { font-family: 'Bebas Neue', sans-serif; letter-spacing: .1em; }
+        .header-bg { background-color: #330066; border-bottom: 5px solid #B266FF; }
+        .card-header-bg { background-color: #330066; }
+        .time-value { font-size: 1.75rem; font-weight: 900; line-height: 1; color: #1a202c; }
+        .time-label { font-size: .875rem; font-weight: 700; color: #4a5568; text-transform: uppercase; }
+        .date-display-wrapper { display: inline-block; padding-bottom: 0; cursor: pointer; transition: color .2s; }
+        .date-display-wrapper:hover .date-text { color: #1d4ed8; }
+        .date-text { font-family: 'Bebas Neue', sans-serif; font-size: 2.25rem; font-weight: 800; color: #000000; text-transform: uppercase; letter-spacing: .15em; line-height: 1; }
+        .today-date-text { font-size: 0.9rem; white-space: nowrap; font-weight: 700; line-height: 1; }
+        .dashboard-footer-text { font-size: 0.65rem; margin-top: 0.5rem; }
+        .text-miss { color: #000000; }
+        .text-atty { color: #674ea7; }
+        .text-cpa { color: #f472b6; }
+        .global-app-footer { text-align: center; padding: 1rem 0; margin-top: 0.5rem; }
+        .global-app-footer .quote, .global-app-footer .signature .date-text-signature { font-family: 'Cormorant Garamond', 'Times New Roman', serif; font-style: italic; font-weight: 600; font-size: 1rem; color: #4a5568; }
+        .global-app-footer .signature { font-family: 'Inter', sans-serif; font-style: italic; font-weight: 600; font-size: 0.75rem; color: #4a5568; }
+
+
+        /* -------------------------------------------------------------------------- */
+        /* 2. DASHBOARD & SCHEDULE STYLES (Existing) */
+        /* -------------------------------------------------------------------------- */
+
+        .border-custom-yellow { border-color: #B266FF; }
+        .text-custom-yellow { color: #B266FF; }
+        .bg-chart-done { background-color: #38761d; }
+        .text-chart-done { color: #38761d; }
+        .bg-chart-toread { background-color: #ef4444; }
+        .text-chart-toread { color: #ef4444; }
+        .text-chart-title { color: #330066; font-size: 1.5rem; margin-top: 0.5rem; margin-bottom: 0.5rem; }
+        
+        #overall-dashboard { background-color: transparent; box-shadow: none; border: none; padding: 0; }
+        .dashboard-container { display: flex; flex-wrap: wrap; padding: 0; }
+        .chart-panel { width: 100%; padding: 0.5rem 0.3rem; border-bottom: 1px solid #e5e7eb; background-color: #fff; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .schedule-panel { width: 100%; padding: 0.5rem 0.3rem; background-color: #fff; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        
+        @media (min-width: 1024px) {
+            #overall-dashboard { padding: 0; }
+            .dashboard-container { display: grid; grid-template-columns: 1fr 1.5rem 1fr 1.5rem 1fr; padding: 0; }
+            .chart-panel { grid-column: 1 / span 1; padding: 0.5rem 1rem; border-bottom: none; }
+            .schedule-panel { grid-column: 3 / span 3; padding: 0.5rem 1rem; border-left: none; }
+            .dashboard-container > div:nth-child(2) { grid-column: 2 / span 1; border-right: none; }
+            .chart-panel .flex-col, .chart-panel .text-center { align-items: center; text-align: center; justify-content: center; }
+        }
+
+        .pie-chart-wrapper { position: relative; display: flex; align-items: center; justify-content: center; margin: 0.5rem auto 0.1rem; width: 100%; }
+        .metric-pie-side { position: absolute; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.7rem; text-align: center; line-height: 1.2; }
+        .metric-pie-side.left { right: 50%; margin-right: 105px; transform: translateY(-50%); top: 50%; }
+        .metric-pie-side.right { left: 50%; margin-left: 105px; transform: translateY(-50%); top: 50%; }
+        .metric-pie-side .metric-value { font-size: 1rem; font-weight: 900; }
+        
+        .schedule-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; border: 2px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden; }
+        .schedule-table th, .schedule-table td { padding: 0.3rem 0.5rem; vertical-align: middle; }
+        .schedule-header th { background-color: #330066; color: #FFFFFF; font-weight: 700; text-transform: uppercase; border: 2px solid #B266FF; font-size: 0.75rem; }
+        .subject-cell { font-weight: 600; color: white; padding: 0.4rem; text-align: center; border-radius: 0.5rem; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); font-size: 0.7rem; text-transform: uppercase; }
+        .progress-bar-sparkline { width: 100%; height: 0.8rem; background-color: #e5e7eb; border-radius: 9999px; overflow: hidden; box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.1); padding: 2px; }
+        .bg-progress-red { background-color: #ef4444; }
+        .bg-progress-orange { background-color: #f97316; }
+        .bg-progress-yellow { background-color: #facc15; }
+        .bg-progress-green { background-color: #10b981; }
+
+        .sparkline-fill { height: 100%; transition: width 0.5s ease-in-out; border-radius: 9999px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); border: 2px solid white; max-width: 100%; }
+
+        .bg-poli { background-color: #795548; }
+        .bg-comm { background-color: #eab308; }
+        .bg-civ { background-color: #1e3a8a; }
+        .bg-lab { background-color: #38761d; }
+        .bg-crim { background-color: #b33a3a; }
+        .bg-rem { background-color: #674ea7; }
+        
+        /* -------------------------------------------------------------------------- */
+        /* 3. SUBJECT TRACKER STYLES (Checklist Fix Applied) */
+        /* -------------------------------------------------------------------------- */
+
+        .syllabus-panel-container { border-radius: .75rem; overflow: hidden; }
+        .syllabus-summary { padding: 1rem; font-size: 1.25rem; font-weight: 700; color: white; cursor: pointer; list-style: none; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: .5rem; border-top-left-radius: .75rem; border-top-right-radius: .75rem; }
+        .topic-header { padding: .75rem; font-weight: 600; color: #1f2937; display: flex; align-items: center; justify-content: space-between; cursor: pointer; list-style: none; }
+        
+        .checklist-grid { 
+            display: grid; 
+            grid-template-columns: 2fr repeat(5, 70px) minmax(40px, 50px); 
+            gap: .2rem; 
+            padding: .3rem 0; 
+            align-items: center; 
+            border-bottom: 1px dashed #e5e7eb; 
+        }
+        
+        /* CRITICAL CHECKBOX STYLING OVERRIDE */
+        .checklist-grid input[type="checkbox"] {
+            -webkit-appearance: none; -moz-appearance: none; appearance: none;
+            width: 1rem; height: 1rem; border: 1px solid #d1d5db; border-radius: 0.25rem;
+            cursor: pointer; transition: background-color 0.2s, border-color 0.2s;
+            background-color: #ffffff; align-self: center; position: relative;
+        }
+
+        .checklist-grid input[type="checkbox"]:checked { border-color: transparent !important; }
+
+/* NEW: Column-specific colors for CHECKED state */
+        .checkbox-codal:checked { background-color: #8b5cf6 !important; } /* Violet/Rem */
+        .checkbox-books:checked { background-color: #eab308 !important; } /* Yellow/Comm */
+        .checkbox-reviewer:checked { background-color: #3b82f6 !important; } /* Blue/Civ */
+        .checkbox-barqas:checked { background-color: #10b981 !important; } /* Green */
+        .checkbox-cases:checked { background-color: #f97316 !important; } /* Orange */
+
+        .checklist-grid input[type="checkbox"]:checked::before {
+        content: ''; position: absolute; width: 0.25rem; height: 0.5rem;
+        border: solid white; border-width: 0 2px 2px 0; top: 50%; left: 50%;
+        transform: translate(-50%, -55%) rotate(45deg);
+        }
+        
+        .checklist-grid>div:first-child { 
+            padding-left: 0.125rem; 
+            font-size: .875rem; 
+            color: #374151; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: flex-start; 
+            justify-content: center; 
+            /* SAFARI FIX */
+            min-width: 0;
+            overflow: hidden;
+            /* END SAFARI FIX */
+        }
+        .font-trackable-lg { font-size: 1.5rem; font-weight: 600; }
+        .progress-percent-bold { font-weight: 700; font-size: .8rem; }
+        .syllabus-summary-title-row { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+        .syllabus-progress-metrics { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center; width: 100%; font-size: .75rem; }
+        .progress-stats { display: flex; gap: .5rem; white-space: nowrap; }
+        .progress-overall-text { white-space: nowrap; font-weight: 700; margin-right: .5rem; }
+        .progress-bar-container { height: .75rem; background: #e5e7eb; border-radius: 9999px; overflow: hidden; width: 100%; flex-grow: 1; max-width: none; }
+        .progress-bar { height: 100%; transition: width .5s ease-in-out; }
+        .main-summary-chevron { transition: transform .2s; }
+        .syllabus-panel[open]>.syllabus-summary .main-summary-chevron { transform: rotate(90deg); }
+        .syllabus-summary::-webkit-details-marker, .topic-header::-webkit-details-marker { display: none; }
+        .syllabus-content { padding: .5rem 1rem 1rem 1rem; background: white; border: 1px solid #e5e7eb; border-top: none; border-bottom-left-radius: .75rem; border-bottom-right-radius: .75rem; }
+        .syllabus-sub-section { border-bottom: 1px solid #e5e7eb; margin-bottom: .5rem; }
+        .chevron-icon { transition: transform .2s; display: inline-block; margin-right: .5rem; }
+        .syllabus-sub-section[open]>details>.topic-header .chevron-icon { transform: rotate(90deg); }
+        .depth2-details { list-style: none; margin-bottom: .25rem; border: 1px solid #f3f4f6; border-radius: .375rem; overflow: hidden; background-color: #fafafa; }
+        .depth2-details>summary { list-style: none; cursor: pointer; padding: 0; background-color: #ffffff; }
+        .depth2-details>summary::-webkit-details-marker { display: none; }
+        .depth2-chevron { transition: transform .2s; transform: rotate(0deg); flex-shrink: 0; margin-right: .5rem; }
+        .depth2-details[open] .depth2-chevron { transform: rotate(90deg); }
+        .topic-content-wrapper { display: flex; align-items: flex-start; padding-left: .5rem; }
+        .checklist-grid.checklist-grid-header>div:first-child { grid-column: 1 / span 1; padding-left: 0; align-items: center; text-align: center; }
+        .checklist-grid.checklist-grid-header { grid-template-columns: 2fr repeat(5, 70px) minmax(40px, 50px); }
+        .checklist-grid-micro-progress { border-bottom: 1px solid #e5e7eb; }
+
+        .depth3-content-wrapper>div { display: block; padding: .25rem .5rem; }
+        .checklist-grid>div:nth-child(n+2):nth-child(-n+6) { border-right: 1px dashed #d1d5db; }
+        .checklist-grid>div:nth-child(6) { border-right: none; }
+        .checklist-label-capsule { font-size: .65rem; font-weight: 7-00; text-transform: uppercase; text-align: center; word-break: keep-all; padding: .15rem .35rem; border-radius: 9999px; line-height: 1; color: white; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05); }
+        .col-progress-codal { background-color: #8b5cf6; }
+        .col-progress-lectures { background-color: #facc15; }
+        .col-progress-reviewer { background-color: #3b82f6; }
+        .col-progress-barqas { background-color: #10b981; }
+        .col-progress-cases { background-color: #f97316; }
+        .capsule-codal { background-color: #8b5cf6; }
+        .capsule-books { background-color: #eab308; }
+        .capsule-reviewer { background-color: #3b82f6; }
+        .capsule-barqas { background-color: #10b981; }
+        .capsule-cases { background-color: #f97316; }
+        .tick-all-icon { cursor: pointer; transition: color .2s, transform .2s; color: #9ca3af; }
+        .tick-all-icon.checked { color: #10b981; }
+        .tick-all-icon.partial { color: #f59e0b; }
+        .tick-all-icon:hover { transform: scale(1.1); }
+        .col-progress-bar-container { height: .4rem; background: #e5e7eb; border-radius: 9999px; overflow: hidden; width: 100%; }
+        .col-progress-bar { height: 100%; transition: width .3s ease-in-out; }
+        .status-message-row { padding-top: .25rem; padding-bottom: .25rem; }
+        
+        .depth3-content-wrapper>div:first-child { grid-column: 1 / span 7; padding-left: 2.5rem; }
+        .depth2-topic-row { grid-column: 1 / span 1; display: flex; align-items: flex-start; }
+        
+        /* SUBJECT PANEL THEMES */
+        .syllabus-panel-rem .syllabus-summary { background-color: #674ea7; border-left: 5px solid #8e7cc3; }
+        .syllabus-panel-rem .topic-header { background-color: #ede9fe; border-left: 3px solid #8b5cf6; }
+        .syllabus-checkbox-rem { accent-color: #8b5cf6; }
+
+        .syllabus-panel-crim .syllabus-summary { background-color: #b33a3a; border-left: 5px solid #d94a4a; }
+        .syllabus-panel-crim .topic-header { background-color: #fee2e2; border-left: 3px solid #ef4444; }
+        .syllabus-checkbox-crim { accent-color: #ef4444; }
+
+        .syllabus-panel-lab { --lab-color: #38761d; --lab-color-dark: #274e13; }
+        .syllabus-panel-lab .syllabus-summary { background-color: var(--lab-color); border-left: 5px solid #6aa84f; }
+        .syllabus-panel-lab .topic-header { background-color: #f6fff6; border-left: 3px solid var(--lab-color); }
+        .syllabus-checkbox-lab { accent-color: var(--lab-color); }
+        .bg-lab-button { background-color: var(--lab-color); }
+        .hover\:bg-lab-button-dark:hover { background-color: var(--lab-color-dark); }
+
+        .syllabus-panel-civ { --civ-color: #1e3a8a; --civ-color-dark: #142a63; }
+        .syllabus-panel-civ .syllabus-summary { background-color: var(--civ-color); border-left: 5px solid #3b82f6; }
+        .syllabus-panel-civ .topic-header { background-color: #eff6ff; border-left: 3px solid var(--civ-color); }
+        .syllabus-checkbox-civ { accent-color: #2563eb; }
+        .bg-civ-button { background-color: #2563eb; }
+        .hover\:bg-civ-button-dark:hover { background-color: #1d4ed8; }
+
+        .syllabus-panel-comm { --comm-color: #eab308; --comm-color-dark: #b88f06; --comm-color-light: #fefce8; --comm-checkbox-color: #eab308; }
+        .syllabus-panel-comm .syllabus-summary { background-color: var(--comm-color); border-left: 5px solid #facc15; color: #000000 !important; }
+        .syllabus-panel-comm .syllabus-summary i {
+            color: #000000 !important; }
+        .syllabus-panel-comm .syllabus-summary-title-row .flex:first-child, .syllabus-panel-comm .syllabus-progress-metrics span, .syllabus-panel-comm .syllabus-progress-metrics i { color: #000000 !important; }
+        .syllabus-panel-comm .topic-header { background-color: var(--comm-color-light); border-left: 3px solid var(--comm-color); }
+        .syllabus-checkbox-comm { accent-color: var(--comm-checkbox-color); }
+        .bg-comm-button { background-color: var(--comm-color); }
+        .hover\:bg-comm-button-dark:hover { background-color: var(--comm-color-dark); }
+        
+        .syllabus-panel-comm .syllabus-progress-metrics .text-gray-200 {
+            color: #000000 !important;}
+        
+        .syllabus-panel-poli { --poli-color: #795548; --poli-color-dark: #553b32; --poli-color-light: #efe9e0; }
+        .syllabus-panel-poli .syllabus-summary { background-color: var(--poli-color); border-left: 5px solid #a1887f; }
+        .syllabus-panel-poli .topic-header { background-color: var(--poli-color-light); border-left: 3px solid var(--poli-color); }
+        .syllabus-checkbox-poli { accent-color: var(--poli-color); }
+        .bg-poli-button { background-color: var(--poli-color); }
+        .hover\:bg-poli-button-dark:hover { background-color: var(--poli-color-dark); }
+        /* END SUBJECT PANEL THEMES */
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-1 sm:p-2">
+    
+    <div class="main-content-wrapper">
+        <div class="max-w-6xl mx-auto space-y-2">
+
+            <!-- 1. HEADER PANEL -->
+<header class="header-bg text-white py-1 px-4 sm:py-2 sm:px-6 rounded-xl shadow-2xl">
+            <div class="flex items-center justify-between">
+                
+                                <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center rounded-full overflow-hidden">
+                    <img src="https://raw.githubusercontent.com/ariiannemay/2026-Bar-Exam-Tracker/main/Images/LAWLOGO.png" alt="Law Logo" class="w-full h-full object-cover" onerror="this.outerHTML = '<i data-lucide=\'graduation-cap\' class=\'w-full h-full object-cover\'></i>'">
+                </div>
+                
+                                <div class="text-center mx-4 flex-grow">
+                                                        <h1 class="text-3xl sm:text-6xl italic font-extrabold header-font tracking-widest mb-1" style="text-shadow: 2px 2px 0 #000000;">
+                                2026 BAR EXAM REVIEW TRACKER
+                            </h1>
+                            
+                                                        <h2 class="text-xl sm:text-3xl font-extrabold tracking-wider mb-0 italic" style="line-height: 1.1;">
+                                #AweSAMBar2026
+                            </h2>
+                        </div>
+        
+                                        <div class="flex-shrink-0 w-32 h-32 flex items-center justify-center rounded-full overflow-hidden">
+                        <img src="https://raw.githubusercontent.com/ariiannemay/2026-Bar-Exam-Tracker/main/Images/CHECKLIST.png" alt="Checklist Logo" class="w-full h-full object-cover" onerror="this.outerHTML = '<i data-lucide=\'shield\' class=\'w-full h-full object-cover\'></i>'">
+                    </div>
+                </div>
+        </header>
+        
+            <!-- 2. COUNTDOWN PANELS (Hourglass color fixed to inherited white) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div id="card-day-1" class="bg-white rounded-xl shadow-lg border border-gray-300 relative overflow-hidden">
+                    <div class="flex items-center justify-between card-header-bg text-white p-2 text-lg font-bold text-center border-b-4 border-custom-yellow uppercase">
+                        <i data-lucide="hourglass" class="w-6 h-6 mr-2"></i>BAR EXAM DAY 1<i data-lucide="hourglass" class="w-6 h-6 ml-2"></i>
+                    </div>
+                    <div class="p-2 text-center">
+                        <div class="mb-2 flex justify-center items-center">
+                            <span id="target-date-display-1" class="date-display-wrapper" data-target-date="2026-09-06"><span class="date-text"></span></span>
+                        </div>
+                        <div class="grid grid-cols-4 py-2 border-y-2 border-dashed border-gray-300">
+                            <div class="flex flex-col"><span id="days-1" class="time-value">000</span><span class="time-label">Days</span></div>
+                            <div class="flex flex-col border-l-2 border-r-2 border-dashed border-gray-300"><span id="hrs-1" class="time-value">00</span><span class="time-label">Hrs</span></div>
+                            <div class="flex flex-col border-r-2 border-dashed border-gray-300"><span id="mins-1" class="time-value">00</span><span class="time-label">Mins</span></div>
+                            <div class="flex flex-col"><span id="secs-1" class="time-value">00</span><span class="time-label">Secs</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="card-day-2" class="bg-white rounded-xl shadow-lg border border-gray-300 relative overflow-hidden">
+                    <div class="flex items-center justify-between card-header-bg text-white p-2 text-lg font-bold text-center border-b-4 border-custom-yellow uppercase">
+                        <i data-lucide="hourglass" class="w-6 h-6 mr-2"></i>BAR EXAM DAY 2<i data-lucide="hourglass" class="w-6 h-6 ml-2"></i>
+                    </div>
+                    <div class="p-2 text-center">
+                        <div class="mb-2 flex justify-center items-center">
+                            <span id="target-date-display-2" class="date-display-wrapper" data-target-date="2026-09-09"><span class="date-text"></span></span>
+                        </div>
+                        <div class="grid grid-cols-4 py-2 border-y-2 border-dashed border-gray-300">
+                            <div class="flex flex-col"><span id="days-2" class="time-value">000</span><span class="time-label">Days</span></div>
+                            <div class="flex flex-col border-l-2 border-r-2 border-dashed border-gray-300"><span id="hrs-2" class="time-value">00</span><span class="time-label">Hrs</span></div>
+                            <div class="flex flex-col border-r-2 border-dashed border-gray-300"><span id="mins-2" class="time-value">00</span><span class="time-label">Mins</span></div>
+                            <div class="flex flex-col"><span id="secs-2" class="time-value">00</span><span class="time-label">Secs</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="card-day-3" class="bg-white rounded-xl shadow-lg border border-gray-300 relative overflow-hidden">
+                    <div class="flex items-center justify-between card-header-bg text-white p-2 text-lg font-bold text-center border-b-4 border-custom-yellow uppercase">
+                        <i data-lucide="hourglass" class="w-6 h-6 mr-2"></i>BAR EXAM DAY 3<i data-lucide="hourglass" class="w-6 h-6 ml-2"></i>
+                    </div>
+                    <div class="p-2 text-center">
+                        <div class="mb-2 flex justify-center items-center">
+                            <span id="target-date-display-3" class="date-display-wrapper" data-target-date="2026-09-13"><span class="date-text"></span></span>
+                        </div>
+                        <div class="grid grid-cols-4 py-2 border-y-2 border-dashed border-gray-300">
+                            <div class="flex flex-col"><span id="days-3" class="time-value">000</span><span class="time-label">Days</span></div>
+                            <div class="flex flex-col border-l-2 border-r-2 border-dashed border-gray-300"><span id="hrs-3" class="time-value">00</span><span class="time-label">Hrs</span></div>
+                            <div class="flex flex-col border-r-2 border-dashed border-gray-300"><span id="mins-3" class="time-value">00</span><span class="time-label">Mins</span></div>
+                            <div class="flex flex-col"><span id="secs-3" class="time-value">00</span><span class="time-label">Secs</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Overall Progress (DASHBOARD) - Floating Effect -->
+            <div id="overall-dashboard" class="mt-4 p-0">
+                <div class="dashboard-container">
+                    
+                    <!-- LEFT SIDE: CHART & METRICS - Aligns with Day 1 Card -->
+                    <div class="chart-panel">
+                        
+                        <div class="header-bg p-1.5 rounded-lg mb-2 text-center header-font flex flex-col items-center justify-center border-b-2 border-custom-yellow">
+                            <span id="today-date-display" class="text-white today-date-text block font-extrabold" style="text-shadow: none;"></span>
+                        </div>
+                        
+                        <!-- NEW: Welcome/Name Input -->
+                        <div class="flex flex-col items-center mb-2">
+                            <input type="text" id="user-name-input" placeholder="Input your name here..." 
+                                   class="w-full text-center text-xl font-bold header-font border-b border-gray-300 
+                                          focus:border-blue-500 outline-none p-1 bg-transparent text-gray-800"
+                                   maxlength="30">
+                        </div>
+
+                        <!-- Review Progress Title -->
+                        <h3 class="text-xl font-extrabold header-font tracking-wider text-chart-title text-center mt-2 mb-2">YOUR REVIEW PROGRESS</h3>
+                        
+                        <!-- Chart Area (Reduced size) -->
+                        <div class="pie-chart-wrapper">
+                            <div id="global-pie-chart" class="relative" style="width: 180px; height: 180px;">
+                                <!-- SVG chart will be dynamically injected here -->
+                            </div>
+                            
+                            <!-- Done Metric (Left of Pie) -->
+                            <div class="metric-pie-side left">
+                                <span id="global-progress-done" class="text-chart-done metric-value">0.0%</span>
+                                <span class="text-chart-done block leading-tight">DONE</span>
+                                <span class="text-gray-600 font-normal block leading-tight"><span id="global-total-done-count">0</span> TOPICS</span>
+                            </div>
+
+                            <!-- To Read Metric (Right of Pie, Red) -->
+                            <div class="metric-pie-side right">
+                                <span id="global-progress-toread" class="text-chart-toread metric-value">0.0%</span>
+                                <span class="text-chart-toread block leading-tight">TO-READ</span>
+                                <span class="text-gray-600 font-normal block leading-tight"><span id="global-total-toread-count">0</span> TOPICS</span>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Spacer Column -->
+                    <div class="hidden lg:block border-r border-gray-300"></div>
+
+                    <!-- RIGHT SIDE: SCHEDULE TABLE -->
+                    <div class="schedule-panel">
+                        <table class="schedule-table">
+                            <thead>
+                                <tr class="schedule-header">
+                                    <th style="width: 20%;" class="border-b-2 border-r-2 border-t-2 border-l-2 text-white">DATE</th>
+                                    <th style="width: 55%;" class="border-b-2 border-t-2 border-r-2 text-white">SUBJECT</th>
+                                    <th style="width: 25%;" class="border-b-2 border-t-2 border-r-2 text-white">PROGRESS*</th>
+                                </tr>
+                            </thead>
+                            <tbody id="schedule-table-body">
+                                <!-- Rows dynamically populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 4. SUBJECT TRACKERS (Dynamic Content) -->
+            <div id="subject-trackers-container" class="space-y-4">
+                
+                <!-- CALENDAR MODULE INJECTION POINT (Before REM Tracker) -->
+                <div id="calendar-module-placeholder"></div>
+                
+                <!-- Subject panels will be dynamically injected here -->
+                <div id="subject-tracker-panel-rem"></div>
+                <div id="subject-tracker-panel-crim"></div>
+                <div id="subject-tracker-panel-lab"></div>
+                <div id="subject-tracker-panel-civ"></div>
+                <div id="subject-tracker-panel-comm"></div>
+                <div id="subject-tracker-panel-poli"></div> 
+            </div>
+
+            <!-- 5. GLOBAL DATA MANAGEMENT BUTTONS (UPDATED) -->
+            <div class="max-w-6xl mx-auto mt-6 mb-6 flex space-x-3 px-2 sm:px-0">
+                <button onclick="exportAllData()" class="flex-1 px-3 py-2 bg-green-600 text-white font-semibold text-sm rounded-lg shadow-lg hover:bg-green-700 transition duration-150 uppercase flex items-center justify-center">
+                    <i data-lucide="download-cloud" class="w-4 h-4 mr-1"></i> Export All Data
+                </button>
+                <button onclick="document.getElementById('global-file-input').click()" class="flex-1 px-3 py-2 bg-blue-600 text-white font-semibold text-sm rounded-lg shadow-lg hover:bg-blue-700 transition duration-150 uppercase flex items-center justify-center">
+                    <i data-lucide="upload-cloud" class="w-4 h-4 mr-1"></i> Import Existing Data
+                </button>
+            </div>
+            
+            <!-- START: AESTHETIC CLOUD NOTE BLOCK -->
+            <div class="max-w-6xl mx-auto mt-8 mb-6 px-4 sm:px-0">
+                <div class="bg-blue-50/70 backdrop-blur-sm border border-blue-200 shadow-xl p-5 rounded-xl transition duration-300 hover:shadow-2xl hover:border-blue-300">
+                    <p class="font-bold text-sm text-blue-800 mb-2 flex items-center">
+                        <i data-lucide="cloud" class="w-4 h-4 mr-2 text-blue-500"></i>
+                        TRACKER LIMITATIONS
+                    </p>
+                    <ul class="list-disc list-outside ml-5 text-sm text-gray-700 space-y-2">
+                        <li class="pl-1">
+                            <strong style="color: #330066;">Progress Metric:</strong> Overall progress updates and a topic counts as “done” only once <strong>3 out of 5 boxes</strong> per topic row are checked.
+                        </li>
+                        <li class="pl-1">
+                            <strong style="color: #330066;">Data Portability:</strong> Your review progress is saved <strong>only within your current browser</strong> (Local Storage). Your data will not be synchronized automatically if you clear your browsing data or switch devices. To transfer your progress to a new device or browser, please use the <strong>Export All Data</strong> and <strong>Import Existing Data</strong> functions.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END: AESTHETIC CLOUD NOTE BLOCK -->
+
+        </div>
+    </div>
+    
+    <!-- GLOBAL FOOTER -->
+    <footer class="global-app-footer">
+        <p class="quote">
+            Trust that your hard work will never betray you. You did not come this far to only come this far.
+        </p>
+        <p class="signature mt-1">
+            <img src="https://raw.githubusercontent.com/ariiannemay/2026-Bar-Exam-Tracker/main/Images/missattycpa.PNG" 
+                 alt="missattycpa signature" 
+                 class="inline-block h-3.5"
+                 onerror="this.outerHTML = '<span class=\'text-miss\'>made by miss</span><span class=\'text-atty\'>atty</span><span class=\'text-cpa\'>cpa</span>'">
+            <span class="date-text-signature">| november 2025</span>
+        </p>
+    </footer>
+
+    <!-- Modals (Date Edit & Message) -->
+    <div id="date-edit-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-80">
+            <h3 id="modal-title" class="text-xl font-bold text-gray-900 mb-4">Edit Target Date</h3>
+            <label for="new-target-date" class="block text-sm font-medium text-gray-700 mb-2">Select New Date:</label>
+            <input type="date" id="new-target-date" class="w-full p-2 border border-gray-300 rounded-lg mb-4">
+            <p id="modal-error" class="text-sm text-red-600 hidden mb-4">Please select a future date.</p>
+            <div class="flex justify-end space-x-3">
+                <button id="modal-cancel-btn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button id="modal-save-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Consolidated file input for all import actions -->
+    <input type="file" id="global-file-input" accept=".json" class="hidden" onchange="importAllData(event)"> 
+
+    <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-96 max-w-sm">
+            <h3 id="message-modal-title" class="text-xl font-bold text-gray-900 mb-4">Message</h3>
+            <div id="message-modal-content" class="text-sm text-gray-700 mb-4 break-words"></div>
+            <div id="modal-actions" class="flex justify-end space-x-3 mt-4">
+                <button id="message-modal-close-btn" class="px-3 py-1.5 text-sm font-semibold bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-150">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic JavaScript Loader and Core Logic -->
+    <script>
+        // --- INLINED CALENDAR MODULE HTML CONTENT ---
+        const CALENDAR_MODULE_HTML = `
+            <div id="calendar-module-container" class="mt-4">
+                <div class="calendar-wrapper mx-auto max-w-6xl p-0">
+                    <details id="calendar-details" class="bg-white rounded-xl shadow-lg border border-gray-300" open>
+                        <summary class="flex justify-between items-center p-4 font-bold text-lg cursor-pointer select-none" style="background-color: #330066; color: white; border-bottom: 3px solid #B266FF;">
+                            <div class="summary-title-content text-2xl flex-grow text-center flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <span>REVIEW CALENDAR</span>
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </div>
+                            <span class="text-white text-sm toggle-indicator">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </span>
+                        </summary>
+                         
+                        <div id="calendar-grid-container" style="display: grid; grid-template-columns: 3fr 1fr; gap: 1.5rem; align-items: start; padding: 0.25rem 0.5rem 0.5rem 0.5rem;"> 
+                             
+                            <div id="calendar-content" style="grid-column: 1; padding: 0;">
+                                <div id='calendar-card' style="background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 0;">
+                                    <div class="fc-toolbar fc-header-toolbar flex justify-between items-center p-2 rounded-lg border-1 border-secondary-gold" style="background-color: #330066;">
+                                        <div class="fc-left flex items-center">
+                                            <span id="customMonthTitle" class="text-secondary-gold font-extrabold text-lg" style="color: #fff;"></span>
+                                            <div class="fc-button-group ml-4">
+                                                <button type="button" class="fc-today-button fc-button fc-state-default fc-corner-left fc-corner-right" onclick="window.CALENDAR_APP.setActiveButton(this, 'today'); $('#calendar').fullCalendar('today')">today</button>
+                                            </div>
+                                            <div class="fc-button-group ml-1">
+                                                <button type="button" class="fc-month-button fc-button fc-state-default fc-corner-left" onclick="window.CALENDAR_APP.setActiveButton(this); $('#calendar').fullCalendar('changeView', 'month')">month</button>
+                                                <button type="button" class="fc-basicWeek-button fc-button fc-state-default" onclick="window.CALENDAR_APP.setActiveButton(this); $('#calendar').fullCalendar('changeView', 'basicWeek')">week</button>
+                                                <button type="button" class="fc-basicDay-button fc-button fc-state-default fc-corner-right" onclick="window.CALENDAR_APP.setActiveButton(this); $('#calendar').fullCalendar('changeView', 'basicDay')">day</button>
+                                            </div>
+                                            <button id="jumpToDateButton" type="button" onclick="window.CALENDAR_APP.toggleDateJumpPicker()" class="fc-button fc-state-default font-inter ml-4" style="background-color: #B266FF !important; color: #330066 !important; border-color: #330066 !important;">JUMP TO DATE</button>
+                                        </div>
+                                        <div class="fc-right flex items-center">
+                                            <div class="fc-button-group">
+                                                <button type="button" class="fc-prev-button fc-button fc-state-default fc-corner-left" onclick="$('#calendar').fullCalendar('prev')"><i class="fa-solid fa-chevron-left"></i></button>
+                                                <button type="button" class="fc-next-button fc-button fc-state-default fc-corner-right" onclick="$('#calendar').fullCalendar('next')"><i class="fa-solid fa-chevron-right"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id='calendar'></div>
+                                </div>
+                            </div>
+                            <div id="notepad-sidebar" style="background-color: #FFF; border-radius: 1.0rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); padding: 1.5rem; display: flex; flex-direction: column; border: 1px solid #e5e7eb; grid-column: 2;">
+<h3 class="text-4xl font-bold uppercase" 
+    style="
+        background-color: #330066; 
+        color: white; 
+        border-bottom: 3px solid #B266FF;
+        /* Increase internal vertical padding for height balance */
+        padding: 0.75rem 1.5rem; 
+        /* Ensure the font size stays maximized */
+        font-size: 1.25rem; 
+        font-weight: 800;
+        line-height: 1.1;
+    "
+>
+    <!-- INCREASE ICON SIZE -->
+    <i class="fa-solid fas fa-pencil-alt mr-2" style="font-size: 1.25rem; vertical-align: middle;"></i>
+    NOTES
+</h3>                                <div class="flex space-x-2 mb-3">
+                                    <button onclick="window.CALENDAR_APP.undoNotes()" class="text-xs px-2 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition duration-150 flex items-center" title="Undo Last Change">
+                                        <i class="fa-solid fa-undo mr-1"></i> Undo
+                                    </button>
+                                    <button onclick="window.CALENDAR_APP.redoNotes()" class="text-xs px-2 py-1 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition duration-150 flex items-center" title="Redo Last Undo">
+                                        <i class="fa-solid fa-redo mr-1"></i> Redo
+                                    </button>
+                                    <button onclick="window.CALENDAR_APP.clearNotes()" class="text-xs px-2 py-1 bg-red-100 text-red-600 rounded-md hover:bg-red-200 transition duration-150 flex items-center" title="Clear All Notes">
+                                        <i class="fa-solid fa-eraser mr-1"></i> Clear
+                                    </button>
+                                    <button onclick="window.CALENDAR_APP.copyNotes()" class="text-xs px-2 py-1 bg-blue-100 text-blue-600 rounded-md hover:bg-blue-200 transition duration-150 flex items-center" title="Copy Notes to Clipboard">
+                                        <i class="fa-solid fa-copy mr-1"></i> Copy
+                                    </button>
+                                </div>
+                                <textarea 
+                                    id="review-notes" 
+                                    placeholder="Start writing quick notes here... Click on any day in the calendar to mark an event or schedule a review topic."
+                                    oninput="window.CALENDAR_APP.saveNotes()"
+                                    style="font-family: 'Dancing Script', cursive; font-weight: 600; line-height: 1.95; padding: 1.5rem 1.0rem 1.0rem 1.0rem; flex-grow: 1; resize: none;"
+                                ></textarea>
+                            </div>
+                             
+                        </div>
+                    </details>
+                </div>
+                 
+                <div id="topicModal" class="modal fixed inset-0 flex items-center justify-center hidden">
+                    <div class="modal-content" style="background-color: white; border-radius: 0.75rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); width: 90%; max-width: 500px; padding: 1.5rem;">
+                        <h2 id="modalTitle" class="text-xl font-bold mb-4 text-gray-800">SCHEDULE NEW EVENT OR TOPIC</h2>
+                        <input type="hidden" id="topicEventId">
+                        <input type="hidden" id="originalStart">
+                        <input type="hidden" id="originalEnd">
+                        
+                        <div class="mb-4">
+                            <label for="eventNameInput" class="block text-sm font-medium text-gray-700">1. EVENT NAME (FOR REST DAYS, BIRTHDAYS, ETC.)</label>
+                            <input type="text" id="eventNameInput" placeholder="Optional: Enter a custom event name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-green-600 focus:ring focus:ring-green-600 focus:ring-opacity-50">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="subjectSelect" class="block text-sm font-medium text-gray-700">2. OR: SELECT SUBJECT (FOR STUDY TASKS)</label>
+                            <select id="subjectSelect" onchange="window.CALENDAR_APP.populateTopics()" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-600 focus:ring focus:ring-red-600 focus:ring-opacity-50 p-2 border">
+                                <option value="">-- SELECT A SUBJECT --</option>
+                            </select>
+                        </div>
+                         
+                        <div class="mb-4">
+                            <label for="topicSelect" class="block text-sm font-medium text-gray-700">3. SELECT TOPIC/TASK (DEPTH 1)</label>
+                            <div class="syllabus-select-wrapper">
+                                <select id="topicSelect" size="8" class="block w-full border-gray-300 focus:border-red-600 focus:ring focus:ring-red-600 focus:ring-red-600 focus:ring-opacity-50 text-sm p-2 border">
+                                    <option value="">-- SELECT A TOPIC --</option>
+                                </select>
+                            </div>
+                            <p class="text-xs text-red-500 mt-1" id="topic-error" hidden>PLEASE SELECT A SPECIFIC TOPIC.</p>
+                        </div>
+                         
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label for="topicStart" class="block text-sm font-medium text-gray-700">START DATE</label>
+                                <input type="date" id="topicStart" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                            </div>
+                            <div>
+                                <label for="topicEnd" class="block text-sm font-medium text-gray-700">END DATE (OPTIONAL)</label>
+                                <input type="date" id="topicEnd" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center mt-6">
+                            <button onclick="window.CALENDAR_APP.closeTopicModal()" class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300 transition duration-150">CANCEL</button>
+                            <div class="flex space-x-2">
+                                <button id="deleteTopicBtn" onclick="window.CALENDAR_APP.deleteTopicTask()" class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 transition duration-150 hidden">DELETE</button>
+                                <button id="saveTopicBtn" onclick="window.CALENDAR_APP.saveTopicTask()" class="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition duration-150">SCHEDULE TASK</button>
+                            </div>
+                        </div>
+                    </div>
+                     
+                </div>
+                 
+                <div id="custom-alert-modal" class="modal fixed inset-0 flex items-center justify-center hidden">
+                    <div class="modal-content max-w-sm p-6 rounded-xl text-center">
+                        <h3 id="alertTitle" class="text-lg font-bold mb-3 text-gray-800">ALERT</h3>
+                        <p id="alertMessage" class="text-sm text-gray-700 mb-4"></p>
+                        <div class="flex justify-end">
+                            <button onclick="window.CALENDAR_APP.closeCustomAlert()" class="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition duration-150">OK</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Hidden input to trigger native date picker, positioned absolutely initially -->
+                <input type="date" id="dateJump" onchange="window.CALENDAR_APP.jumpToDate(this.value)"> 
+                 
+            </div>
+        `;
+        // --- END INLINED CALENDAR MODULE HTML CONTENT ---
+
+        
+        // --- CORE UTILITY AND COUNTDOWN LOGIC (REMAINS IN INDEX) ---
+        
+        const CHECKLIST_COLUMNS = ['codal', 'books', 'reviewer', 'barqas', 'cases'];
+        const COUNTDOWN_DATA = [
+            {id:1,targetDate:localStorage.getItem('comp_exam_date_1')||'2026-09-06'},
+            {id:2,targetDate:localStorage.getItem('comp_exam_date_2')||'2026-09-09'},
+            {id:3,targetDate:localStorage.getItem('comp_exam_date_3')||'2026-09-13'}
+        ];
+        
+        const DOM_ELEMENTS = {
+            modal: document.getElementById('date-edit-modal'),
+            modalTitle: document.getElementById('modal-title'),
+            dateInput: document.getElementById('new-target-date'),
+            saveBtn: document.getElementById('modal-save-btn'),
+            cancelBtn: document.getElementById('modal-cancel-btn'),
+            errorMsg: document.getElementById('modal-error'),
+            globalFileInput: document.getElementById('global-file-input'),
+            messageModal: document.getElementById('message-modal'),
+            messageModalTitle: document.getElementById('message-modal-title'),
+            messageModalContent: document.getElementById('message-modal-content'),
+            messageModalCloseBtn: document.getElementById('message-modal-close-btn'),
+            subjectContainer: document.getElementById('subject-trackers-container')
+        };
+        
+        let currentEditingId = null;
+        const SUBJECT_LOGIC_MAP = {};
+        const ALL_SUBJECT_STORAGE_KEYS = [
+            'rem_ethics_progress', 'crim_progress', 'lab_progress', 
+            'civ_progress', 'comm_tax_progress', 'poli_progress'
+        ];
+
+
+        // --- Schedule Data (Central source of truth for table) ---
+        const SCHEDULE_DATA = [
+            { id: 1, dateId: 1, day: 'SUNDAY', subject: 'Political and Public International Law', weight: '15%', subjectName: 'poli' },
+            { id: 2, dateId: 1, day: 'SUNDAY', subject: 'Commercial and Taxation Laws', weight: '20%', subjectName: 'comm' },
+            { id: 3, dateId: 2, day: 'SUNDAY', subject: 'Civil Law and Land Titles and Deeds', weight: '20%', subjectName: 'civ' },
+            { id: 4, dateId: 2, day: 'SUNDAY', subject: 'Labor and Social Legislation', weight: '10%', subjectName: 'lab' },
+            { id: 5, dateId: 3, day: 'SUNDAY', subject: 'Criminal Law', weight: '10%', subjectName: 'crim' },
+            { id: 6, dateId: 3, day: 'SUNDAY', subject: 'Remedial Law, Legal Ethics, & Legal Forms', weight: '25%', subjectName: 'rem' }
+        ];
+
+        // --- User Name Storage/Loading ---
+        const USER_NAME_KEY = 'user_display_name';
+        const EMOJI = '✨';
+
+        function loadUserName() {
+            const nameInput = document.getElementById('user-name-input');
+            const savedName = localStorage.getItem(USER_NAME_KEY);
+            if (nameInput) {
+                nameInput.value = savedName ? `Welcome, ${savedName}! ${EMOJI}` : '';
+                nameInput.placeholder = 'Input your name here...';
+                
+                nameInput.addEventListener('change', (event) => {
+                    let name = event.target.value.replace(/^Welcome,\s?/, '').replace('!', '').replace(EMOJI, '').trim();
+                    
+                    if (name) {
+                        localStorage.setItem(USER_NAME_KEY, name);
+                        event.target.value = `Welcome, ${name}! ${EMOJI}`;
+                    } else {
+                        localStorage.removeItem(USER_NAME_KEY);
+                        event.target.value = '';
+                        event.target.placeholder = 'Input your name here...';
+                    }
+                });
+            }
+        }
+
+        // Utility Functions
+        function formatUniqueDate(dateString){
+            if(!dateString)return'';
+            const date=new Date(dateString+'T00:00:00');
+            return date.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}).toUpperCase();
+        }
+        
+        function getLocalDisplayDate() {
+            const now = new Date();
+            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+            const weekdayOptions = { weekday: 'long' };
+
+            const datePart = now.toLocaleDateString('en-US', dateOptions).toUpperCase();
+            const weekdayPart = now.toLocaleDateString('en-US', weekdayOptions).toUpperCase();
+            const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+            const timeText = now.toLocaleTimeString('en-US', timeOptions).toUpperCase();
+            
+            return `TODAY IS ${datePart} | ${weekdayPart} | ${timeText}`;
+        }
+
+        function formatNumber(num){return num.toString().padStart(num>=100?3:2,'0');}
+        function downloadFile(data,filename,type){const blob=new Blob([data],{type:type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
+        function showMessageModal(title,content){
+            const modal=DOM_ELEMENTS.messageModal;
+            const titleEl=DOM_ELEMENTS.messageModalTitle;
+            const contentEl=DOM_ELEMENTS.messageModalContent;
+            if(titleEl)titleEl.textContent=title;
+            if(contentEl)contentEl.innerHTML=content;
+            
+            const actionsEl=document.getElementById('modal-actions');
+            if(actionsEl){
+                actionsEl.innerHTML=`\n<button id="message-modal-close-btn" class="px-3 py-1.5 text-sm font-semibold bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-150">Close</button>\n`;
+                document.getElementById('message-modal-close-btn')?.addEventListener('click', closeMessageModal);
+            }
+            if(modal){
+                modal.classList.remove('hidden');
+                modal.style.display='flex';
+            }
+        }
+        function closeMessageModal(){DOM_ELEMENTS.messageModal.classList.add('hidden');DOM_ELEMENTS.messageModal.style.display='none';}
+        
+        // Countdown Logic
+        function calculateCountdown(targetDateString,id){const now=new Date();const target=new Date(targetDateString+'T00:00:00Z');if(target<=now){const elements=[`days-${id}`,`hrs-${id}`,`mins-${id}`,`secs-${id}`];elements.forEach(elId=>{const el=document.getElementById(elId);if(el)el.textContent=elId===`days-${id}`?'000':'00';});return;}const diffInMilliseconds=target-now;const days=Math.floor(diffInMilliseconds/(1000*60*60*24));const hours=Math.floor(diffInMilliseconds%(1000*60*60*24)/(1000*60*60));const minutes=Math.floor(diffInMilliseconds%(1000*60*60)/(1000*60));const seconds=Math.floor(diffInMilliseconds%(1000*60)/1000);document.getElementById(`days-${id}`).textContent=formatNumber(days);document.getElementById(`hrs-${id}`).textContent=formatNumber(hours);document.getElementById(`mins-${id}`).textContent=formatNumber(minutes);document.getElementById(`secs-${id}`).textContent=formatNumber(seconds);}
+        function updateAllCountdowns(){COUNTDOWN_DATA.forEach(data=>{calculateCountdown(data.targetDate,data.id);});}
+        function openModal(id){currentEditingId=id;const data=COUNTDOWN_DATA.find(d=>d.id===id);document.getElementById('modal-title').textContent=`Edit Target Date - Day ${id}`;document.getElementById('new-target-date').value=data.targetDate;document.getElementById('modal-error').classList.add('hidden');document.getElementById('date-edit-modal').classList.remove('hidden');document.getElementById('date-edit-modal').style.display='flex';}
+        function closeModal(){document.getElementById('date-edit-modal').classList.add('hidden');document.getElementById('date-edit-modal').style.display='none';currentEditingId=null;}
+        
+        function saveModal(){
+            const newDateString=document.getElementById('new-target-date').value;
+            const newDate=new Date(newDateString);
+            const now=new Date();
+            if(newDate<=now||!newDateString){
+                document.getElementById('modal-error').textContent="Please select a future date.";
+                document.getElementById('modal-error').classList.remove('hidden');
+                return;
+            }
+            const data=COUNTDOWN_DATA.find(d=>d.id===currentEditingId);
+            if(data){
+                data.targetDate=newDateString;
+                document.querySelector(`#target-date-display-${currentEditingId} .date-text`).textContent = formatUniqueDate(newDateString);
+                localStorage.setItem(`comp_exam_date_${currentEditingId}`,newDateString);
+                updateAllCountdowns();
+                
+                // Trigger calendar refresh if the module is loaded
+                if (window.CALENDAR_APP && typeof window.CALENDAR_APP.refreshCalendar === 'function') {
+                    window.CALENDAR_APP.refreshCalendar();
+                }
+            }
+            closeModal();
+        }
+
+        // Global File Upload Handler
+        function handleFileUpload(event){
+            const file = event.target.files[0];
+            const targetSubject = event.target.dataset.targetSubject;
+            
+            if (file && targetSubject && SUBJECT_LOGIC_MAP[targetSubject]) {
+                SUBJECT_LOGIC_MAP[targetSubject].processImport(file);
+            } else if (!file) {
+                showMessageModal("Upload Canceled", "No file was selected for upload.");
+            } else {
+                showMessageModal("Upload Error", "Could not determine the target subject for the upload.");
+            }
+            event.target.value = '';
+        }
+
+        // --- GLOBAL EXPORT/IMPORT FUNCTIONS (UPDATED) ---
+
+        function exportAllData() {
+            const data = {};
+            
+            // 1. Gather fixed data (Name, Countdown Dates)
+            data.user_name = localStorage.getItem(USER_NAME_KEY) || null;
+            
+            data.dates = {};
+            COUNTDOWN_DATA.forEach((d) => {
+                data.dates[`comp_exam_date_${d.id}`] = localStorage.getItem(`comp_exam_date_${d.id}`);
+            });
+
+            // 2. Gather all subject data
+            data.subjects = {};
+            ALL_SUBJECT_STORAGE_KEYS.forEach(key => {
+                 const progress = localStorage.getItem(key);
+                 if (progress) {
+                     try {
+                         data.subjects[key] = JSON.parse(progress);
+                     } catch(e) {
+                         data.subjects[key] = {};
+                     }
+                 }
+            });
+
+            // 3. Gather Calendar and Notepad data
+            if (window.CALENDAR_APP) {
+                data.calendar_events = localStorage.getItem(window.CALENDAR_APP.CALENDAR_EVENTS_KEY);
+                data.notepad_content = localStorage.getItem(window.CALENDAR_APP.NOTEPAD_CONTENT_KEY);
+            }
+
+
+            const jsonString = JSON.stringify(data, null, 2);
+            downloadFile(jsonString, 'comprehensive-review-tracker-backup.json', 'application/json');
+            showMessageModal("Export Complete", "<p class='text-green-600'>All data (progress, dates, name, calendar, and notes) has been downloaded as **comprehensive-review-tracker-backup.json**</p>");
+        }
+        
+        function importAllData(event) {
+            const file = event.target.files[0];
+            event.target.value = '';
+
+            if (!file || !file.name.endsWith('.json')) {
+                showMessageModal("Import Error", "<p class='text-red-600'>Please select a valid .json file for import.</p>");
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const jsonString = e.target.result;
+                try {
+                    const importedData = JSON.parse(jsonString);
+                    if (typeof importedData !== 'object' || importedData === null) {
+                         throw new Error("Invalid file structure.");
+                    }
+                    
+                    let subjectsImported = 0;
+                    let calendarRefreshed = false;
+
+                    // 1. Import Subject Data
+                    if (importedData.subjects) {
+                        Object.keys(importedData.subjects).forEach(key => {
+                            if (ALL_SUBJECT_STORAGE_KEYS.includes(key)) {
+                                localStorage.setItem(key, JSON.stringify(importedData.subjects[key]));
+                                subjectsImported++;
+                            }
+                        });
+                    }
+                    
+                    // 2. Import Calendar and Notepad data
+                    if (window.CALENDAR_APP) {
+                        if (importedData.calendar_events) {
+                             localStorage.setItem(window.CALENDAR_APP.CALENDAR_EVENTS_KEY, importedData.calendar_events);
+                             calendarRefreshed = true;
+                        }
+                        if (importedData.notepad_content) {
+                             localStorage.setItem(window.CALENDAR_APP.NOTEPAD_CONTENT_KEY, importedData.notepad_content);
+                             window.CALENDAR_APP.setNotes(importedData.notepad_content);
+                        }
+                    }
+
+                    // 3. Import User Name
+                    if (importedData.user_name) {
+                        localStorage.setItem(USER_NAME_KEY, importedData.user_name);
+                        loadUserName();
+                    } else {
+                        localStorage.removeItem(USER_NAME_KEY);
+                        loadUserName();
+                    }
+
+                    // 4. Import Dates
+                    if (importedData.dates) {
+                        Object.keys(importedData.dates).forEach(key => {
+                            if (key.startsWith('comp_exam_date_')) {
+                                localStorage.setItem(key, importedData.dates[key]);
+                            }
+                        });
+                    }
+
+                    // 5. Update UI: Re-render everything
+                    COUNTDOWN_DATA.forEach(data => {
+                        const savedDate = localStorage.getItem(`comp_exam_date_${data.id}`);
+                        data.targetDate = savedDate || data.targetDate;
+                        document.querySelector(`#target-date-display-${data.id} .date-text`).textContent = formatUniqueDate(data.targetDate);
+                    });
+                    updateAllCountdowns();
+
+                    // The logic maps might not be fully initialized here if external JS fails, but we try anyway.
+                    Object.values(SUBJECT_LOGIC_MAP).forEach(logic => {
+                        // This calls the render function defined in the external JS
+                        logic.render();
+                    });
+                    window.updateOverallDashboard();
+
+                    if (window.CALENDAR_APP && calendarRefreshed) {
+                         window.CALENDAR_APP.refreshCalendar();
+                    }
+
+                    showMessageModal("Import Success", `<p class='text-green-600'>Successfully imported data for ${subjectsImported} subjects, dates, name, calendar, and notes. The tracker has been refreshed.</p>`);
+
+                } catch (e) {
+                    console.error("Global Import error:", e);
+                    showMessageModal("Import Failed", `<p class='text-red-600'>Failed to import data. Please ensure the file is a valid JSON backup from this tracker. Error: ${e.message}</p>`);
+                }
+            };
+            reader.onerror = function() { showMessageModal("Import Error", `<p class='text-red-600'>Error reading the file.</p>`); };
+            reader.readAsText(file);
+        }
+
+        window.exportAllData = exportAllData;
+        window.importAllData = importAllData;
+
+        // --- END GLOBAL EXPORT/IMPORT FUNCTIONS ---
+
+
+        // Subject Logic Loader - MODIFIED TO LOAD EXTERNAL JS
+        function loadSubjectPanel(subjectName, filePath) {
+            const script = document.createElement('script');
+            script.src = filePath;
+            script.type = 'text/javascript';
+            script.onload = () => {
+                // 1. Instantiate the logic object (The function is now defined in the external file)
+                const logicCreator = window[`create${subjectName.toUpperCase()}_LOGIC`];
+                if (logicCreator) {
+                    const logic = logicCreator(); // This calls the creator function in the external script
+                    SUBJECT_LOGIC_MAP[subjectName] = logic;
+                    
+                    // 2. Inject the panel structure 
+                    const panelPlaceholder = document.getElementById(`subject-tracker-panel-${subjectName}`);
+                    if (panelPlaceholder) {
+                        const newPanelHtml = logic.getPanelHtmlWrapper(logic.SUBJECT_NAME, logic.SUBJECT_TITLE, logic.SUBJECT_ICON);
+                        panelPlaceholder.outerHTML = newPanelHtml;
+                    }
+                    
+                    // 3. Re-attach event listeners and render
+                    const currentLogic = SUBJECT_LOGIC_MAP[subjectName];
+                    
+                    window.requestAnimationFrame(() => {
+                        const collapseBtn = document.getElementById(`collapse-all-btn-${subjectName}`);
+                        collapseBtn?.addEventListener('click', currentLogic.toggleAllSections);
+                        currentLogic.render(); // This uses the full syllabus data loaded inside the external JS
+                    });
+                } else {
+                    console.error(`Failed to find initialization function for ${subjectName}. Check external JS file.`);
+                }
+            };
+            document.head.appendChild(script);
+        }
+        
+        // --- GLOBAL DASHBOARD LOGIC (drawPieChart, updateScheduleTable, updateOverallDashboard remain unchanged) ---
+        // ... (Functions omitted for brevity, they remain as they were in the previous step)
+        
+        // --- CALENDAR DATA SOURCE (SIMPLIFIED FOR CALENDAR ONLY) ---
+        // This is the new, minimal data source for the Calendar's dropdowns.
+        // It ONLY contains Depth 1 topics and the necessary metadata (id, topic, color, shortTitle)
+        // Note: The topics here must match the topics in the external JS files!
+        const CONSOLIDATED_SYLLABUS = {
+            poli: { title: 'POLITICAL AND PUBLIC INTERNATIONAL LAW', shortTitle: 'POLI LAW', color: '#795548', 
+                data: [
+                    {id: 5001, topic: "I. BASIC CONCEPTS", depth: 1, trackable: true},
+                    {id: 5007, topic: "II. NATIONAL TERRITORY", depth: 1, trackable: true},
+                    {id: 5012, topic: "III. CITIZENSHIP", depth: 1, trackable: true},
+                    {id: 5016, topic: "IV. LEGISLATIVE DEPARTMENT", depth: 1, trackable: true},
+                    {id: 5022, topic: "V. EXECUTIVE DEPARTMENT", depth: 1, trackable: true},
+                    {id: 5028, topic: "VI. JUDICIAL DEPARTMENT", depth: 1, trackable: true},
+                    {id: 5033, topic: "VII. CONSTITUTIONAL COMMISSIONS", depth: 1, trackable: true},
+                    {id: 5036, topic: "VIII. CONSTITUTIONAL RIGHTS", depth: 1, trackable: true},
+                    {id: 5045, topic: "IX. NATIONAL ECONOMY AND PATRIMONY", depth: 1, trackable: true},
+                    {id: 5048, topic: "X. ADMINISTRATIVE LAW", depth: 1, trackable: true},
+                    {id: 5052, topic: "XI. LAW ON PUBLIC OFFICERS", depth: 1, trackable: true},
+                    {id: 5056, topic: "XII. ELECTION LAW", depth: 1, trackable: true},
+                    {id: 5060, topic: "XIII. LOCAL GOVERNMENTS", depth: 1, trackable: true},
+                    {id: 5064, topic: "XIV. PUBLIC INTERNATIONAL LAW", depth: 1, trackable: true},
+                ]
+            },
+            comm: { title: 'COMMERCIAL AND TAXATION LAWS', shortTitle: 'COMM & TAX', color: '#eab308', 
+                data: [
+                    {id: 4001, topic: 'I. BUSINESS ORGANIZATIONS', depth: 1, trackable: true},
+                    {id: 4005, topic: 'II. INSURANCE (P.D. NO. 612, AS AMENDED BY R.A. NO. 10607)', depth: 1, trackable: true},
+                    {id: 4010, topic: 'III. TRANSPORTATION', depth: 1, trackable: true},
+                    {id: 4014, topic: 'IV. BANKING', depth: 1, trackable: true},
+                    {id: 4019, topic: 'V. INTELLECTUAL PROPERTY – R.A. NO. 8293, AS AMENDED', depth: 1, trackable: true},
+                    {id: 4023, topic: 'VI. SPECIAL COMMERCIAL LAWS', depth: 1, trackable: true},
+                    {id: 4027, topic: 'VII. TAXATION LAW', depth: 1, trackable: true},
+                ]
+            },
+            civ: { title: 'CIVIL LAW AND LAND TITLES AND DEEDS', shortTitle: 'CIVIL LAW', color: '#1e3a8a', 
+                data: [
+                    {id:3001,topic:"I. EFFECT AND APPLICATION OF LAWS",depth:1, trackable:true},
+                    {id:3011,topic:"II. PERSONS AND FAMILY RELATIONS",depth:1, trackable:true},
+                    {id:3024,topic:"III. PROPERTY, OWNERSHIP, AND ITS MODIFICATIONS",depth:1, trackable:true},
+                    {id:3035,topic:"IV. SUCCESSION",depth:1, trackable:true},
+                    {id:3041,topic:"V. OBLIGATIONS AND CONTRACTS",depth:1, trackable:true},
+                    {id:3046,topic:"VI. SPECIAL CONTRACTS",depth:1, trackable:true},
+                    {id:3053,topic:"VII. TORTS AND QUASI-DELICTS",depth:1, trackable:true},
+                ]
+            },
+            lab: { title: 'LABOR AND SOCIAL LEGISLATION', shortTitle: 'LABOR LAW', color: '#38761d', 
+                data: [
+                    {id:2001,topic:"I. BASIC PRINCIPLES AND CONCEPTS",depth:1, trackable:true},
+                    {id:2008,topic:"II. RECRUITMENT AND PLACEMENT",depth:1, trackable:true},
+                    {id:2014,topic:"III. EMPLOYMENT RELATIONSHIP",depth:1, trackable:true},
+                    {id:2019,topic:"IV. LABOR STANDARDS",depth:1, trackable:true},
+                    {id:2025,topic:"V. LABOR RELATIONS",depth:1, trackable:true},
+                    {id:2031,topic:"VI. SUSPENSION AND TERMINATION OF EMPLOYMENT",depth:1, trackable:true},
+                    {id:2037,topic:"VII. SOCIAL LEGISLATION",depth:1, trackable:true},
+                    {id:2042,topic:"VIII. LABOR ADJUDICATION: JURISDICTION & REMEDIES",depth:1, trackable:true},
+                ]
+            },
+            crim: { title: 'CRIMINAL LAW', shortTitle: 'CRIM LAW', color: '#b33a3a', 
+                data: [
+                    {id:1001,topic:"I. FUNDAMENTAL PRINCIPLES",depth:1, trackable: true},
+                    {id:1013,topic:"II. FELONIES AND CRIMINAL LIABILITY (RPC BOOK 1 AND RELATED LAWS)",depth:1, trackable: true},
+                    {id:1032,topic:"III. CRIMES AND THEIR PENALTIES (RPC BOOK 2 AND RELATED SPECIAL LAWS)",depth:1, trackable: true},
+                ]
+            },
+            rem: { title: 'REMEDIAL LAW, LEGAL ETHICS, & LEGAL FORMS', shortTitle: 'REM LAW', color: '#674ea7', 
+                data: [
+                    {id:1,topic:"I. GENERAL PRINCIPLES",depth:1, trackable: true},
+                    {id:9,topic:"II. JURISDICTION",depth:1, trackable: true},
+                    {id:43,topic:"III. CIVIL PROCEDURE (Rules of Court, as amended by A.M. No. 19-10-20-SC)",depth:1, trackable: true},
+                    {id:158,topic:"V. PROVISIONAL REMEDIES",depth:1, trackable: true},
+                    {id:174,topic:"VI. SPECIAL CIVIL ACTIONS",depth:1, trackable: true},
+                    {id:190,topic:"VII. SPECIAL PROCEEDINGS AND WRITS",depth:1, trackable: true},
+                    {id:217,topic:"VIII. CRIMINAL PROCEDURE",depth:1, trackable: true},
+                    {id:335,topic:"IX. EVIDENCE",depth:1, trackable: true},
+                    {id:414,topic:"X. LEGAL AND JUDICIAL ETHICS",depth:1, trackable: true},
+                    {id:583,topic:"XI. PRACTICAL EXERCISES",depth:1, trackable: true},
+                ]
+            },
+        };
+        const CALENDAR_EVENTS_KEY = 'review_calendar_events';
+        const NOTEPAD_CONTENT_KEY = 'review_notepad_content'; 
+        const CALENDAR_SUBJECT_KEYS = Object.keys(CONSOLIDATED_SYLLABUS);
+        const history = { stack: [], current: 0 };
+        const MAX_HISTORY = 30;
+        
+        let calendarInstance = null;
+
+        function pushHistory(content) {
+            if (history.current < history.stack.length - 1) {
+                history.stack = history.stack.slice(0, history.current + 1);
+            }
+            history.stack.push(content);
+            if (history.stack.length > MAX_HISTORY) {
+                history.stack.shift(); 
+            }
+            history.current = history.stack.length - 1;
+        }
+
+        function loadNotes() {
+            const notes = localStorage.getItem(NOTEPAD_CONTENT_KEY);
+            $('#review-notes').val(notes || '');
+            if (notes) {
+                pushHistory(notes);
+            } else {
+                pushHistory('');
+            }
+            history.current = history.stack.length - 1;
+        }
+
+        function saveNotes() {
+            const notes = $('#review-notes').val();
+            localStorage.setItem(NOTEPAD_CONTENT_KEY, notes);
+            
+            if (notes !== history.stack[history.current]) {
+                pushHistory(notes);
+            }
+        }
+        
+        function applyNotesContent(content) {
+            $('#review-notes').val(content);
+            localStorage.setItem(NOTEPAD_CONTENT_KEY, content);
+        }
+
+        function undoNotes() {
+            if (history.current > 0) {
+                history.current--;
+                applyNotesContent(history.stack[history.current]);
+            } else {
+                CALENDAR_APP.showCustomAlert("NO UNDO", "NO EARLIER HISTORY FOUND.");
+            }
+        }
+        function redoNotes() {
+            if (history.current < history.stack.length - 1) {
+                history.current++;
+                applyNotesContent(history.stack[history.current]);
+            } else {
+                CALENDAR_APP.showCustomAlert("NO REDO", "NO FUTURE HISTORY FOUND.");
+            }
+        }
+        function clearNotes() {
+            // FIX: Removed window.confirm() and replaced with CALENDAR_APP.showCustomAlert 
+            // Note: Cannot use confirm() in this limited environment. Assuming user confirmation via a custom modal is required.
+            // Since we can't implement complex custom confirmation flow here, we'll implement a simplified clear.
+            if (confirm("ARE YOU SURE YOU WANT TO CLEAR ALL NOTES? THIS ACTION CAN BE UNDONE.")) {
+                 applyNotesContent("");
+                 pushHistory("");
+             }
+        }
+        function copyNotes() {
+            const notes = $('#review-notes').val();
+            if (!notes) {
+                CALENDAR_APP.showCustomAlert("COPY FAILED", "NO CONTENT TO COPY.");
+                return;
+            }
+            const textarea = document.getElementById('review-notes');
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                CALENDAR_APP.showCustomAlert("COPY COMPLETE", "NOTES COPIED TO CLIPBOARD.");
+            } catch (err) {
+                CALENDAR_APP.showCustomAlert("COPY FAILED", "UNABLE TO COPY NOTES TO CLIPBOARD.");
+            }
+        }
+
+        function getExamDates() {
+            // Accessing global COUNTDOWN_DATA defined in the main script
+            return COUNTDOWN_DATA.map(examData => {
+                const dateString = localStorage.getItem(`comp_exam_date_${examData.id}`) || examData.targetDate;
+                const examTitle = `EXAM - DAY ${examData.id}`;
+                return { 
+                    id: `exam-${examData.id}`, 
+                    title: examTitle.toUpperCase(), 
+                    start: dateString, 
+                    end: dateString, 
+                    allDay: true,
+                    backgroundColor: 'red', 
+                    textColor: '#FFFFF',
+                    borderColor: '#B266FF',
+                    className: 'exam-day-marker',
+                    editable: false 
+                };
+            });
+        }
+        
+        function showCustomAlert(title, message) {
+            // Uses elements defined within the CALENDAR_MODULE_HTML template
+            $('#custom-alert-modal #alertTitle').text(title.toUpperCase());
+            const formattedMessage = message.toUpperCase().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            $('#custom-alert-modal #alertMessage').html(formattedMessage);
+            $('#custom-alert-modal').removeClass('hidden').css('display', 'flex');
+        }
+        function closeCustomAlert() {
+            $('#custom-alert-modal').addClass('hidden').css('display', 'none');
+        }
+
+        function getEventsFromLocalStorage() {
+            try {
+                const data = localStorage.getItem(CALENDAR_EVENTS_KEY);
+                return data ? JSON.parse(data) : [];
+            } catch (e) {
+                console.error("ERROR READING CALENDAR FROM LOCAL STORAGE:", e);
+                return [];
+            }
+        }
+        function saveEventsToLocalStorage(events) {
+            try {
+                localStorage.setItem(CALENDAR_EVENTS_KEY, JSON.stringify(events));
+            } catch (e) {
+                console.error("ERROR SAVING CALENDAR TO LOCAL STORAGE:", e);
+                CALENDAR_APP.showCustomAlert("STORAGE ERROR", "COULD NOT SAVE EVENTS. LOCAL STORAGE MIGHT BE FULL.");
+            }
+        }
+        
+        function generateUniqueId() {
+            return 'event-' + Date.now() + Math.random().toString(36).substring(2, 9);
+        }
+        function populateSubjectSelect() {
+            const select = $('#subjectSelect');
+            select.empty();
+            select.append('<option value="">-- SELECT A SUBJECT --</option>');
+            CALENDAR_SUBJECT_KEYS.forEach(key => {
+                select.append(`<option value="${key}">${CONSOLIDATED_SYLLABUS[key].title.toUpperCase()}</option>`);
+            });
+            populateTopics(); 
+        }
+        
+        // CRITICAL: This function must fetch topic data from the loaded SUBJECT_LOGIC_MAP 
+        // because CONSOLIDATED_SYLLABUS only holds Depth 1 topics now.
+        function populateTopics(selectedTopicId = null) {
+            const subjectKey = $('#subjectSelect').val();
+            const select = $('#topicSelect');
+            select.empty();
+            $('#topic-error').attr('hidden', true);
+            
+            if (!subjectKey) {
+                select.append('<option value="">-- SELECT A SUBJECT FIRST --</option>');
+                select.prop('disabled', true);
+                return;
+            }
+            select.prop('disabled', false);
+            select.append('<option value="">-- SELECT A TOPIC --</option>');
+            
+            // *** FIX: Get the full syllabus data from the externally loaded logic map ***
+            const subjectLogic = SUBJECT_LOGIC_MAP[subjectKey];
+            if (!subjectLogic || !subjectLogic.SYLLABUS_DATA) {
+                 select.append('<option value="">-- SYLLABUS DATA NOT YET LOADED --</option>');
+                 return;
+            }
+            const data = subjectLogic.SYLLABUS_DATA;
+            // Filter only the Depth 1 Topics (or the main trackable sections) for the calendar dropdown
+            const topicsToSchedule = data.filter(item => item.depth === 1); // Filtering by Depth 1 seems safer based on your provided calendar list
+            // *************************************************************************
+            
+            topicsToSchedule.forEach(item => {
+                const topicText = item.topic.toUpperCase();
+                const optionValue = `${item.id}|${topicText}`; 
+                const isSelected = item.id == selectedTopicId ? 'selected' : '';
+                
+                select.append(`<option value="${optionValue}" data-topic-id="${item.id}" ${isSelected}>${topicText}</option>`);
+            });
+            
+            if (selectedTopicId) {
+                const correctValue = select.find(`option[data-topic-id="${selectedTopicId}"]`).val();
+                if (correctValue) {
+                   select.val(correctValue);
+                }
+            }
+        }
+
+        function openTopicModal(dateStr = null, event = null) {
+            $('#topicEventId').val('');
+            $('#topicStart').val(dateStr || moment().format('YYYY-MM-DD'));
+            $('#topicEnd').val('');
+            $('#subjectSelect').val('');
+            $('#eventNameInput').val('');
+            $('#deleteTopicBtn').addClass('hidden');
+            $('#modalTitle').text('SCHEDULE NEW EVENT OR TOPIC');
+            $('#saveTopicBtn').text('SCHEDULE TASK');
+            $('#topic-error').attr('hidden', true);
+            
+            // This relies on CONSOLIDATED_SYLLABUS
+            populateSubjectSelect(); 
+            
+            if (event) {
+                $('#topicEventId').val(event.id);
+                $('#topicStart').val(event.start.format('YYYY-MM-DD'));
+                $('#topicEnd').val(event.end ? event.end.clone().subtract(1, 'days').format('YYYY-MM-DD') : '');
+                
+                if (event.subjectKey === 'CUSTOM') {
+                    $('#eventNameInput').val(event.title); 
+                    $('#subjectSelect').val(''); 
+                    populateTopics();
+                } else {
+                    $('#subjectSelect').val(event.subjectKey);
+                    // Pass the topicId for selection in the newly populated list
+                    populateTopics(event.topicId); 
+                }
+
+                $('#modalTitle').text('EDIT SCHEDULED ITEM');
+                $('#saveTopicBtn').text('UPDATE ITEM');
+                $('#deleteTopicBtn').removeClass('hidden');
+            }
+            $('#topicModal').removeClass('hidden').css('display', 'flex');
+        }
+
+        function closeTopicModal() {
+            $('#topicModal').addClass('hidden').css('display', 'none');
+            if (calendarInstance) {
+                calendarInstance.fullCalendar('refetchEvents');
+            }
+        }
+
+        function saveTopicTask() {
+            const eventId = $('#topicEventId').val();
+            const eventName = $('#eventNameInput').val().trim();
+const subjectKey = $('#subjectSelect').val();
+            // 🚨 DEFINITIVE FIX: Use the native DOM element to ensure we capture the 
+            // value property reliably, as jQuery's :selected selector can fail in size>1 lists.
+            const topicSelectElement = document.getElementById('topicSelect');
+            const selectedTopicValue = topicSelectElement.value; // Gets the full "ID|TOPIC_TEXT" string
+            const start = $('#topicStart').val();
+            const end = $('#topicEnd').val();
+            
+            if (!start) {
+                CALENDAR_APP.showCustomAlert('MISSING DATE', 'PLEASE SELECT A START DATE.');
+                return;
+            }
+            
+            if (end && end < start) {
+                CALENDAR_APP.showCustomAlert('INVALID DATES', 'END DATE CANNOT BE BEFORE THE START DATE.');
+                return;
+            }
+            
+            let eventData;
+            let isSyllabusTask = subjectKey && selectedTopicValue && selectedTopicValue !== "";
+
+            if (!eventName && !isSyllabusTask) {
+                CALENDAR_APP.showCustomAlert('MISSING DETAILS', 'PLEASE ENTER AN EVENT NAME OR SELECT BOTH A SUBJECT AND A TOPIC FOR SCHEDULING.');
+                return;
+            }
+
+            if (eventName && !isSyllabusTask) {
+                eventData = {
+                    id: eventId || generateUniqueId(),
+                    subjectKey: 'CUSTOM',
+                    topicId: null,
+                    title: eventName.toUpperCase(),
+                    start: start,
+                    end: end ? moment(end).add(1, 'days').format('YYYY-MM-DD') : null,
+                    color: '#10b981',
+                    borderColor: '#059669',
+                    allDay: true
+                };
+            } 
+else if (isSyllabusTask) {
+        const [topicId, topicText] = selectedTopicValue.split('|');
+        const subjectInfo = CONSOLIDATED_SYLLABUS[subjectKey];
+        
+        // 🚨 FIX: Construct the full title directly using the topicText extracted
+        // from the selection, ensuring it is accurate.
+        const fullEventTitle = `${subjectInfo.shortTitle.toUpperCase()} - ${topicText}`;
+        
+        eventData = {
+            id: eventId || generateUniqueId(),
+            subjectKey: subjectKey,
+            topicId: topicId,
+            
+            // 🎯 FIXED: We store the fully constructed title directly.
+            title: fullEventTitle,
+            
+            start: start,
+            end: end ? moment(end).add(1, 'days').format('YYYY-MM-DD') : null,
+            color: subjectInfo.color,
+            borderColor: subjectInfo.color,
+            allDay: true
+        };
+            } else {
+                CALENDAR_APP.showCustomAlert('INVALID COMBINATION', 'PLEASE CHOOSE EITHER A CUSTOM EVENT NAME OR A SUBJECT/TOPIC, BUT NOT BOTH.');
+                return;
+            }
+            
+            let events = getEventsFromLocalStorage();
+            
+            if (eventId) {
+                const index = events.findIndex(e => e.id === eventId);
+                if (index !== -1) {
+                    events[index] = eventData;
+                }
+            } else {
+                events.push(eventData);
+            }
+            
+            saveEventsToLocalStorage(events);
+            closeTopicModal();
+        }
+
+        function deleteTopicTask() {
+            const eventId = $('#topicEventId').val();
+            if (!eventId) return;
+            if (confirm("ARE YOU SURE YOU WANT TO DELETE THIS SCHEDULED TASK?")) {
+                let events = getEventsFromLocalStorage();
+                events = events.filter(e => e.id !== eventId);
+                
+                saveEventsToLocalStorage(events);
+                closeTopicModal();
+            }
+        }
+        
+        function toggleDateJumpPicker() {
+            const input = document.getElementById('dateJump');
+            const button = document.getElementById('jumpToDateButton');
+            if (input && button) {
+                const rect = button.getBoundingClientRect();
+                
+                // Position the hidden input exactly over the button
+                input.style.position = 'fixed';
+                input.style.top = `${rect.top}px`;
+                input.style.left = `${rect.left}px`;
+                input.style.width = `${rect.width}px`;
+                input.style.height = `${rect.height}px`;
+
+                input.value = $('#calendar').fullCalendar('getDate').format('YYYY-MM-DD');
+                
+                // Add class to make it temporarily visible (opacity 0.01) and clickable
+                input.classList.add('temp-visible');
+                
+                input.focus();
+                
+                input.onblur = function() {
+                    input.classList.remove('temp-visible');
+                    input.style.position = 'absolute'; 
+                }
+                
+                if (typeof input.showPicker === 'function') {
+                    setTimeout(() => {
+                        input.showPicker();
+                    }, 50);
+                } else {
+                    input.click();
+                }
+            }
+        }
+        
+        function jumpToDate(dateString) {
+            document.getElementById('dateJump').classList.remove('temp-visible');
+            document.getElementById('dateJump').style.position = 'absolute';
+            if (dateString && calendarInstance) {
+                calendarInstance.fullCalendar('gotoDate', dateString);
+            }
+        }
+        
+        function setActiveButton(targetButton, viewName) {
+            if (viewName !== 'today') {
+                $('.fc-month-button, .fc-basicWeek-button, .fc-basicDay-button').removeClass('fc-state-active');
+                $(targetButton).addClass('fc-state-active');
+            }
+        }
+
+        function initializeCalendar() {
+            calendarInstance = $('#calendar').fullCalendar({
+                header: { left: '', center: '', right: '' },
+                defaultView: 'month',
+                defaultDate: moment().format('YYYY-MM-DD'),
+                navLinks: true, editable: true, contentHeight: 450, timeFormat: 'H:mm', 
+                
+                viewRender: function(view, element) {
+                    const titleText = view.title.toUpperCase();
+                    $('#customMonthTitle').text(titleText);
+                    $('.fc-button').removeClass('fc-state-active');
+                    $(`.fc-${view.name}-button`).addClass('fc-state-active');
+                    
+                    const now = moment();
+                    const isTodayVisible = view.intervalStart.isSameOrBefore(now, 'day') && view.intervalEnd.isSameOrAfter(now, 'day');
+                    if (isTodayVisible) {
+                        if (view.name === 'month' && view.intervalStart.isSame(now, 'month')) {
+                            $('.fc-today-button').addClass('fc-state-active');
+                        } else if (view.name === 'basicWeek' || view.name === 'basicDay') {
+                            $('.fc-today-button').addClass('fc-state-active');
+                        }
+                    }
+                    $('.fc-head th').addClass('fc-widget-header');
+                    syncHeight();
+                },
+                
+                dayClick: function(date, jsEvent, view) {
+                    if ($(jsEvent.target).closest('.exam-day-marker').length) return;
+                    openTopicModal(date.format('YYYY-MM-DD'));
+                },
+                eventClick: function(calEvent, jsEvent, view) {
+                    jsEvent.preventDefault(); 
+                    if (calEvent.className && calEvent.className.includes('exam-day-marker')) {
+                        CALENDAR_APP.showCustomAlert("EXAM DAY", `THIS DATE IS MARKED AS **${calEvent.title}**. YOU CANNOT EDIT EXAM MARKERS.`);
+                        return;
+                    }
+                    openTopicModal(null, calEvent); 
+                },
+                events: function(start, end, timezone, callback) {
+                    const storedEvents = getEventsFromLocalStorage();
+                    
+                    const formattedEvents = storedEvents.map(e => ({
+                        id: e.id, title: e.title, start: e.start, end: e.end, allDay: true,
+                        backgroundColor: e.color, borderColor: e.borderColor,
+                        subjectKey: e.subjectKey, topicId: e.topicId,
+                    }));
+                    
+                    const examMarkers = getExamDates();
+                    const allEvents = formattedEvents.concat(examMarkers);
+                    callback(allEvents);
+                },
+                
+                eventDrop: function(event, delta, revertFunc) {
+                    if (event.editable === false || event.className.includes('exam-day-marker')) { revertFunc(); return; }
+                    let events = getEventsFromLocalStorage();
+                    const index = events.findIndex(e => e.id === event.id);
+                    if (index !== -1) {
+                        events[index].start = event.start.format('YYYY-MM-DD');
+                        events[index].end = event.end ? event.end.format('YYYY-MM-DD') : null;
+                        saveEventsToLocalStorage(events);
+                        CALENDAR_APP.showCustomAlert("UPDATE SUCCESS", `TASK "**${event.title}**" MOVED TO ${event.start.format('MMM D, YYYY')}.`);
+                    } else { revertFunc(); CALENDAR_APP.showCustomAlert("ERROR", "COULD NOT FIND EVENT TO UPDATE."); }
+                },
+                
+                eventResize: function(event, delta, revertFunc) {
+                    if (event.editable === false || event.className.includes('exam-day-marker')) { revertFunc(); }
+                    let events = getEventsFromLocalStorage();
+                    const index = events.findIndex(e => e.id === event.id);
+                    if (index !== -1) {
+                        events[index].end = event.end ? event.end.format('YYYY-MM-DD') : null;
+                        saveEventsToLocalStorage(events);
+                        const endDisplay = event.end ? event.end.clone().subtract(1, 'days').format('MMM D, YYYY') : event.start.format('MMM D, YYYY');
+                        CALENDAR_APP.showCustomAlert("UPDATE SUCCESS", `TASK "**${event.title}**" RESIZED. NEW END DATE: ${endDisplay}.`);
+                    } else { revertFunc(); CALENDAR_APP.showCustomAlert("ERROR", "COULD NOT FIND EVENT TO UPDATE."); }
+                },
+                
+                eventRender: function(event, element) {
+                    element.find('.fc-time').remove();
+                    if (event.className && event.className.includes('exam-day-marker')) {
+                        element.find('.fc-title').prepend(`<i class="fa-solid fa-graduation-cap mr-2"></i>`);
+                        return;
+                    }
+                    let iconClass = event.subjectKey === 'CUSTOM' ? 'fa-calendar-check' : 'fa-book';
+                    const iconHtml = `<span class="event-status-icon"><i class="fa-solid ${iconClass} event-icon-book"></i></span>`;
+                    element.find('.fc-title').wrap('<div class="fc-event-title-wrap"></div>').before(iconHtml);
+                },
+            });
+        }
+        function syncHeight() {
+            const calendarCard = document.getElementById('calendar-card');
+            const detailsElement = document.getElementById('calendar-details');
+            if (calendarCard && detailsElement) {
+                const cardHeight = calendarCard.offsetHeight;
+                detailsElement.style.setProperty('--calendar-height', `${cardHeight}px`);
+                detailsElement.setAttribute('data-calendar-ready', 'true');
+            }
+        }
+        function refreshCalendar() {
+            if (calendarInstance) {
+                calendarInstance.fullCalendar('refetchEvents');
+            }
+        }
+
+        // Expose Calendar API globally for main tracker
+        window.CALENDAR_APP = {
+            CALENDAR_EVENTS_KEY: CALENDAR_EVENTS_KEY,
+            NOTEPAD_CONTENT_KEY: NOTEPAD_CONTENT_KEY,
+            refreshCalendar: refreshCalendar,
+            setNotes: applyNotesContent,
+            showCustomAlert: showCustomAlert,
+            closeCustomAlert: closeCustomAlert,
+            openTopicModal: openTopicModal,
+            closeTopicModal: closeTopicModal,
+            saveTopicTask: saveTopicTask,
+            deleteTopicTask: deleteTopicTask,
+            populateTopics: populateTopics,
+            setActiveButton: setActiveButton,
+            toggleDateJumpPicker: toggleDateJumpPicker,
+            jumpToDate: jumpToDate,
+            undoNotes: undoNotes,
+            redoNotes: redoNotes,
+            clearNotes: clearNotes,
+            copyNotes: copyNotes,
+            getExamDates: getExamDates,
+            // FIX: EXPOSE necessary functions for the main script to call
+            loadNotes: loadNotes,
+            initializeCalendar: initializeCalendar,
+            syncHeight: syncHeight
+            // END FIX
+        };
+        
+        // --- GLOBAL SYLLABUS LOGIC FACTORY (The "createSyllabusLogic" function) ---
+        // (Function definition placed here to ensure it's available before initializeSubjectTrackers runs)
+        window.createSyllabusLogic = function(subjectName, syllabusData, storageKey, themeIcon, title) {
+            
+            const self = {
+                SUBJECT_NAME: subjectName,
+                SUBJECT_TITLE: title,
+                SUBJECT_ICON: themeIcon,
+                SYLLABUS_DATA: syllabusData, 
+                getProgress: getProgress,
+                updateOverallProgress: updateOverallProgress,
+                exportProgress: exportProgress,
+                importProgress: triggerImport,
+                processImport: processImport,
+                toggleAllSections: toggleAllSections,
+                getPanelHtmlWrapper: getPanelHtmlWrapper,
+                render: renderSyllabusPanel
+            };
+
+            function getProgress() {
+                try {
+                    const saved = localStorage.getItem(storageKey);
+                    return saved ? JSON.parse(saved) : {};
+                } catch (e) {
+                    console.error(`Error loading ${subjectName} progress:`, e);
+                    return {};
+                }
+            }
+
+            function saveProgress(progressData) {
+                localStorage.setItem(storageKey, JSON.stringify(progressData));
+                updateOverallProgress();
+                window.updateOverallDashboard(); 
+            }
+            
+            function getTopicStatus(topicId, progressData) {
+                const topic = syllabusData.find(t => t.id === topicId);
+                if (!topic) return 0;
+                
+                if (topic.depth === 1) {
+                    let sectionBoxesTotal = 0;
+                    let sectionBoxesChecked = 0;
+                    const startIndex = syllabusData.findIndex(t => t.id === topicId);
+                    for (let i = startIndex; i < syllabusData.length; i++) {
+                        const currentItem = syllabusData[i];
+                        if (i > startIndex && currentItem.depth <= topic.depth) break;
+                        if (currentItem.depth === 2 && currentItem.trackable) {
+                            const prog = progressData[currentItem.id] || {};
+                            const boxesTicked = CHECKLIST_COLUMNS.filter(col => prog[col] === true).length;
+                            if (boxesTicked >= 3) {
+                                sectionBoxesChecked++;
+                            }
+                            sectionBoxesTotal++;
+                        }
+                    }
+                    if (sectionBoxesTotal === 0) return 0;
+                    if (sectionBoxesChecked === sectionBoxesTotal) return 2;
+                    if (sectionBoxesChecked > 0) return 1;
+                    return 0;
+                } else if (topic.trackable) {
+                    const topicProgress = progressData[topicId] || {};
+                    const checkedCount = CHECKLIST_COLUMNS.filter(col => topicProgress[col] === true).length;
+                    if (checkedCount === CHECKLIST_COLUMNS.length) return 2;
+                    if (checkedCount >= 3) return 2;
+                    if (checkedCount > 0) return 1;
+                    return 0;
+                }
+                return 0;
+            }
+
+            function updateOverallProgress() {
+                const progressData = getProgress();
+                const mainTopics = syllabusData.filter(t => t.depth === 2 && t.trackable);
+                let topicsDoneCount = 0;
+                let topicsToReadCount = 0;
+                const columnProgress = CHECKLIST_COLUMNS.map(() => 0);
+                const totalMainTopics = mainTopics.length;
+
+                mainTopics.forEach(topic => {
+                    const topicProgress = progressData[topic.id] || {};
+                    let boxesTicked = 0;
+                    CHECKLIST_COLUMNS.forEach((col, index) => {
+                        if (topicProgress[col] === true) {
+                            boxesTicked++;
+                            columnProgress[index]++;
+                        }
+                    });
+                    
+                    if (boxesTicked >= 3) {
+                        topicsDoneCount++;
+                    } else {
+                        topicsToReadCount++;
+                    }
+                });
+
+                const overallProgressPercentage = totalMainTopics > 0 ? ((topicsDoneCount / totalMainTopics) * 100).toFixed(1) : 0.0;
+                let barColor;
+                if (overallProgressPercentage <= 25) { barColor = '#ef4444'; } 
+                else if (overallProgressPercentage <= 50) { barColor = '#f97316'; } 
+                else if (overallProgressPercentage <= 75) { barColor = '#facc15'; } 
+                else { barColor = '#10b981'; }
+
+                document.getElementById(`progress-done-${subjectName}`) && (document.getElementById(`progress-done-${subjectName}`).textContent = topicsDoneCount);
+                document.getElementById(`progress-toread-${subjectName}`) && (document.getElementById(`progress-toread-${subjectName}`).textContent = topicsToReadCount);
+                
+                const progressElement = document.getElementById(`progress-${subjectName}`);
+                if (progressElement) {
+                    progressElement.textContent = `${overallProgressPercentage}%`;
+                    progressElement.classList.remove('font-light');
+                    progressElement.classList.add('progress-percent-bold');
+                }
+                
+                const progressBar = document.getElementById(`progress-bar-${subjectName}`);
+                if (progressBar) {
+                    progressBar.style.width = `${overallProgressPercentage}%`;
+                    progressBar.style.backgroundColor = barColor;
+                }
+
+                const columnHeaderNames = ['codal', 'books', 'reviewer', 'barqas', 'cases'];
+                columnProgress.forEach((tickedCount, index) => {
+                    const elementId = `col-progress-bar-${subjectName}-${columnHeaderNames[index]}`;
+                    const percentElementId = `col-percent-${subjectName}-${columnHeaderNames[index]}`;
+                    const barElement = document.getElementById(elementId);
+                    const percentElement = document.getElementById(percentElementId);
+
+                    if (barElement) {
+                        const colPercentage = totalMainTopics > 0 ? ((tickedCount / totalMainTopics) * 100).toFixed(1) : 0.0;
+                        barElement.style.width = `${colPercentage}%`;
+                        if (percentElement) {
+                            percentElement.textContent = `${colPercentage}%`;
+                        }
+                    }
+                });
+            }
+
+            function renderSyllabusPanel() {
+                 const syllabusContainer = document.getElementById(`syllabus-${subjectName}`);
+                 if (!syllabusContainer) { setTimeout(renderSyllabusPanel, 10); return; }
+
+                 const topicWithChildren = (function() {
+                     const children = new Set();
+                     syllabusData.forEach((item, index) => {
+                         const nextItem = syllabusData[index + 1];
+                         if (nextItem && nextItem.depth > item.depth) {
+                             children.add(item.id);
+                         }
+                     });
+                     return children;
+                 })();
+
+                 function hasChildren(topicId) { return topicWithChildren.has(topicId); }
+                
+                const openSections = {};
+                document.querySelectorAll(`#subject-tracker-panel-${subjectName} details`).forEach(details => {
+                    if (details.id) { openSections[details.id] = details.open; }
+                });
+
+                const progress = getProgress();
+                let html = '';
+                let currentSectionOpen = false;
+                let isDepth2Open = false;
+                const checkboxClass = `syllabus-checkbox-${subjectName}`;
+                
+                syllabusData.forEach((item, index) => {
+                    const topicId = item.id;
+                    const nextItem = syllabusData[index + 1];
+                    const currentStatus = getTopicStatus(topicId, progress);
+
+                    const iconName = currentStatus === 2 ? 'check-circle-2' : (currentStatus === 1 ? 'circle-half' : 'circle');
+                    const iconColor = currentStatus === 2 ? 'checked' : (currentStatus === 1 ? 'partial' : 'empty');
+                    const iconSize = item.depth === 1 ? 'w-5 h-5' : 'w-4 h-4';
+                    const iconTitle = currentStatus === 2 ? 'Clear All' : (currentStatus === 1 ? 'Clear All' : 'Tick All');
+                    const isTopLevelTopic = item.depth === 1;
+
+                    if (isTopLevelTopic) {
+                        if (isDepth2Open) { html += `</div></details></div>`; isDepth2Open = false; }
+                        if (currentSectionOpen) { html += `</div></details></div>`; }
+                        
+                        const sectionId = `${subjectName}-section-${item.id}`;
+                        const isOpen = openSections[sectionId] === true; 
+                        const openAttr = isOpen ? 'open' : '';
+                        
+                        html += `\n<div class="syllabus-sub-section"><details id="${sectionId}" class="w-full" ${openAttr}><summary class="topic-header"><div class="topic-header-text"><i data-lucide="chevron-right" class="w-4 h-4 mr-2 chevron-icon"></i><span class="font-extrabold text-lg text-black/90">${item.topic}</span></div><i data-lucide="${iconName}" class="tick-all-icon ${iconColor} ${iconSize} flex-shrink-0" title="${iconTitle}" onclick="window.handleTickAll${subjectName.toUpperCase()}(${item.id}); event.stopPropagation(); event.preventDefault();"></i></summary><div class="p-2">\n`;
+                        currentSectionOpen = true;
+                    } else if (item.depth === 2 && item.trackable) {
+                        const topicProgress = progress[topicId] || {};
+                        const isCollapsible = hasChildren(topicId);
+
+                        if (isDepth2Open && !isCollapsible) { html += `</div></details></div>`; isDepth2Open = false; }
+
+const checklist = CHECKLIST_COLUMNS.map(col => {
+                            // NEW CLASS: Use 'checkbox-' prefix plus the column name (codal, books, etc.)
+                            const columnCheckboxClass = `checkbox-${col}`;
+                            const checked = topicProgress[col] === true ? 'checked' : '';
+                            
+                            // Inject the columnCheckboxClass instead of the subject-specific one
+                            return `\n<div class="flex justify-center"><input type="checkbox" data-id="${topicId}" data-column="${col}" ${checked} class="w-4 h-4 border-gray-300 rounded focus:ring-500 ${columnCheckboxClass}" onchange="window.handleCheckboxChange${subjectName.toUpperCase()}(event)"></div>\n`;
+                        }).join('');
+
+                        let rowContent = `\n
+                            <div class="col-span-1 font-trackable-lg depth2-topic-row">
+                                <div class="topic-content-wrapper" style="padding-left: 1.5rem;">
+                                    ${isCollapsible ? `<i data-lucide="chevron-right" class="w-3 h-3 depth2-chevron"></i>` : `<span class="w-3 h-3 mr-2 inline-block"></span>`}${item.topic}
+                                </div>
+                            </div>
+                            ${checklist}
+                            <div class="flex items-center justify-center space-x-1 pl-2"><i data-lucide="${iconName}" class="tick-all-icon ${iconColor} ${iconSize} flex-shrink-0" title="${iconTitle}" onclick="window.handleTickAll${subjectName.toUpperCase()}(${item.id}); event.stopPropagation(); event.preventDefault();"></i></div>\n
+                        `;
+
+                        if (isCollapsible) {
+                            const depth2Id = `${subjectName}-depth2-${item.id}`;
+                            const isOpen = openSections[depth2Id] === true;
+                            const openAttr = isOpen ? 'open' : '';
+                            html += `<div class="depth2-details"><details id="${depth2Id}" class="w-full" ${openAttr}><summary class="checklist-grid hover:bg-gray-50/50 transition">${rowContent}</summary><div class="depth3-content-wrapper pt-1 pb-2">`;
+                            isDepth2Open = true;
+                        } else {
+                            html += `<div class="checklist-grid hover:bg-gray-50/50 transition">${rowContent}</div>`;
+                        }
+
+                    } else if (item.depth >= 3) {
+                        const dynamicPadding = (item.depth - 2) * 1.5 + 1.5;
+                        const fontStyle = item.depth <= 4 ? 'font-medium' : 'font-normal';
+                        
+                        if (isDepth2Open) {
+                             html += `<div class="p-1 border-b border-black/10 text-black/70 italic ${fontStyle} text-sm" style="padding-left: ${dynamicPadding}rem;">${item.topic}</div>`;
+                        } else {
+                            html += `<div class="checklist-grid hover:bg-gray-50/50 transition"><div>${item.topic}</div></div>`;
+                        }
+                    }
+
+                    if (item.depth >= 3 && isDepth2Open && (!nextItem || nextItem.depth <= 2)) { html += `</div></details></div>`; isDepth2Open = false; }
+                });
+
+                if (currentSectionOpen) {
+                    if (isDepth2Open) { html += `</div></details></div>`; }
+                    html += `</div></details></div>`;
+                }
+
+                syllabusContainer.innerHTML = html;
+                
+                if (lucide && lucide.createIcons) { lucide.createIcons(); }
+                updateOverallProgress();
+                updateCollapseButtonText();
+            }
+
+            function handleCheckboxChange(event) {
+                 const checkbox = event.target;
+                 const id = checkbox.dataset.id;
+                 const column = checkbox.dataset.column;
+                 const isChecked = checkbox.checked;
+                 const progressData = getProgress();
+                 if (!progressData[id]) { progressData[id] = {}; }
+                 progressData[id][column] = isChecked;
+                 saveProgress(progressData);
+                 renderSyllabusPanel(); 
+            }
+            
+            function handleTickAll(topicId) {
+                 const progressData = getProgress();
+                 let topicsToUpdate = [];
+                 const currentStatus = getTopicStatus(topicId, progressData);
+                 const targetState = currentStatus === 2 ? false : true; 
+                 const item = syllabusData.find(t => t.id === topicId);
+                 if (!item) return;
+                 
+                 const startDepth = item.depth;
+                 const startIndex = syllabusData.findIndex(t => t.id === topicId);
+                 
+                 if (startDepth === 2 && item.trackable) {
+                     topicsToUpdate.push(item);
+                 } else if (startDepth === 1) {
+                     for (let i = startIndex; i < syllabusData.length; i++) { 
+                         const currentItem = syllabusData[i];
+                         if (i > startIndex && currentItem.depth <= startDepth) break;
+                         if (currentItem.depth === 2 && currentItem.trackable) {
+                             topicsToUpdate.push(currentItem);
+                         }
+                     }
+                 }
+                 
+                 topicsToUpdate.forEach(topic => {
+                     const id = topic.id;
+                     if (!progressData[id]) { progressData[id] = {}; }
+                     CHECKLIST_COLUMNS.forEach(col => {
+                         progressData[id][col] = targetState;
+                     });
+                 });
+                 saveProgress(progressData);
+                 renderSyllabusPanel();
+            }
+
+            function exportProgress() {
+                const progressData = localStorage.getItem(storageKey);
+                if (!progressData || '{}' === progressData) {
+                    showMessageModal("Download Failed", `<p class='text-red-600'>No ${title} progress data found to download.</p>`);
+                    return;
+                }
+                downloadFile(progressData, `${subjectName}-progress.json`, 'application/json');
+                showMessageModal("Download Complete", `<p class='text-green-600'>Your ${title} progress has been downloaded as **${subjectName}-progress.json**</p>`);
+            }
+
+            function triggerImport() {
+                 DOM_ELEMENTS.globalFileInput.dataset.targetSubject = subjectName;
+                 DOM_ELEMENTS.globalFileInput.click();
+            }
+
+            function processImport(file) {
+                 if (!file) { showMessageModal("Upload Canceled", "No file was selected for upload."); return; }
+                 if ('application/json' !== file.type && !file.name.endsWith('.json')) { showMessageModal("Upload Error", `<p class='text-red-600'>Invalid file type. Please upload a **.json** file.</p>`); return; }
+                 
+                 const reader = new FileReader();
+                 reader.onload = function(e) {
+                     const jsonString = e.target.result;
+                     try {
+                         const importedData = JSON.parse(jsonString);
+                         if ('object' !== typeof importedData || null === importedData) { throw new Error("Invalid JSON structure."); }
+                         saveProgress(importedData);
+                         renderSyllabusPanel();
+                         showMessageModal("Success!", `<p class='text-green-600'>${title} progress successfully uploaded and applied.</p>`);
+                     } catch (e) {
+                         console.error("Import error:", e);
+                         showMessageModal("Upload Error", `<p class='text-red-600'>Failed to upload. The file content is not valid JSON.</p>`);
+                     }
+                 };
+                 reader.onerror = function() { showMessageModal("Import Error", `<p class='text-red-600'>Error reading the file.</p>`); };
+                 reader.readAsText(file);
+            }
+
+            function toggleAllSections() {
+                const allDetails = document.querySelectorAll(`#subject-tracker-panel-${subjectName} details`);
+                let shouldOpen = false;
+                for (const details of allDetails) {
+                    if (!details.open) {
+                        shouldOpen = true;
+                        break;
+                    }
+                }
+                allDetails.forEach(details => { details.open = shouldOpen; });
+                if (lucide && lucide.createIcons) { lucide.createIcons(); }
+                updateCollapseButtonText(shouldOpen);
+            }
+
+            function updateCollapseButtonText(isOpen) {
+                const btn = document.getElementById(`collapse-all-btn-${subjectName}`);
+                if (btn) {
+                    if (typeof isOpen === 'undefined') {
+                        const allDetails = document.querySelectorAll(`#subject-tracker-panel-${subjectName} details`);
+                        let allOpen = true;
+                        for (const details of allDetails) { if (!details.open) { allOpen = false; break; } }
+                        isOpen = allOpen;
+                    }
+                    const iconName = isOpen ? 'chevrons-up' : 'chevrons-down';
+                    btn.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4"></i>`; 
+                    btn.classList.remove('w-8', 'h-8', 'w-7', 'h-7'); 
+                    btn.classList.add('w-6', 'h-6', 'p-0', 'flex', 'items-center', 'justify-center', 'shadow-md'); 
+                    if (lucide && lucide.createIcons) { lucide.createIcons(); }
+                }
+            }
+            
+            window[`handleTickAll${subjectName.toUpperCase()}`] = handleTickAll;
+            window[`handleCheckboxChange${subjectName.toUpperCase()}`] = handleCheckboxChange;
+
+            function getPanelHtmlWrapper(subjectName, title, icon) {
+                const themeClass = `syllabus-panel-${subjectName}`;
+                const bgButton = subjectName === 'rem' ? 'bg-purple-600' : (subjectName === 'crim' ? 'bg-red-600' : (subjectName === 'lab' ? 'bg-lab-button' : (subjectName === 'civ' ? 'bg-civ-button' : (subjectName === 'comm' ? 'bg-comm-button' : 'bg-poli-button'))));
+                const hoverButton = subjectName === 'rem' ? 'hover:bg-purple-700' : (subjectName === 'crim' ? 'hover:bg-red-700' : (subjectName === 'lab' ? 'hover:bg-lab-button-dark' : (subjectName === 'civ' ? 'hover:bg-civ-button-dark' : (subjectName === 'comm' ? 'hover:bg-comm-button-dark' : 'hover:bg-poli-button-dark'))));
+                
+                const cleanTitle = title.replace(/\s*\([\d\s]*% of Total\)/, '');
+                
+                return `
+                <div class="bg-white rounded-xl shadow-lg border border-gray-300 mt-4 syllabus-panel-container ${themeClass}" id="subject-tracker-panel-${subjectName}">
+                    <details class="syllabus-panel">
+                        <summary class="syllabus-summary" id="summary-${subjectName}">
+                            <div class="syllabus-summary-title-row">
+                                <div class="flex items-center">
+                                    <i data-lucide="${icon}" class="w-6 h-6 mr-3"></i>${cleanTitle}
+                                </div>
+                                <div class="flex items-center text-xs">
+                                    <span class="text-gray-300 mr-2 font-light hidden sm:inline">Press to Expand/Collapse</span>
+                                    <i data-lucide="chevron-right" class="w-6 h-6 ml-2 main-summary-chevron"></i>
+                                </div>
+                            </div>
+                            <div class="syllabus-progress-metrics text-xs">
+                                <div class="progress-stats">
+                                    <span class="flex items-center"><i data-lucide="check-circle-2" class="w-4 h-4 mr-1 text-gray-200"></i>DONE:&nbsp;<span id="progress-done-${subjectName}">0</span>&nbsp;TOPICS</span>
+                                    <span class="flex items-center"><i data-lucide="book-open-text" class="w-4 h-4 mr-1 text-gray-200"></i>TO READ:&nbsp;<span id="progress-toread-${subjectName}">0</span>&nbsp;TOPICS</span>
+                                </div>
+                                <div class="flex items-center space-x-2 flex-grow min-w-[200px]">
+                                    <span class="progress-overall-text flex items-center"><i data-lucide="chart-spline" class="w-4 h-4 mr-1"></i>OVERALL PROGRESS:</span>
+                                    <div class="progress-bar-container">
+                                        <div id="progress-bar-${subjectName}" class="progress-bar" style="width: 0%;"></div>
+                                    </div>
+                                    <span id="progress-${subjectName}" class="progress-percent-bold">0.0%</span>
+                                </div>
+                            </div>
+                        </summary>
+                        <div class="syllabus-content">
+                            
+                            <!-- 1. COLUMN HEADERS -->
+                            <div class="checklist-grid checklist-grid-header mt-1 font-bold text-xs text-center border-b-2 border-black/50">
+                                <div class="text-left">SUBJECTS/TOPICS</div> 
+                                <div class="flex items-center justify-center"><span class="checklist-label-capsule capsule-codal">Codal</span></div>
+                                <div class="flex items-center justify-center"><span class="checklist-label-capsule capsule-books">Books</span></div>
+                                <div class="flex items-center justify-center"><span class="checklist-label-capsule capsule-reviewer">Reviewer</span></div>
+                                <div class="flex items-center justify-center"><span class="checklist-label-capsule capsule-barqas">Bar QAs</span></div>
+                                <div class="flex items-center justify-center"><span class="checklist-label-capsule capsule-cases">Cases</span></div>
+                                <div class="flex items-center justify-center pt-1">
+                                    <button id="collapse-all-btn-${subjectName}" class="w-7 h-7 p-0 flex items-center justify-center text-white ${bgButton} rounded-lg shadow-md ${hoverButton} transition duration-150 whitespace-nowrap">
+                                        <i data-lucide="chevrons-down" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Micro-progress Bars -->
+                            <div class="checklist-grid checklist-grid-micro-progress text-center">
+                                <div class="text-left italic text-gray-700 col-span-1 pl-1 text-[0.68rem] self-start leading-tight pt-1">Overall progress only counts if at least 3 checklist boxes are marked for each topic row.</div> 
+                                
+                                <div class="px-1 flex flex-col items-center justify-start">
+                                    <div class="col-progress-bar-container">
+                                        <div id="col-progress-bar-${subjectName}-codal" class="col-progress-bar col-progress-codal" style="width: 0%;"></div>
+                                    </div>
+                                    <span id="col-percent-${subjectName}-codal" class="text-xs font-semibold mt-1 text-violet-700">0.0%</span>
+                                </div>
+                                <div class="px-1 flex flex-col items-center justify-start">
+                                    <div class="col-progress-bar-container">
+                                        <div id="col-progress-bar-${subjectName}-books" class="col-progress-bar col-progress-lectures" style="width: 0%;"></div>
+                                    </div>
+                                    <span id="col-percent-${subjectName}-books" class="text-xs font-semibold mt-1 text-yellow-700">0.0%</span>
+                                </div>
+                                <div class="px-1 flex flex-col items-center justify-start">
+                                    <div class="col-progress-bar-container">
+                                        <div id="col-progress-bar-${subjectName}-reviewer" class="col-progress-bar col-progress-reviewer" style="width: 0%;"></div>
+                                    </div>
+                                    <span id="col-percent-${subjectName}-reviewer" class="text-xs font-semibold mt-1 text-blue-700">0.0%</span>
+                                </div>
+                                <div class="px-1 flex flex-col items-center justify-start">
+                                    <div class="col-progress-bar-container">
+                                        <div id="col-progress-bar-${subjectName}-barqas" class="col-progress-bar col-progress-barqas" style="width: 0%;"></div>
+                                    </div>
+                                    <span id="col-percent-${subjectName}-barqas" class="text-xs font-semibold mt-1 text-green-700">0.0%</span>
+                                </div>
+                                <div class="px-1 flex flex-col items-center justify-start">
+                                    <div class="col-progress-bar-container">
+                                        <div id="col-progress-bar-${subjectName}-cases" class="col-progress-bar col-progress-cases" style="width: 0%;"></div>
+                                    </div>
+                                    <span id="col-percent-${subjectName}-cases" class="text-xs font-semibold mt-1 text-orange-700">0.0%</span>
+                                </div>
+                                <div></div>
+                            </div>
+                            
+                            <div id="syllabus-${subjectName}" class="text-xs"></div>
+                        </div>
+                    </details>
+                </div>
+                `;
+            }
+
+            return self;
+        };
+
+
+        // --- GLOBAL SUBJECT SYLLABUS DATA (Declarations for loading) ---
+        
+        // This is the CRITICAL change: The load function now uses the file path to load the external JS.
+        function initializeSubjectTrackers() {
+            // REMEDIAL LAW
+            loadSubjectPanel('rem', 'Syllabus/rem_logic.js');
+            
+            // CRIMINAL LAW
+            loadSubjectPanel('crim', 'Syllabus/crim_logic.js');
+            
+            // LABOR LAW
+            loadSubjectPanel('lab', 'Syllabus/lab_logic.js');
+
+            // CIVIL LAW
+            loadSubjectPanel('civ', 'Syllabus/civ_logic.js');
+            
+            // COMMERCIAL LAW
+            loadSubjectPanel('comm', 'Syllabus/comm_logic.js');
+            
+            // POLITICAL LAW
+            loadSubjectPanel('poli', 'Syllabus/poli_logic.js');
+        }
+
+        // --- GLOBAL DASHBOARD LOGIC ---
+        function drawPieChart(donePercent) {
+            const chartEl = document.getElementById('global-pie-chart');
+            if (!chartEl) return;
+
+            let fillColor;
+            if (donePercent <= 25) { fillColor = '#ef4444'; } 
+            else if (donePercent <= 50) { fillColor = '#f97316'; } 
+            else if (donePercent <= 75) { fillColor = '#facc15'; } 
+            else { fillColor = '#10b981'; }
+            
+            const backgroundRingColor = (donePercent < 100) ? '#ef4444' : '#e5e7eb';
+            const centerTextColor = fillColor; 
+            const centerFontSize = '2.5rem'; 
+            const centerFontFamily = 'Bebas Neue, sans-serif'; 
+
+            let totalTopics = 0;
+            Object.values(SUBJECT_LOGIC_MAP).forEach(logic => {
+                const mainTopics = logic.SYLLABUS_DATA.filter(t => t.depth === 2 && t.trackable);
+                totalTopics += mainTopics.length;
+            });
+            const totalTopicsText = `Total Topics: ${totalTopics}`;
+
+            const size = 180; 
+            const radius = size / 2;
+            const strokeWidth = 35; 
+            const center = size / 2;
+            
+            const circumference = 2 * Math.PI * (radius - strokeWidth / 2);
+            const doneOffset = circumference * (1 - (donePercent / 100));
+
+            chartEl.style.width = `${size}px`;
+            chartEl.style.height = `${size}px`;
+
+            chartEl.innerHTML = `
+                <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+                    <circle cx="${center}" cy="${center}" r="${radius - strokeWidth / 2}" fill="none" stroke="${backgroundRingColor}" stroke-width="${strokeWidth}"/>
+                    <circle
+                        class="ring-done" cx="${center}" cy="${center}" r="${radius - strokeWidth / 2}"
+                        fill="none" stroke="#38761d" stroke-width="${strokeWidth}" stroke-dasharray="${circumference}"
+                        stroke-dashoffset="${doneOffset}" transform="rotate(-90 ${center} ${center})" stroke-linecap="round"
+                    />
+                    <circle cx="${center}" cy="${center}" r="${radius - strokeWidth}" fill="white"/>
+                    <text x="${center}" y="${center - 10}" text-anchor="middle" alignment-baseline="central" font-size="${centerFontSize}"
+                        font-weight="900" fill="${centerTextColor}" font-family="${centerFontFamily}" 
+                        style="text-shadow: 1px 1px 0 #cccccc; letter-spacing: 1px;">
+                        ${(donePercent).toFixed(0)}%
+                    </text>
+                     <text x="${center}" y="${center + 20}" text-anchor="middle" alignment-baseline="central" font-size="0.6rem"
+                        font-weight="bold" fill="#4a5568" font-family="Inter, sans-serif" style="text-shadow: none;">
+                        ${totalTopicsText}
+                    </text>
+                </svg>
+            `;
+        }
+
+        function updateScheduleTable() {
+            const tableBody = document.getElementById('schedule-table-body');
+            if (!tableBody) return;
+
+            let html = '';
+            let lastDateId = null;
+
+            SCHEDULE_DATA.forEach((item, index) => {
+                const countdownData = COUNTDOWN_DATA.find(d => d.id === item.dateId);
+                const dateString = countdownData ? countdownData.targetDate : 'N/A';
+                
+                let dayOfWeek = item.day;
+                let displayDate = dateString;
+                if (dateString !== 'N/A') {
+                    const dateObj = new Date(dateString + 'T00:00:00Z');
+                    if (!isNaN(dateObj)) {
+                        dayOfWeek = dateObj.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
+                        displayDate = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                    }
+                }
+                
+                const subjectLogic = SUBJECT_LOGIC_MAP[item.subjectName];
+                
+                let progressPercent = '0.0';
+                let progressFraction = 0;
+                
+                if (subjectLogic) {
+                    // CRITICAL: This pulls the Syllabus data from the EXTERNAL JS file via SUBJECT_LOGIC_MAP
+                    const progress = subjectLogic.getProgress();
+                    const syllabusData = subjectLogic.SYLLABUS_DATA;
+                    const mainTopics = syllabusData.filter(t => t.depth === 2 && t.trackable);
+                    const currentSubjectTrackable = mainTopics.length;
+                    let currentSubjectDone = 0;
+
+                    mainTopics.forEach(topic => {
+                        const topicProgress = progress[topic.id] || {};
+                        const boxesTicked = CHECKLIST_COLUMNS.filter(col => topicProgress[col] === true).length;
+                        if (boxesTicked >= 3) {
+                            currentSubjectDone++;
+                        }
+                    });
+                    progressFraction = currentSubjectTrackable > 0 ? (currentSubjectDone / currentSubjectTrackable) : 0;
+                    progressPercent = (progressFraction * 100).toFixed(1);
+                }
+                
+                let progressClass;
+                if (progressFraction <= 0.25) { progressClass = 'bg-progress-red'; } 
+                else if (progressFraction <= 0.5) { progressClass = 'bg-progress-orange'; } 
+                else if (progressFraction <= 0.75) { progressClass = 'bg-progress-yellow'; } 
+                else { progressClass = 'bg-progress-green'; }
+
+
+                let dateCell = '';
+                if (item.dateId !== lastDateId) {
+                    dateCell = `<td rowspan="2" class="text-center font-bold text-sm border-r border-gray-300">
+                                    ${displayDate.toUpperCase()}<br><span class="text-gray-400 font-normal text-xs">${dayOfWeek}</span>
+                                </td>`;
+                    lastDateId = item.dateId;
+                }
+
+                const rowClass = (index + 1) % 2 === 0 ? 'border-b-2 border-gray-300/50' : 'border-b border-gray-200';
+                
+                html += `
+                    <tr class="${rowClass}">
+                        ${dateCell}
+                        <td class="border-r border-gray-300">
+                            <div class="subject-cell bg-${item.subjectName}" data-subject="${item.subjectName}">
+                                ${item.subject} <span class="font-normal">(${item.weight})</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-center text-sm font-semibold mb-0.5">${progressPercent}%</div>
+                            <div id="sparkline-${item.subjectName}" class="progress-bar-sparkline">
+                                <div class="sparkline-fill ${progressClass}" style="width: ${progressPercent}%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tableBody.innerHTML = html;
+        }
+
+        function updateOverallDashboard() {
+            document.getElementById('today-date-display').textContent = getLocalDisplayDate();
+
+            let totalTrackableTopics = 0;
+            let totalDoneTopics = 0;
+            let totalToReadTopics = 0;
+
+            Object.values(SUBJECT_LOGIC_MAP).forEach(logic => {
+                const progress = logic.getProgress();
+                const syllabusData = logic.SYLLABUS_DATA;
+                
+                const mainTopics = syllabusData.filter(t => t.depth === 2 && t.trackable);
+                const currentSubjectTrackable = mainTopics.length;
+                let currentSubjectDone = 0;
+
+                mainTopics.forEach(topic => {
+                    const topicProgress = progress[topic.id] || {};
+                    const boxesTicked = CHECKLIST_COLUMNS.filter(col => topicProgress[col] === true).length;
+                    
+                    if (boxesTicked >= 3) {
+                        currentSubjectDone++;
+                    }
+                });
+
+                totalTrackableTopics += currentSubjectTrackable;
+                totalDoneTopics += currentSubjectDone;
+            });
+
+            totalToReadTopics = totalTrackableTopics - totalDoneTopics;
+
+            const donePercent = totalTrackableTopics > 0 ? (totalDoneTopics / totalTrackableTopics) * 100 : 0;
+            const toReadPercent = 100 - donePercent;
+
+            drawPieChart(donePercent);
+            updateScheduleTable();
+
+            document.getElementById('global-progress-done').textContent = `${donePercent.toFixed(1)}%`;
+            document.getElementById('global-total-done-count').textContent = totalDoneTopics;
+            
+            document.getElementById('global-progress-toread').textContent = `${toReadPercent.toFixed(1)}%`;
+            document.getElementById('global-total-toread-count').textContent = totalToReadTopics;
+        }
+
+        window.updateOverallDashboard = updateOverallDashboard;
+
+
+        // --- INITIALIZATION ---
+        window.onload = () => {
+            // 1. Initialize Countdown Dates
+            COUNTDOWN_DATA.forEach(data => {
+                const savedDate = localStorage.getItem(`comp_exam_date_${data.id}`);
+                const finalDate = savedDate || data.targetDate;
+                if (finalDate) {
+                    data.targetDate = finalDate;
+                    document.querySelector(`#target-date-display-${data.id} .date-text`).textContent = formatUniqueDate(finalDate);
+                }
+            });
+
+            // Display today's date
+            document.getElementById('today-date-display').textContent = getLocalDisplayDate();
+            setInterval(() => {
+                document.getElementById('today-date-display').textContent = getLocalDisplayDate();
+            }, 60000); 
+            
+            // 2. Load Calendar Module HTML and initialize its logic (now inline)
+            document.getElementById('calendar-module-placeholder').innerHTML = CALENDAR_MODULE_HTML;
+            
+            // 3. Initialize Calendar and Notepad Logic (window.CALENDAR_APP is now fully defined above)
+            window.CALENDAR_APP.loadNotes();
+            window.CALENDAR_APP.initializeCalendar();
+            
+            // Initial sync/toggle check for calendar panel (needed to set notepad height)
+            const detailsElement = document.getElementById('calendar-details');
+            if(detailsElement) {
+                $(detailsElement).on('toggle', function() {
+                    const indicator = $('.toggle-indicator i');
+                    if ($(this).prop('open')) {
+                        indicator.removeClass('fa-chevron-right').addClass('fa-chevron-down');
+                        window.CALENDAR_APP.syncHeight();
+                    } else {
+                        indicator.removeClass('fa-chevron-down').addClass('fa-chevron-right');
+                    }
+                }).trigger('toggle');
+            }
+
+
+            // 4. Load Subject Panels (This is ASYNCHRONOUS)
+            initializeSubjectTrackers();
+            
+            // 5. Initialize Lucide Icons for static content
+            if (lucide && lucide.createIcons) {
+                lucide.createIcons();
+            }
+
+            // 6. Attach General Event Listeners and load user name
+            updateAllCountdowns();
+            setInterval(updateAllCountdowns, 1000);
+            
+            loadUserName();
+            
+            // The dashboard update MUST wait for external subjects to load (1.5 seconds delay to be safe)
+            setTimeout(window.updateOverallDashboard, 1500); 
+            
+            document.getElementById('target-date-display-1').addEventListener('click', () => openModal(1));
+            document.getElementById('target-date-display-2').addEventListener('click', () => openModal(2));
+            document.getElementById('target-date-display-3').addEventListener('click', () => openModal(3));
+            
+            // Monkey patch saveModal to update schedule table AFTER countdown is saved
+            if (typeof saveModal === 'function' && typeof updateScheduleTable === 'function') {
+                const originalSaveModal = saveModal;
+                saveModal = function() {
+                    originalSaveModal();
+                    updateScheduleTable();
+                };
+            }
+            
+            document.getElementById('modal-save-btn').addEventListener('click', saveModal);
+            document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
+            
+            document.getElementById('message-modal-close-btn')?.addEventListener('click', closeMessageModal);
+        };
+    </script>
+</body>
+</html>
