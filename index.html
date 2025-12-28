@@ -1061,20 +1061,20 @@ style="background-color: #000000; border-bottom: 5px solid #9ca3af;">
                             <strong style="color: #330066;">Progress Metric:</strong> Overall progress updates and a topic counts as “done” only once <strong>4 out of 6 boxes</strong> per topic row are checked.
                         </li>
                         <li class="pl-1">
-                            <strong style="color: #330066;">Data Portability:</strong> Your review progress is saved <strong>only within your current browser</strong>. Synchronize manually using the tools below.
+                            <strong style="color: #330066;">Data Portability:</strong> Your review progress is saved <strong>only within your current browser</strong> (Local Storage). Your data will not be synchronized automatically if you clear your browsing data or switch devices. To transfer your progress to a new device or browser, please use the <strong> Export All Data</strong> and <strong> Import Existing Data</strong> functions.
                         </li>
                         <li class="pl-1">
-                            <strong style="color: #330066;">Device Compatibility:</strong> This tracker is optimized for <strong>Laptop/Desktop</strong> use.
+                            <strong style="color: #330066;">Device Compatibility:</strong> This tracker is optimized for <strong>Laptop/Desktop</strong> use to ensure all features and layouts render correctly.
                         </li>
                     </ul>
 
                     <!-- 2. Smaller Data Management Buttons (Bottom) -->
                     <div class="flex space-x-2 w-full pt-4 border-t border-blue-200">
                         <button onclick="exportAllData()" class="flex-1 px-2 py-1.5 bg-green-600 text-white font-bold text-[10px] rounded-lg shadow-md hover:bg-green-700 transition duration-150 uppercase flex items-center justify-center">
-                            <i data-lucide="download-cloud" class="w-3 h-3 mr-1"></i> Export Data
+                            <i data-lucide="download-cloud" class="w-3 h-3 mr-1"></i> Export All Data
                         </button>
                         <button onclick="document.getElementById('global-file-input').click()" class="flex-1 px-2 py-1.5 bg-blue-600 text-white font-bold text-[10px] rounded-lg shadow-md hover:bg-blue-700 transition duration-150 uppercase flex items-center justify-center">
-                            <i data-lucide="upload-cloud" class="w-3 h-3 mr-1"></i> Import Data
+                            <i data-lucide="upload-cloud" class="w-3 h-3 mr-1"></i> Import Existing Data
                         </button>
                     </div>
                     <input type="file" id="global-file-input" class="hidden" accept=".json" onchange="importAllData(event)">
