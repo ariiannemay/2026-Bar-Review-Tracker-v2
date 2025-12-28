@@ -376,6 +376,48 @@ th.sortable:hover { background-color: #f1f1f1; color: #000; }
     animation: pulse-purple 0.8s ease-in-out;
 }
 
+
+/* --- TAB NAVIGATION STYLES --- */
+.sticky-top-pane {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: #f3f4f6; /* Matches gray-100 */
+    padding-top: 0.25rem;
+    padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.05em;
+}
+
+.tab-btn.active {
+    color: #330066;
+    border-bottom-color: #B266FF;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ensure body doesn't jump when header sticks */
+body { scroll-behavior: smooth; }
+
     </style>
     <!-- Vercel Web Analytics -->
     <script defer src="/_vercel/insights/script.js"></script>
@@ -472,33 +514,46 @@ th.sortable:hover { background-color: #f1f1f1; color: #000; }
 
 
     <div class="main-content-wrapper">
-        <div class="max-w-6xl mx-auto space-y-2">
-
-            <!-- 1. HEADER PANEL -->
-<header class="header-bg text-white py-1 px-4 sm:py-2 sm:px-6 rounded-xl shadow-2xl">
-            <div class="flex items-center justify-between">
-                
-                                <div class="flex-shrink-0 w-32 h-32 flex items-center justify-center rounded-full overflow-hidden">
-                    <img src="https://raw.githubusercontent.com/ariiannemay/2026-Bar-Exam-Tracker/main/Images/LAWLOGO.png" alt="Law Logo" class="w-full h-full object-cover" onerror="this.outerHTML = '<i data-lucide=\'graduation-cap\' class=\'w-full h-full object-cover\'></i>'">
-                </div>
-                
-                                <div class="text-center mx-4 flex-grow">
-                                                        <h1 class="text-3xl sm:text-6xl italic font-extrabold header-font tracking-widest mb-1" style="text-shadow: 2px 2px 0 #000000;">
-                                2026 BAR EXAM REVIEW TRACKER
-                            </h1>
-                            
-                                                        <h2 class="text-xl sm:text-3xl font-extrabold tracking-wider mb-0 italic" style="line-height: 1.1;">
-                                #AweSAMBar2026
-                            </h2>
+<!-- STICKY TOP PANE: HEADER + TABS -->
+            <div class="sticky-top-pane">
+                <!-- 1. HEADER PANEL -->
+                <header class="header-bg text-white py-1 px-4 sm:py-2 sm:px-6 rounded-xl shadow-2xl mb-2">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-shrink-0 w-32 h-32 flex items-center justify-center rounded-full overflow-hidden">
+                            <img src="https://raw.githubusercontent.com/ariiannemay/2026-Bar-Exam-Tracker/main/Images/LAWLOGO.png" alt="Law Logo" class="w-full h-full object-cover" onerror="this.outerHTML = '<i data-lucide=\'graduation-cap\' class=\'w-full h-full object-cover\'></i>'">
                         </div>
-        
-                                        <div class="flex-shrink-0 w-32 h-32 flex items-center justify-center rounded-full overflow-hidden">
-                        <img src="https://raw.githubusercontent.com/ariiannemay/2026-Bar-Exam-Tracker/main/Images/CHECKLIST.png" alt="Checklist Logo" class="w-full h-full object-cover" onerror="this.outerHTML = '<i data-lucide=\'shield\' class=\'w-full h-full object-cover\'></i>'">
+                        <div class="text-center mx-4 flex-grow">
+                            <h1 class="text-3xl sm:text-6xl italic font-extrabold header-font tracking-widest mb-1" style="text-shadow: 2px 2px 0 #000000;">2026 BAR EXAM REVIEW TRACKER</h1>
+                            <h2 class="text-xl sm:text-3xl font-extrabold tracking-wider mb-0 italic" style="line-height: 1.1;">#AweSAMBar2026</h2>
+                        </div>
+                        <div class="flex-shrink-0 w-32 h-32 flex items-center justify-center rounded-full overflow-hidden">
+                            <img src="https://raw.githubusercontent.com/ariiannemay/2026-Bar-Exam-Tracker/main/Images/CHECKLIST.png" alt="Checklist Logo" class="w-full h-full object-cover" onerror="this.outerHTML = '<i data-lucide=\'shield\' class=\'w-full h-full object-cover\'></i>'">
+                        </div>
                     </div>
-                </div>
-        </header>
+                </header>
+
+                <!-- NAVIGATION TABS -->
+                <nav class="flex overflow-x-auto no-scrollbar bg-white rounded-lg shadow-md border border-gray-200 p-1 gap-1">
+                    <button onclick="switchTab('tab-dashboard')" class="tab-btn active flex-1 py-2 px-4 rounded-md text-gray-500 font-bold text-lg uppercase flex items-center justify-center gap-2" id="btn-dashboard">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> <span>Dashboard</span>
+                    </button>
+                    <button onclick="switchTab('tab-calendar')" class="tab-btn flex-1 py-2 px-4 rounded-md text-gray-500 font-bold text-lg uppercase flex items-center justify-center gap-2" id="btn-calendar">
+                        <i data-lucide="calendar" class="w-5 h-5"></i> <span>Calendar</span>
+                    </button>
+                    <button onclick="switchTab('tab-subjects')" class="tab-btn flex-1 py-2 px-4 rounded-md text-gray-500 font-bold text-lg uppercase flex items-center justify-center gap-2" id="btn-subjects">
+                        <i data-lucide="book-marked" class="w-5 h-5"></i> <span>Subjects</span>
+                    </button>
+                    <button onclick="switchTab('tab-gaerlan')" class="tab-btn flex-1 py-2 px-4 rounded-md text-gray-500 font-bold text-lg uppercase flex items-center justify-center gap-2" id="btn-gaerlan">
+                        <i data-lucide="pen-tool" class="w-5 h-5"></i> <span>Gaerlan Cases</span>
+                    </button>
+                    <button onclick="switchTab('tab-analytics')" class="tab-btn flex-1 py-2 px-4 rounded-md text-gray-500 font-bold text-lg uppercase flex items-center justify-center gap-2" id="btn-analytics">
+                        <i data-lucide="line-chart" class="w-5 h-5"></i> <span>Analytics</span>
+                    </button>
+                </nav>
+            </div>
         
             <!-- 2. COUNTDOWN PANELS (Hourglass color fixed to inherited white) -->
+<div id="tab-dashboard" class="tab-content active space-y-2">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div id="card-day-1" class="bg-white rounded-xl shadow-lg border border-gray-300 relative overflow-hidden">
                     <div class="flex items-center justify-between card-header-bg text-white p-2 text-sm font-bold text-center border-b-4 border-custom-yellow uppercase">
@@ -663,23 +718,25 @@ th.sortable:hover { background-color: #f1f1f1; color: #000; }
                 </div>
             </div>
 
-                
+</div>
 
-<div id="subject-trackers-container" class="space-y-4">
                 
+<div id="tab-calendar" class="tab-content">
                 <div id="calendar-module-placeholder"></div>
+</div>
 
-
-                <!-- Subject panels will be dynamically injected here -->
+<div id="tab-subjects" class="tab-content space-y-4">
+               <!-- Subject panels will be dynamically injected here -->
                 <div id="subject-tracker-panel-rem"></div>
                 <div id="subject-tracker-panel-crim"></div>
                 <div id="subject-tracker-panel-lab"></div>
                 <div id="subject-tracker-panel-civ"></div>
                 <div id="subject-tracker-panel-comm"></div>
                 <div id="subject-tracker-panel-poli"></div> 
+</div>
+</div>
 
-            <!-- MERGED: Case Tracker (Placed below all subject trackers, which includes Political Law as the last one) -->
-            <div class="mt-6">
+<div id="tab-gaerlan" class="tab-content">
                 <!-- MAIN COLLAPSIBLE CARD FROM case_tracker.html -->
                 <div class="bg-white rounded-xl shadow-lg border border-gray-300 overflow-hidden mb-6">       
                     <details class="group">
@@ -687,7 +744,6 @@ th.sortable:hover { background-color: #f1f1f1; color: #000; }
 <summary class="block p-0 cursor-pointer select-none transition-colors hover:bg-gray-900"
 style="background-color: #000000; border-bottom: 5px solid #9ca3af;">
     <div class="flex flex-col items-start justify-between py-3 px-6 text-white gap-2">
-        
         <div class="flex items-center justify-between w-full">
             <div class="flex items-center">
                 <i data-lucide="pen-tool" class="w-6 h-6 mr-3"></i>
@@ -809,46 +865,53 @@ style="background-color: #000000; border-bottom: 5px solid #9ca3af;">
                     </div>
                 </details>
             </div>
+</div>
+</div> 
 
-</div> <div class="bg-white rounded-xl shadow-lg border border-gray-300 overflow-hidden mb-6">
+<div class="bg-white rounded-xl shadow-lg border border-gray-300 overflow-hidden mb-6">
                 <details id="review-targets-panel" class="group" open>
 <summary class="block p-0 cursor-pointer select-none transition-colors hover:bg-gray-800" style="background-color: gray; border-bottom: 5px solid #9ca3af;">
-    <div class="flex flex-col items-start justify-between py-3 px-6 text-white gap-2">
-        <div class="flex items-center justify-between w-full">
-            <div class="flex items-center">
-                <i data-lucide="line-chart" class="w-6 h-6 mr-3 text-white"></i>
-                <h1 class="text-xl sm:text-2xl font-bold uppercase tracking-tight">Session Targets</h1>
-            </div>
-            <div class="flex items-center text-xs">
-                <span class="text-gray-300 mr-2 font-light hidden sm:inline">Press to Expand/Collapse</span>
-                <i data-lucide="chevron-right" class="w-6 h-6 ml-2 transform transition-transform duration-300 group-open:rotate-90"></i>
-            </div>
-        </div>
 
-        <div class="flex flex-wrap items-center gap-6 w-full text-[0.7rem]">
-            <div class="flex items-center gap-4 whitespace-nowrap">
-                <span class="flex items-center font-bold tracking-tight uppercase">
-                    <i data-lucide="check-circle-2" class="w-4 h-4 mr-1 text-gray-200"></i>
-                    DONE: <span id="daily-total" class="ml-1.5 mr-1">0</span> BOXES
-                </span>
-                <span class="flex items-center font-bold tracking-tight uppercase">
-                    <i data-lucide="book-open" class="w-4 h-4 mr-1 text-gray-200"></i>
-                    TO DO: <span id="daily-todo" class="ml-1.5 mr-1">0</span> BOXES
-                </span>
-            </div>
-            
-            <div class="flex items-center space-x-2 flex-grow min-w-[200px]">
-                <span class="whitespace-nowrap flex items-center font-bold tracking-tight uppercase">
-                    <i data-lucide="bar-chart-3" class="w-4 h-4 mr-1"></i>OVERALL PROGRESS:
-                </span>
-                <div class="flex-grow bg-white/20 h-3 rounded-full overflow-hidden relative border border-white/10">
-                    <div id="daily-target-bar-header" class="bg-white h-full rounded-full transition-all duration-700 ease-out" style="width: 0%"></div>
-                </div>
-                <span id="daily-target-percent-header" class="ml-1 font-bold">0%</span>
-            </div>
-        </div>
-    </div>
-</summary>
+
+<!-- 6. ANALYTICS TAB -->
+            <div id="tab-analytics" class="tab-content mt-6">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-300 overflow-hidden mb-6">
+                    <details id="review-targets-panel" class="group" open>
+                        <summary class="block p-0 cursor-pointer select-none transition-colors hover:bg-gray-800" style="background-color: gray; border-bottom: 5px solid #9ca3af;">
+                            <div class="flex flex-col items-start justify-between py-3 px-6 text-white gap-2">
+                                <div class="flex items-center justify-between w-full">
+                                    <div class="flex items-center">
+                                        <i data-lucide="line-chart" class="w-6 h-6 mr-3 text-white"></i>
+                                        <h1 class="text-xl sm:text-2xl font-bold uppercase tracking-tight">Session Targets</h1>
+                                    </div>
+                                    <div class="flex items-center text-xs">
+                                        <span class="text-gray-300 mr-2 font-light hidden sm:inline">Press to Expand/Collapse</span>
+                                        <i data-lucide="chevron-right" class="w-6 h-6 ml-2 transform transition-transform duration-300 group-open:rotate-90"></i>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-6 w-full text-[0.7rem]">
+                                    <div class="flex items-center gap-4 whitespace-nowrap">
+                                        <span class="flex items-center font-bold tracking-tight uppercase">
+                                            <i data-lucide="check-circle-2" class="w-4 h-4 mr-1 text-gray-200"></i>
+                                            DONE: <span id="daily-total" class="ml-1.5 mr-1">0</span> BOXES
+                                        </span>
+                                        <span class="flex items-center font-bold tracking-tight uppercase">
+                                            <i data-lucide="book-open" class="w-4 h-4 mr-1 text-gray-200"></i>
+                                            TO DO: <span id="daily-todo" class="ml-1.5 mr-1">0</span> BOXES
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center space-x-2 flex-grow min-w-[200px]">
+                                        <span class="whitespace-nowrap flex items-center font-bold tracking-tight uppercase">
+                                            <i data-lucide="bar-chart-3" class="w-4 h-4 mr-1"></i>OVERALL PROGRESS:
+                                        </span>
+                                        <div class="flex-grow bg-white/20 h-3 rounded-full overflow-hidden relative border border-white/10">
+                                            <div id="daily-target-bar-header" class="bg-white h-full rounded-full transition-all duration-700 ease-out" style="width: 0%"></div>
+                                        </div>
+                                        <span id="daily-target-percent-header" class="ml-1 font-bold">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </summary>
                     
                     <div class="p-4 grid grid-cols-1 lg:grid-cols-4 gap-6 bg-gray-50/50">
 <div class="lg:col-span-1 border-b lg:border-b-0 lg:border-r border-gray-200 pb-4 lg:pb-0 pr-4">
@@ -902,7 +965,7 @@ style="background-color: #000000; border-bottom: 5px solid #9ca3af;">
                     </div>
                 </details>
             </div>
-
+</div>
 
             <!-- NOTEPAD MODAL FROM case_tracker.html -->
 <div id="digestModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-50 p-2 transition-opacity duration-300">
@@ -984,6 +1047,7 @@ style="background-color: #000000; border-bottom: 5px solid #9ca3af;">
     </div>
 </div>
             </div> <!-- End Case Tracker -->
+</div>
 
 
             <!-- 5. GLOBAL DATA MANAGEMENT BUTTONS (UPDATED) -->
@@ -4244,6 +4308,43 @@ document.addEventListener('input', () => {
     saveTimeout = setTimeout(updateLastSaved, 1000); 
 });
 document.addEventListener('change', () => updateLastSaved());
+
+// --- TAB SWITCHING LOGIC ---
+window.switchTab = function(tabId) {
+    // Hide all contents
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Deactivate all buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.classList.add('text-gray-500');
+    });
+
+    // Show selected content
+    document.getElementById(tabId).classList.add('active');
+    
+    // Activate clicked button
+    const activeBtn = document.getElementById('btn-' + tabId.split('-')[1]);
+    activeBtn.classList.add('active');
+    activeBtn.classList.remove('text-gray-500');
+
+    // Special handlers for specific tabs to ensure UI refreshes
+    if (tabId === 'tab-calendar' && window.CALENDAR_APP) {
+        window.CALENDAR_APP.refreshCalendar();
+        window.CALENDAR_APP.syncHeight();
+    }
+    if (tabId === 'tab-dashboard') {
+        window.updateOverallDashboard();
+    }
+    if (tabId === 'tab-analytics' && typeof refreshTargetsUI === 'function') {
+        refreshTargetsUI();
+    }
+    
+    // Scroll to top of content area on switch
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
     </script>
 </body>
