@@ -2538,140 +2538,119 @@ function saveModal(){
 
         // --- GLOBAL EXPORT/IMPORT FUNCTIONS (UPDATED) ---
 
-        function exportAllData() {
-            const data = {};
-            
-            // 1. Gather fixed data (Name, Countdown Dates)
-            data.user_name = localStorage.getItem(USER_NAME_KEY) || null;
-            
-            data.dates = {};
-            COUNTDOWN_DATA.forEach((d) => {
-                data.dates[`comp_exam_date_${d.id}`] = localStorage.getItem(`comp_exam_date_${d.id}`);
-            });
+function exportAllData() {
+    const data = {};
 
-            // 2. Gather all subject data
-            data.subjects = {};
-            ALL_SUBJECT_STORAGE_KEYS.forEach(key => {
-                 const progress = localStorage.getItem(key);
-                 if (progress) {
-                     try {
-                         data.subjects[key] = JSON.parse(progress);
-                     } catch(e) {
-                         data.subjects[key] = {};
-                     }
-                 }
-            });
-
-            // 3. Gather Calendar and Notepad data
-            if (window.CALENDAR_APP) {
-                data.calendar_events = localStorage.getItem(window.CALENDAR_APP.CALENDAR_EVENTS_KEY);
-                data.notepad_content = localStorage.getItem(window.CALENDAR_APP.NOTEPAD_CONTENT_KEY);
-            }
-
-
-            const jsonString = JSON.stringify(data, null, 2);
-            downloadFile(jsonString, 'comprehensive-review-tracker-backup.json', 'application/json');
-            showMessageModal("Export Complete", "<p class='text-green-600'>All data (progress, dates, name, calendar, and notes) has been downloaded as **comprehensive-review-tracker-backup.json**</p>");
-        }
-        
-        function importAllData(event) {
-            const file = event.target.files[0];
-            event.target.value = '';
-
-            if (!file || !file.name.endsWith('.json')) {
-                showMessageModal("Import Error", "<p class='text-red-600'>Please select a valid .json file for import.</p>");
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const jsonString = e.target.result;
-                try {
-                    const importedData = JSON.parse(jsonString);
-                    if (typeof importedData !== 'object' || importedData === null) {
-                         throw new Error("Invalid file structure.");
-                    }
-                    
-                    let subjectsImported = 0;
-                    let calendarRefreshed = false;
-
-                    // 1. Import Subject Data
-                    if (importedData.subjects) {
-                        Object.keys(importedData.subjects).forEach(key => {
-                            if (ALL_SUBJECT_STORAGE_KEYS.includes(key)) {
-                                localStorage.setItem(key, JSON.stringify(importedData.subjects[key]));
-                                subjectsImported++;
-                            }
-                        });
-                    }
-                    
-                    // 2. Import Calendar and Notepad data
-                    if (window.CALENDAR_APP) {
-                        if (importedData.calendar_events) {
-                             localStorage.setItem(window.CALENDAR_APP.CALENDAR_EVENTS_KEY, importedData.calendar_events);
-                             calendarRefreshed = true;
-                        }
-                        if (importedData.notepad_content) {
-                             localStorage.setItem(window.CALENDAR_APP.NOTEPAD_CONTENT_KEY, importedData.notepad_content);
-                             window.CALENDAR_APP.setNotes(importedData.notepad_content);
-                        }
-                    }
-
-                    // 3. Import User Name
-                    if (importedData.user_name) {
-                        localStorage.setItem(USER_NAME_KEY, importedData.user_name);
-                        loadUserName();
-                    } else {
-                        localStorage.removeItem(USER_NAME_KEY);
-                        loadUserName();
-                    }
-
-                    // 4. Import Dates
-                    if (importedData.dates) {
-                        Object.keys(importedData.dates).forEach(key => {
-                            if (key.startsWith('comp_exam_date_')) {
-                                localStorage.setItem(key, importedData.dates[key]);
-                            }
-                        });
-                    }
-
-                    // 5. Update UI: Re-render everything
-                    COUNTDOWN_DATA.forEach(data => {
-                        const savedDate = localStorage.getItem(`comp_exam_date_${data.id}`);
-                        data.targetDate = savedDate || data.targetDate;
-                        document.querySelector(`#target-date-display-${data.id} .date-text`).textContent = formatUniqueDate(data.targetDate);
-                    });
-                    updateAllCountdowns();
-
-                    // The logic maps might not be fully initialized here if external JS fails, but we try anyway.
-                    Object.values(SUBJECT_LOGIC_MAP).forEach(logic => {
-                        // This calls the render function defined in the external JS
-                        logic.render();
-                    });
-                    window.updateOverallDashboard();
-
-                    if (window.CALENDAR_APP && calendarRefreshed) {
-                         window.CALENDAR_APP.refreshCalendar();
-                    }
-
-                    showMessageModal("Import Success", `<p class='text-green-600'>Successfully imported data for ${subjectsImported} subjects, dates, name, calendar, and notes. The tracker has been refreshed.</p>`);
-
-} catch (e) {
-    window.showThemedModal({
-        title: 'IMPORT FAILED',
-        message: 'INVALID BACKUP FILE. PLEASE ENSURE YOU ARE UPLOADING THE CORRECT JSON FILE.'
+    // 1. Core (Name, Dates)
+    data.user_name = localStorage.getItem('user_display_name');
+    data.dates = {};
+    [1,2,3].forEach(i => {
+        data.dates[`comp_exam_date_${i}`] = localStorage.getItem(`comp_exam_date_${i}`);
     });
-}
-            };
-            reader.onerror = function() { showMessageModal("Import Error", `<p class='text-red-600'>Error reading the file.</p>`); };
-            reader.readAsText(file);
-        }
 
-        window.exportAllData = exportAllData;
-        window.importAllData = importAllData;
+    // 2. Subjects Progress
+    data.subjects = {};
+    const subjectKeys = ['rem_ethics_progress', 'crim_progress', 'lab_progress', 'civ_progress', 'comm_tax_progress', 'poli_progress'];
+    subjectKeys.forEach(key => {
+        data.subjects[key] = localStorage.getItem(key);
+    });
+
+    // 3. Calendar & Notepad
+    data.calendar_events = localStorage.getItem('review_calendar_events');
+    data.notepad_content = localStorage.getItem('review_notepad_content');
+
+    // 4. Gaerlan Cases
+    data.gaerlan = localStorage.getItem('gaerlan_tracker_v1');
+
+    // 5. To-Do List
+    data.todos = localStorage.getItem('bar_todos_v2');
+
+    // 6. Resource Links
+    data.links = localStorage.getItem('bar_user_links');
+
+    // 7. Materials Tracker
+    data.materials = localStorage.getItem('bar_materials');
+
+    // 8. Analytics
+    data.analytics = localStorage.getItem('bar_tracker_analytics_v3');
+
+    // 9. Quotes
+    data.quote_index = localStorage.getItem('selected_quote_index');
+
+    // 10. Review Notes (all individual notes)
+    data.notes = {};
+    Object.keys(NOTES_SYLLABUS).forEach(sub => {
+        NOTES_SYLLABUS[sub].forEach((item, i) => {
+            if (item.depth === 2) {
+                const parent = NOTES_SYLLABUS[sub].slice(0, i).reverse().find(p => p.depth === 1);
+                const key = `note_${sub}_${parent ? parent.topic : ''}_${item.topic}`;
+                data.notes[key] = localStorage.getItem(key);
+            }
+        });
+    });
+
+    // 11. Collapsed States
+    data.collapsed_topics = localStorage.getItem('bar_collapsed_topics');
+
+    downloadFile(JSON.stringify(data, null, 2), 'full-bar-tracker-backup.json', 'application/json');
+    showMessageModal("Export Complete", "<p class='text-green-600'>All data across ALL tabs exported!</p>");
+}
+
+function importAllData(event) {
+    const file = event.target.files[0];
+    event.target.value = '';
+    if (!file || !file.name.endsWith('.json')) return showMessageModal("Error", "<p class='text-red-600'>Invalid file. Use .json backup.</p>");
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const imported = JSON.parse(e.target.result);
+
+            // Import Core
+            if (imported.user_name) localStorage.setItem('user_display_name', imported.user_name);
+            Object.keys(imported.dates || {}).forEach(k => localStorage.setItem(k, imported.dates[k]));
+
+            // Import Subjects
+            Object.keys(imported.subjects || {}).forEach(k => localStorage.setItem(k, imported.subjects[k]));
+
+            // Import Calendar/Notepad
+            if (imported.calendar_events) localStorage.setItem('review_calendar_events', imported.calendar_events);
+            if (imported.notepad_content) localStorage.setItem('review_notepad_content', imported.notepad_content);
+
+            // Import Gaerlan
+            if (imported.gaerlan) localStorage.setItem('gaerlan_tracker_v1', imported.gaerlan);
+
+            // Import To-Do
+            if (imported.todos) localStorage.setItem('bar_todos_v2', imported.todos);
+
+            // Import Links
+            if (imported.links) localStorage.setItem('bar_user_links', imported.links);
+
+            // Import Materials
+            if (imported.materials) localStorage.setItem('bar_materials', imported.materials);
+
+            // Import Analytics
+            if (imported.analytics) localStorage.setItem('bar_tracker_analytics_v3', imported.analytics);
+
+            // Import Quotes
+            if (imported.quote_index) localStorage.setItem('selected_quote_index', imported.quote_index);
+
+            // Import Notes
+            Object.keys(imported.notes || {}).forEach(k => localStorage.setItem(k, imported.notes[k]));
+
+            // Import Collapsed
+            if (imported.collapsed_topics) localStorage.setItem('bar_collapsed_topics', imported.collapsed_topics);
+
+            location.reload(); // Full refresh to apply all
+            showMessageModal("Import Success", "<p class='text-green-600'>All data across tabs imported! Reloaded.</p>");
+        } catch (e) {
+            showMessageModal("Error", "<p class='text-red-600'>Invalid backup file.</p>");
+        }
+    };
+    reader.readAsText(file);
+}
 
         // --- END GLOBAL EXPORT/IMPORT FUNCTIONS ---
-
 
         // Subject Logic Loader - MODIFIED TO LOAD EXTERNAL JS
         function loadSubjectPanel(subjectName, filePath) {
@@ -6876,7 +6855,6 @@ function setupNotesLiveUpdate() {
 <div id="themed-modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden modal-animate-in border border-purple-100">
 </div>
 </div>
-
 
 </body>
 </html>
