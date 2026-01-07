@@ -5370,48 +5370,43 @@ switchNotesSubject('rem');
 const loadedScripts = new Set();
 
 function lazyLoadSubject(sub, callback) {
-if (loadedScripts.has(sub)) {
-callback();
-return;
-}
+    if (loadedScripts.has(sub)) {
+        callback();
+        return;
+    }
+    // Show spinner (your existing code)
 
-// Show the spinner in the container while waiting
-const container = document.getElementById('notes-container');
-if (container) {
-container.innerHTML = `
-<div class="flex flex-col items-center justify-center py-20 text-[#B266FF]">
-<i data-lucide="loader-2" class="w-10 h-10 animate-spin mb-4"></i>
-<span class="header-font text-sm tracking-widest uppercase opacity-70">Loading Syllabus...</span>
-</div>
-`;
-lucide.createIcons();
-}
+    const scriptMap = {
+        poli: 'Syllabus/poli_logic.js',
+        lab: 'Syllabus/lab_logic.js',
+        civ: 'Syllabus/civ_logic.js',
+        tax: 'Syllabus/comm_logic.js',   // assuming commercial/tax
+        crim: 'Syllabus/crim_logic.js',
+        rem: 'Syllabus/rem_logic.js'
+    };
 
-const scriptMap = {
-poli: 'poli_logic.js',
-lab: 'lab_logic.js',
-civ: 'civ_logic.js',
-tax: 'comm_logic.js',
-crim: 'crim_logic.js',
-rem: 'rem_logic.js'
-};
-
-const script = document.createElement('script');
-script.src = scriptMap[sub];
-script.onload = () => {
-const syllabusMap = {
-poli: typeof POLI_SYLLABUS !== 'undefined' ? POLI_SYLLABUS : [],
-lab: typeof LAB_SYLLABUS !== 'undefined' ? LAB_SYLLABUS : [],
-civ: typeof CIV_SYLLABUS !== 'undefined' ? CIV_SYLLABUS : [],
-tax: typeof COMM_TAX_SYLLABUS !== 'undefined' ? COMM_TAX_SYLLABUS : [],
-crim: typeof CRIM_SYLLABUS !== 'undefined' ? CRIM_SYLLABUS : [],
-rem: typeof REM_ETHICS_SYLLABUS !== 'undefined' ? REM_ETHICS_SYLLABUS : []
-};
-NOTES_SYLLABUS[sub] = syllabusMap[sub];
-loadedScripts.add(sub);
-callback();
-};
-document.head.appendChild(script);
+    const script = document.createElement('script');
+    script.src = scriptMap[sub];
+    script.onload = () => {
+        // Your existing onload code...
+        const syllabusMap = {
+            poli: typeof POLI_SYLLABUS !== 'undefined' ? POLI_SYLLABUS : [],
+            // ... rest same
+        };
+        NOTES_SYLLABUS[sub] = syllabusMap[sub];
+        loadedScripts.add(sub);
+        callback();
+    };
+    script.onerror = () => {
+        console.error(`Failed to load ${scriptMap[sub]}`);
+        // Optional: show error in UI
+        document.getElementById('notes-container').innerHTML = `
+            <div class="text-center py-10 text-red-600">
+                <p class="font-bold">Failed to load syllabus</p>
+                <p class="text-sm">Check if Syllabus/${sub}_logic.js exists</p>
+            </div>`;
+    };
+    document.head.appendChild(script);
 }
 
 function switchNotesSubject(sub) {
@@ -6088,7 +6083,7 @@ lucide.createIcons();
 // --- INITIALIZE ---
 window.onload = () => {
 // Set your desired starting tab here
-const defaultTab = 'tab-materials';
+const defaultTab = 'tab-dashboard';
 
 // 1. Initialize all data trackers first
 renderTodoView();
