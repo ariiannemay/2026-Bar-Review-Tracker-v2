@@ -5486,7 +5486,7 @@ container.innerHTML = `
 ${subjectTitle}
 </h3>
 <p class="text-[10px] font-bold italic tracking-widest uppercase" style="color: ${mutedColor}">
-Official Syllabus Review Notes • Tracked by Content
+Official Syllabus Review Notes • #AweSAMBar2026
 </p>
 </div>
 </div>
@@ -5621,23 +5621,20 @@ if (btn) {
 
     const percent = Math.round((subDone / subCount) * 100) || 0;
 
-    btn.innerHTML = `
-        <div class="flex items-center justify-between w-full gap-3 px-1">
-            <span class="text-[10px] font-black uppercase tracking-tight truncate">
-                ${cleanName}
-            </span>
-            <div class="flex items-center gap-1.5">
-                <div class="w-14 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                    <div class="h-full transition-all duration-500" 
-                         style="width: ${percent}%; background-color: ${getActiveThemeColor(sub)}">
-                    </div>
+btn.innerHTML = `
+    <div class="flex items-center justify-between gap-2">
+        <span class="font-black text-[10px] tracking-tighter truncate">${cleanName}</span>
+        <div class="flex items-center gap-1">
+            <div class="w-16 bg-gray-200 h-1.5 rounded-full overflow-hidden flex-shrink-0">
+                <div class="h-full transition-all duration-500" 
+                     style="width: ${percent}%; background-color: ${getActiveThemeColor(sub)}">
                 </div>
-                <span class="text-[9px] font-bold text-gray-600 min-w-[20px] text-right">
-                    ${percent}%
-                </span>
             </div>
+            <span class="text-[9px] font-bold min-w-[24px] text-right ${sub === 'tax' ? 'text-gray-800' : 'text-white'}">
+                ${percent}%
+            </span>
         </div>
-    `;
+    </div>`;
 
     // Keep the active tab highlighted
     if (document.querySelector('.notes-sub-tab.active') === btn) {
