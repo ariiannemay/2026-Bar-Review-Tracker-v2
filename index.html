@@ -3904,25 +3904,14 @@ window.createSyllabusLogic = function(...args) {
         // --- GLOBAL SUBJECT SYLLABUS DATA (Declarations for loading) ---
         
         // This is the CRITICAL change: The load function now uses the file path to load the external JS.
-        function initializeSubjectTrackers() {
-            // REMEDIAL LAW
-            loadSubjectPanel('rem', 'Syllabus/rem_logic.js');
-            
-            // CRIMINAL LAW
-            loadSubjectPanel('crim', 'Syllabus/crim_logic.js');
-            
-            // LABOR LAW
-            loadSubjectPanel('lab', 'Syllabus/lab_logic.js');
-
-            // CIVIL LAW
-            loadSubjectPanel('civ', 'Syllabus/civ_logic.js');
-            
-            // COMMERCIAL LAW
-            loadSubjectPanel('comm', 'Syllabus/comm_logic.js');
-            
-            // POLITICAL LAW
-            loadSubjectPanel('poli', 'Syllabus/poli_logic.js');
-        }
+function initializeSubjectTrackers() {
+    loadSubjectPanel('rem', 'Syllabus/rem_logic.js');
+    loadSubjectPanel('crim', 'Syllabus/crim_logic.js');
+    loadSubjectPanel('lab', 'Syllabus/lab_logic.js');
+    loadSubjectPanel('civ', 'Syllabus/civ_logic.js');
+    loadSubjectPanel('comm', 'Syllabus/comm_logic.js');
+    loadSubjectPanel('poli', 'Syllabus/poli_logic.js');
+}
 
         // --- GLOBAL DASHBOARD LOGIC ---
         function drawPieChart(donePercent) {
@@ -6775,6 +6764,42 @@ localStorage.setItem('bar_collapsed_topics', JSON.stringify(collapsedTopics));
 renderMaterials(); // Refresh to show/hide
 }
 
+// AUTO-INIT EVERYTHING ON LOAD
+window.addEventListener('DOMContentLoaded', () => {
+    // 1. Fix duplicate Tailwind/Lucide loads (remove one set in <head>)
+    // Already good – you have only one now
+
+    // 2. Load all subject logic files so Bar Subjects panels populate
+    initializeSubjectTrackers();
+
+    // 3. Initialize Calendar properly
+    document.getElementById('calendar-module-placeholder').innerHTML = CALENDAR_MODULE_HTML;
+    window.CALENDAR_APP.loadNotes();
+    window.CALENDAR_APP.initializeCalendar();
+    setTimeout(() => window.CALENDAR_APP.syncHeight(), 100);
+
+    // 4. Auto-load default Review Notes subject so it's not "stuck loading"
+    switchNotesSubject('rem'); // or 'poli' – whatever you prefer as default
+
+    // 5. Render other tabs that need it
+    renderMaterials();
+    renderTodoView();
+    renderLinks();
+
+    // 6. Update dashboard stats (wait a bit for subjects to load)
+    setTimeout(() => {
+        Object.values(SUBJECT_LOGIC_MAP).forEach(logic => logic?.render());
+        updateOverallDashboard();
+        updateProgress(); // For notes master bar
+    }, 2000);
+
+    // 7. Start countdowns
+    updateAllCountdowns();
+    setInterval(updateAllCountdowns, 1000);
+
+    lucide.createIcons();
+});
+
     </script>
 
 <div id="themed-modal-container" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-[200] p-4">
@@ -6785,4 +6810,3 @@ renderMaterials(); // Refresh to show/hide
 
 </body>
 </html>
-
