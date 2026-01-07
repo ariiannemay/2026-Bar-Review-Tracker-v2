@@ -5374,38 +5374,61 @@ function lazyLoadSubject(sub, callback) {
         callback();
         return;
     }
-    // Show spinner (your existing code)
+
+    // ALWAYS show spinner first when switching subjects
+    const container = document.getElementById('notes-container');
+    container.innerHTML = `
+        <div class="flex flex-col items-center justify-center py-16 text-purple-400">
+            <i data-lucide="loader-2" class="w-12 h-12 animate-spin mb-4"></i>
+            <p class="text-sm font-bold uppercase tracking-wider">Loading ${sub.toUpperCase()} Syllabus...</p>
+        </div>`;
+    lucide.createIcons();
 
     const scriptMap = {
         poli: 'Syllabus/poli_logic.js',
         lab: 'Syllabus/lab_logic.js',
         civ: 'Syllabus/civ_logic.js',
-        tax: 'Syllabus/comm_logic.js',   // assuming commercial/tax
+        tax: 'Syllabus/comm_logic.js',
         crim: 'Syllabus/crim_logic.js',
         rem: 'Syllabus/rem_logic.js'
     };
 
     const script = document.createElement('script');
     script.src = scriptMap[sub];
+
     script.onload = () => {
-        // Your existing onload code...
+        // Success: Load the syllabus data
         const syllabusMap = {
-            poli: typeof POLI_SYLLABUS !== 'undefined' ? POLI_SYLLABUS : [],
-            // ... rest same
+            poli: typeof POLI_SYLLABUS !== 'undefined' ? POLI_SYLLABUS: [],
+            lab: typeof LAB_SYLLABUS !== 'undefined' ? LAB_SYLLABUS : [],
+            civ: typeof CIV_SYLLABUS !== 'undefined' ? CIV_SYLLABUS : [],
+            tax: typeof COMM_TAX_SYLLABUS !== 'undefined' ? COMM_TAX_SYLLABUS : [],
+            crim: typeof CRIM_SYLLABUS !== 'undefined' ? CRIM_SYLLABUS : [],
+            rem: typeof REM_ETHICS_SYLLABUS !== 'undefined' ? REM_ETHICS_SYLLABUS : []
         };
-        NOTES_SYLLABUS[sub] = syllabusMap[sub];
+        NOTES_SYLLABUS[sub] = syllabusMap[sub] || [];
         loadedScripts.add(sub);
         callback();
     };
-    script.onerror = () => {
-        console.error(`Failed to load ${scriptMap[sub]}`);
-        // Optional: show error in UI
-        document.getElementById('notes-container').innerHTML = `
-            <div class="text-center py-10 text-red-600">
-                <p class="font-bold">Failed to load syllabus</p>
-                <p class="text-sm">Check if Syllabus/${sub}_logic.js exists</p>
-            </div>`;
-    };
+
+script.onerror = () => {
+    console.error(`Failed to load: ${scriptMap[sub]}`);
+    container.innerHTML = `
+        <div class="flex flex-col items-center justify-center py-16 min-h-[400px]">
+            <i data-lucide="alert-triangle" class="w-20 h-20 text-red-400 mb-6"></i>
+            <p class="text-xl font-black text-red-600 uppercase tracking-wider mb-4">Load Failed</p>
+            <p class="text-sm text-gray-600 text-center max-w-xs mx-auto leading-relaxed px-4">
+                Could not load <strong>Syllabus/${sub}_logic.js</strong><br><br>
+                The file is missing or the path is incorrect.
+            </p>
+            <button onclick="switchNotesSubject('${sub}')" 
+                    class="mt-8 px-8 py-3 bg-[#330066] text-white font-black uppercase text-xs rounded-xl shadow-lg hover:bg-[#B266FF] transition-all">
+                Try Again
+            </button>
+        </div>`;
+    lucide.createIcons();
+};
+
     document.head.appendChild(script);
 }
 
