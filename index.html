@@ -563,6 +563,11 @@ grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Force full width
 gap: 0.5rem;
 width: 100%;
 }
+#notes-subject-tabs .notes-sub-tab {
+    padding: 8px 6px !important;
+    min-height: unset;
+    border-radius: 10px;
+}
 
 /* --- SUBJECT SPECIFIC TABS --- */
 .notes-sub-tab[data-sub="poli"].active { background-color: #795548 !important; border-color: #795548 !important; }
@@ -5603,28 +5608,41 @@ subDone++;
 const percent = Math.round((subDone / subCount) * 100) || 0;
 const btn = document.getElementById('sub-btn-' + sub);
 if (btn) {
-// 1. Define the clean names here so they never pull from the "polluted" UI
-const subjectNames = {
-poli: 'Political Law',
-lab: 'Labor Law',
-civ: 'Civil Law',
-tax: 'Commercial Law',
-crim: 'Criminal Law',
-rem: 'Remedial Law'
-};
+    // Clean, short subject names
+    const subjectNames = {
+        poli: 'Political Law',
+        civ: 'Civil Law',
+        rem: 'Remedial Law',
+        crim: 'Criminal Law',
+        lab: 'Labor Law',
+        tax: 'Commercial Law'
+    };
+    const cleanName = subjectNames[sub] || sub.toUpperCase();
 
-const cleanName = subjectNames[sub]; // Use the hardcoded clean name
+    const percent = Math.round((subDone / subCount) * 100) || 0;
 
-btn.setAttribute('data-name', cleanName);
-btn.innerHTML = `
-<div class="flex flex-col items-center gap-1">
-<span class="font-black text-[10px] tracking-tighter">${cleanName}</span>
-<div class="w-full bg-gray-200 h-1 rounded-full overflow-hidden">
-<div class="h-full" style="width: ${percent}%; background-color: ${getActiveThemeColor(sub)}"></div>
-</div>
-<span class="text-[8px] font-bold opacity-60">${percent}%</span>
-</div>
-`;
+    btn.innerHTML = `
+        <div class="flex items-center justify-between w-full gap-3 px-1">
+            <span class="text-[10px] font-black uppercase tracking-tight truncate">
+                ${cleanName}
+            </span>
+            <div class="flex items-center gap-1.5">
+                <div class="w-14 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div class="h-full transition-all duration-500" 
+                         style="width: ${percent}%; background-color: ${getActiveThemeColor(sub)}">
+                    </div>
+                </div>
+                <span class="text-[9px] font-bold text-gray-600 min-w-[20px] text-right">
+                    ${percent}%
+                </span>
+            </div>
+        </div>
+    `;
+
+    // Keep the active tab highlighted
+    if (document.querySelector('.notes-sub-tab.active') === btn) {
+        btn.classList.add('active');
+    }
 }
 });
 
