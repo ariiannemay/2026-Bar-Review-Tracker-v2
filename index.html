@@ -6218,7 +6218,22 @@ editingLinkIndex = null; // Reset if closed
 function exportSubjectNotes(sub) {
 const syllabus = NOTES_SYLLABUS[sub];
 const btn = document.getElementById('sub-btn-' + sub);
-const subjectName = btn ? btn.innerText.split('(')[0].trim() : sub.toUpperCase();
+// Clean subject name: Remove any trailing percentage (e.g., "85%") from button text
+let subjectName = btn ? btn.innerText : sub.toUpperCase();
+
+// Remove anything that looks like a percentage at the end (e.g., " 85%")
+subjectName = subjectName.replace(/\s*\d+%?\s*$/, '').trim();
+
+// Fallback clean names if needed
+const cleanNames = {
+    poli: 'POLITICAL LAW',
+    civ: 'CIVIL LAW',
+    rem: 'REMEDIAL LAW',
+    crim: 'CRIMINAL LAW',
+    lab: 'LABOR LAW',
+    tax: 'COMMERCIAL LAW'
+};
+subjectName = cleanNames[sub] || subjectName;
 const themeColor = getActiveThemeColor(sub);
 
 const printWindow = window.open('', '_blank');
