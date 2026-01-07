@@ -5440,12 +5440,12 @@ const activeBtn = document.getElementById('sub-btn-' + sub);
 if (activeBtn) activeBtn.classList.add('active');
 
 lazyLoadSubject(sub, () => {
-const container = document.getElementById('notes-container');
-const syllabus = NOTES_SYLLABUS[sub];
-if (!container || !syllabus) return;
+    const container = document.getElementById('notes-container');
+    const syllabus = NOTES_SYLLABUS[sub];
+    if (!container || !syllabus) return;
 
-const subjectTitle = activeBtn.innerText.replace(/\s*\(\d+%\)\s*/g, "").replace(/\s*\d+%\s*$/g, "").trim();
-const activeColor = getActiveThemeColor(sub);
+    const subjectTitle = activeBtn.innerText.replace(/\s*\(\d+%\)\s*/g, "").replace(/\s*\d+%\s*$/g, "").trim();
+    const activeColor = getActiveThemeColor(sub);
 
 // Map specific icons based on subject name
 const iconMap = { poli: 'landmark', lab: 'handshake', civ: 'building-2', tax: 'banknote', crim: 'shield', rem: 'gavel' };
@@ -5529,6 +5529,7 @@ listWrapper.innerHTML += `
 });
 lucide.createIcons();
 updateProgress();
+setTimeout(setupNotesLiveUpdate, 500);
 });
 }
 
@@ -5551,7 +5552,7 @@ div.innerHTML = `
 <label class="block text-[10px] font-black text-[#B266FF] uppercase mb-2 tracking-widest">${item.topic}</label>
 <textarea class="auto-expand w-full bg-transparent border-none outline-none resize-none overflow-hidden text-[13px]"
 placeholder="Take notes..."
-oninput="autoExpand(this); saveNoteRecursive('${storageKey}', this.value); updateProgress()"
+oninput="autoExpand(this); saveNoteRecursive('${storageKey}', this.value); debounceUpdateProgressAndSave()"
 >${localStorage.getItem(storageKey) || ''}</textarea>`;
 fragment.appendChild(div);
 i++;
@@ -5560,6 +5561,7 @@ i++;
 contentArea.innerHTML = '';
 contentArea.appendChild(fragment);
 contentArea.dataset.loaded = "true";
+setTimeout(setupNotesLiveUpdate, 100);
 
 setTimeout(() => {
 contentArea.querySelectorAll('textarea').forEach(autoExpand);
@@ -6832,6 +6834,26 @@ window.addEventListener('DOMContentLoaded', () => {
 
     lucide.createIcons();
 });
+
+// Debounced update to avoid calling too often while typing fast
+let progressUpdateTimeout;
+function debounceUpdateProgressAndSave() {
+    clearTimeout(progressUpdateTimeout);
+    progressUpdateTimeout = setTimeout(() => {
+        updateProgress();         // Updates master bar + subject tab percentages
+        updateLastSaved();        // Updates footer "Last saved" time + pulse
+    }, 800); // Wait 800ms after user stops typing
+}
+
+// Optional: Also update on blur (when clicking away)
+function setupNotesLiveUpdate() {
+    document.querySelectorAll('#notes-list-wrapper textarea').forEach(textarea => {
+        textarea.addEventListener('blur', () => {
+            updateProgress();
+            updateLastSaved();
+        });
+    });
+}
 
     </script>
 
