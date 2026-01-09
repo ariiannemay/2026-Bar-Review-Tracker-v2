@@ -5746,7 +5746,7 @@ function renderSubTopics(detailsElement, sub, startIndex) {
         const div = document.createElement('div');
         div.className = "mb-6 ml-4";
         
-        // --- FAST LOAD: Start as a static div ---
+        // FIX: Start as a static div that calls initEditorOnDemand when clicked
         div.innerHTML = `
             <label class="block text-[10px] font-black text-[#B266FF] uppercase mb-1 tracking-widest">${item.topic}</label>
             <div class="bg-white rounded-xl border border-purple-100 shadow-sm overflow-hidden">
