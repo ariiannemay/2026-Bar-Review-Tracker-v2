@@ -1204,6 +1204,24 @@ transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     color: #666;
     font-style: italic;
 }
+
+/* Force rich text styling to be visible */
+.ql-editor b, .ql-editor strong { 
+    font-weight: bold !important; 
+    color: #000; 
+}
+.ql-editor i, .ql-editor em { 
+    font-style: italic !important; 
+}
+.ql-editor ul { 
+    list-style-type: disc !important; 
+    padding-left: 1.5rem !important; 
+}
+.ql-editor ol { 
+    list-style-type: decimal !important; 
+    padding-left: 1.5rem !important; 
+}
+
 ul { list-style-type: disc; margin-left: 20px; padding-left: 5px; }
     ol { list-style-type: decimal; margin-left: 20px; padding-left: 5px; }
     p { margin: 0 0 10px 0; }
@@ -5736,6 +5754,7 @@ function renderSubTopics(detailsElement, sub, startIndex) {
     const syllabus = NOTES_SYLLABUS[sub];
     const fragment = document.createDocumentFragment();
     let i = startIndex + 1;
+    const editorsToInit = [];
 
     while (i < syllabus.length && syllabus[i].depth > 1) {
         const item = syllabus[i];
@@ -5746,23 +5765,37 @@ function renderSubTopics(detailsElement, sub, startIndex) {
         const div = document.createElement('div');
         div.className = "mb-6 ml-4";
         
-        // FIX: Start as a static div that calls initEditorOnDemand when clicked
         div.innerHTML = `
             <label class="block text-[10px] font-black text-[#B266FF] uppercase mb-1 tracking-widest">${item.topic}</label>
             <div class="bg-white rounded-xl border border-purple-100 shadow-sm overflow-hidden">
-                <div id="${divId}" 
-                     class="ql-editor ql-container ql-bubble min-h-[100px] text-[14px] cursor-text p-4"
-                     onclick="initEditorOnDemand(this, '${storageKey}')">
-                    ${localStorage.getItem(storageKey) || '<p class="text-gray-300 italic">Click to start writing...</p>'}
+                <div id="${divId}" class="rich-note-editor min-h-[100px] text-[14px]">
+                    ${localStorage.getItem(storageKey) || ''}
                 </div>
             </div>`;
         
         fragment.appendChild(div);
+        editorsToInit.push({ id: divId, key: storageKey });
         i++;
     }
+
     contentArea.innerHTML = '';
     contentArea.appendChild(fragment);
     contentArea.dataset.loaded = "true";
+
+    // Immediately turn them into Rich Text Editors
+    editorsToInit.forEach(ed => {
+        const quill = new Quill(`#${ed.id}`, {
+            theme: 'bubble',
+            placeholder: 'Start typing notes...',
+            modules: {
+                toolbar: [['bold', 'italic', 'underline'], [{ 'list': 'bullet' }, { 'list': 'ordered' }], ['clean']]
+            }
+        });
+        quill.on('text-change', () => {
+            saveNoteRecursive(ed.key, quill.root.innerHTML);
+            debounceUpdateProgressAndSave();
+        });
+    });
 }
 
 // Global helper for the recursion
