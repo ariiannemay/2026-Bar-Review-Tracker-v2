@@ -5743,41 +5743,42 @@ function renderSubTopics(detailsElement, sub, startIndex) {
         const storageKey = `note_${sub}_${parent ? parent.topic : ''}_${item.topic}`;
 
         const div = document.createElement('div');
-        div.className = "mb-6 ml-4"; // Container for the editor
+        div.className = "mb-6 ml-4"; 
         
-        // Create the editor holder
+        // Use a safe ID without spaces for the HTML element
+        const divId = `editor-${storageKey.replace(/\s+/g, '_')}`;
+
         div.innerHTML = `
             <label class="block text-[10px] font-black text-[#B266FF] uppercase mb-1 tracking-widest">${item.topic}</label>
             <div class="bg-white rounded-xl border border-purple-100 shadow-sm overflow-hidden">
-                <div id="editor-${storageKey.replace(/ /g, '_')}" class="quill-editor min-h-[150px] text-[14px]">
+                <div id="${divId}" class="quill-editor min-h-[150px] text-[14px]">
                     ${localStorage.getItem(storageKey) || ''}
                 </div>
             </div>`;
-        
+
         fragment.appendChild(div);
-        
-        // Initialize Quill for this specific box after it's added to DOM
+
+        // Initialize Quill and attach the Save listener
         setTimeout(() => {
-            const editorId = `#editor-${storageKey.replace(/ /g, '_')}`;
-            const quill = new Quill(editorId, {
-                theme: 'bubble', // 'bubble' theme gives you that clean floating toolbar
+            const quill = new Quill(`#${divId}`, { 
+                theme: 'bubble',
                 placeholder: 'Type your legal notes here...',
                 modules: {
                     toolbar: [
                         ['bold', 'italic', 'underline', 'strike'],
                         [{ 'header': 1 }, { 'header': 2 }],
                         [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        ['blockquote', 'code-block'],
-                        ['clean'] // remove formatting button
+                        ['blockquote'],
+                        ['clean']
                     ]
                 }
             });
 
-            // Save content on every change
+            // CRITICAL: This part was missing from your snippet!
             quill.on('text-change', () => {
                 const html = quill.root.innerHTML;
-                saveNoteRecursive(storageKey, html);
-                debounceUpdateProgressAndSave();
+                saveNoteRecursive(storageKey, html); // Saves to localStorage
+                debounceUpdateProgressAndSave();    // Updates your progress bars
             });
         }, 0);
 
@@ -7103,3 +7104,4 @@ document.head.appendChild(style);
 
 </body>
 </html>
+    
