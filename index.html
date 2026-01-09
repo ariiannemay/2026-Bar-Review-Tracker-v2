@@ -5741,54 +5741,28 @@ function renderSubTopics(detailsElement, sub, startIndex) {
         const item = syllabus[i];
         const parent = syllabus.slice(0, i).reverse().find(s => s.depth === 1);
         const storageKey = `note_${sub}_${parent ? parent.topic : ''}_${item.topic}`;
-
-        const div = document.createElement('div');
-        div.className = "mb-6 ml-4"; 
-        
-        // Use a safe ID without spaces for the HTML element
         const divId = `editor-${storageKey.replace(/\s+/g, '_')}`;
 
+        const div = document.createElement('div');
+        div.className = "mb-6 ml-4";
+        
+        // --- FAST LOAD: Start as a static div ---
         div.innerHTML = `
             <label class="block text-[10px] font-black text-[#B266FF] uppercase mb-1 tracking-widest">${item.topic}</label>
             <div class="bg-white rounded-xl border border-purple-100 shadow-sm overflow-hidden">
-                <div id="${divId}" class="quill-editor min-h-[150px] text-[14px]">
-                    ${localStorage.getItem(storageKey) || ''}
+                <div id="${divId}" 
+                     class="ql-editor ql-container ql-bubble min-h-[100px] text-[14px] cursor-text p-4"
+                     onclick="initEditorOnDemand(this, '${storageKey}')">
+                    ${localStorage.getItem(storageKey) || '<p class="text-gray-300 italic">Click to start writing...</p>'}
                 </div>
             </div>`;
-
+        
         fragment.appendChild(div);
-
-        // Initialize Quill and attach the Save listener
-        setTimeout(() => {
-            const quill = new Quill(`#${divId}`, { 
-                theme: 'bubble',
-                placeholder: 'Type your legal notes here...',
-                modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline', 'strike'],
-                        [{ 'header': 1 }, { 'header': 2 }],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        ['blockquote'],
-                        ['clean']
-                    ]
-                }
-            });
-
-            // CRITICAL: This part was missing from your snippet!
-            quill.on('text-change', () => {
-                const html = quill.root.innerHTML;
-                saveNoteRecursive(storageKey, html); // Saves to localStorage
-                debounceUpdateProgressAndSave();    // Updates your progress bars
-            });
-        }, 0);
-
         i++;
     }
-
     contentArea.innerHTML = '';
     contentArea.appendChild(fragment);
     contentArea.dataset.loaded = "true";
-    lucide.createIcons();
 }
 
 // Global helper for the recursion
@@ -7095,6 +7069,30 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
+// This function only loads Quill when you actually click a box
+function initEditorOnDemand(el, storageKey) {
+    if (el.classList.contains('ql-initialized')) return; // Already loaded
+    
+    // Clear the placeholder if it exists
+    if (el.innerHTML.includes('Click to start writing...')) el.innerHTML = '';
+
+    const quill = new Quill(el, {
+        theme: 'bubble',
+        placeholder: 'Type your legal notes here...',
+        modules: {
+            toolbar: [['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['clean']]
+        }
+    });
+
+    el.classList.add('ql-initialized');
+    quill.focus();
+
+    quill.on('text-change', () => {
+        saveNoteRecursive(storageKey, quill.root.innerHTML);
+        debounceUpdateProgressAndSave();
+    });
+}
+
     </script>
 
 <div id="themed-modal-container" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-[200] p-4">
@@ -7104,4 +7102,3 @@ document.head.appendChild(style);
 
 </body>
 </html>
-    
