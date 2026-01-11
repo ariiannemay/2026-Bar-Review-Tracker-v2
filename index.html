@@ -5757,12 +5757,12 @@ if (btn) {
     };
 const cleanName = subjectNames[sub] || sub.toUpperCase();
     const percent = Math.round((subDone / subCount) * 100) || 0;
-    
-// PINPOINTED FIX: Dynamic text color for the percentage label within the pill
+
+    // PINPOINTED FIX: Ensure text is black for yellow (tax) and white for others
     const pillTextColor = (sub === 'tax') ? 'text-black' : 'text-white';
 
     btn.innerHTML = `
-        <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center justify-between gap-2 w-full">
             <span class="font-black text-[10px] tracking-tighter truncate">${cleanName}</span>
             <div class="flex items-center gap-1">
                 <div class="w-16 bg-black/20 h-1.5 rounded-full overflow-hidden flex-shrink-0">
@@ -5775,7 +5775,6 @@ const cleanName = subjectNames[sub] || sub.toUpperCase();
                 </span>
             </div>
         </div>`;
-
     // Keep the active tab highlighted
     if (document.querySelector('.notes-sub-tab.active') === btn) {
         btn.classList.add('active');
