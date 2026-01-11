@@ -5606,13 +5606,14 @@ function switchNotesSubject(sub) {
         const syllabus = NOTES_SYLLABUS[sub];
         if (!container || !syllabus) return;
 
-        // --- CALCULATE STATS FOR HEADER ---
+        // CALCULATE STATS IMMEDIATELY FOR HEADER
         let total = 0, done = 0;
         syllabus.forEach((item, index) => {
             if (item.depth === 2) {
                 total++;
                 const parent = syllabus.slice(0, index).reverse().find(i => i.depth === 1);
-                if (localStorage.getItem(`note_${sub}_${parent ? parent.topic : ''}_${item.topic}`)) done++;
+                const storageKey = `note_${sub}_${parent ? parent.topic : ''}_${item.topic}`;
+                if (localStorage.getItem(storageKey)?.trim().length > 0) done++;
             }
         });
         const percent = total > 0 ? Math.round((done / total) * 100) : 0;
@@ -5657,7 +5658,6 @@ function switchNotesSubject(sub) {
         </div>
 
 <div id="notes-list-wrapper"></div>`;
-// Render the actual syllabus list below the header
 const listWrapper = document.getElementById('notes-list-wrapper');
 syllabus.forEach((item, index) => {
 if (item.depth === 1) {
@@ -5716,6 +5716,7 @@ lucide.createIcons();
 // Global helper for the recursion
 function saveNoteRecursive(key, val) {
 localStorage.setItem(key, val);
+updateProgress();
 }
 
 
@@ -5759,7 +5760,7 @@ if (btn) {
 const cleanName = subjectNames[sub] || sub.toUpperCase();
     const percent = Math.round((subDone / subCount) * 100) || 0;
 
-// PINPOINTED FIX: Dynamic text color for percentage visibility
+// PINPOINTED FIX: Percentage Visibility & White Progress Bar
     const pillTextColor = (sub === 'tax') ? 'text-black' : 'text-white';
 
     btn.innerHTML = `
@@ -5777,7 +5778,6 @@ const cleanName = subjectNames[sub] || sub.toUpperCase();
             </div>
         </div>`;
 
-    // Keep the active tab highlighted
     if (document.querySelector('.notes-sub-tab.active') === btn) {
         btn.classList.add('active');
     }
