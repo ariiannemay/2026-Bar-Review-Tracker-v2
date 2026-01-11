@@ -5719,12 +5719,13 @@ i++;
 contentArea.innerHTML = '';
 contentArea.appendChild(fragment);
 contentArea.dataset.loaded = "true";
-setTimeout(setupNotesLiveUpdate, 100);
-
 setTimeout(() => {
-contentArea.querySelectorAll('textarea').forEach(autoExpand);
-lucide.createIcons();
-}, 10);
+        contentArea.querySelectorAll('textarea').forEach(el => {
+            el.style.height = 'inherit';
+            el.style.height = el.scrollHeight + 'px';
+        });
+        if (window.lucide) lucide.createIcons();
+    }, 10);
 }
 
 // Global helper for the recursion
