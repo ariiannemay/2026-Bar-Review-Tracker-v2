@@ -14,9 +14,6 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-<link href="https://cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
-<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
-
     <!-- ADDED: Calendar Dependencies -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
@@ -1175,56 +1172,6 @@ transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     background-color: var(--theme-primary) !important;
 }
 
-/* Quill Editor Adjustments */
-.ql-container.ql-bubble {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-}
-
-.ql-editor {
-    min-height: 120px;
-    padding: 15px !important;
-    line-height: 1.6;
-}
-
-/* Make the floating toolbar match your purple theme */
-.ql-bubble .ql-tooltip {
-    background-color: #330066 !important;
-    border-radius: 8px !important;
-    color: white !important;
-}
-
-.ql-bubble .ql-stroke {
-    stroke: white !important;
-}
-
-.ql-editor blockquote {
-    border-left: 4px solid #B266FF;
-    padding-left: 15px;
-    color: #666;
-    font-style: italic;
-}
-
-/* Force rich text styling to be visible */
-.ql-editor b, .ql-editor strong { 
-    font-weight: bold !important; 
-    color: #000; 
-}
-.ql-editor i, .ql-editor em { 
-    font-style: italic !important; 
-}
-.ql-editor ul { 
-    list-style-type: disc !important; 
-    padding-left: 1.5rem !important; 
-}
-.ql-editor ol { 
-    list-style-type: decimal !important; 
-    padding-left: 1.5rem !important; 
-}
-
-ul { list-style-type: disc; margin-left: 20px; padding-left: 5px; }
-    ol { list-style-type: decimal; margin-left: 20px; padding-left: 5px; }
-    p { margin: 0 0 10px 0; }
 </style>
     
     <!-- Vercel Web Analytics -->
@@ -1810,12 +1757,12 @@ oninput="handleNotesSearch(this.value)">
 
 
 <div class="w-full mb-6 border-b pb-4" id="notes-subject-tabs">
-<button onclick="switchNotesSubject('rem')" class="notes-sub-tab" id="sub-btn-rem" data-sub="rem">Remedial Law</button>
-<button onclick="switchNotesSubject('crim')" class="notes-sub-tab" id="sub-btn-crim" data-sub="crim">Criminal Law</button>
-<button onclick="switchNotesSubject('lab')" class="notes-sub-tab" id="sub-btn-lab" data-sub="lab">Labor Law</button>
-<button onclick="switchNotesSubject('civ')" class="notes-sub-tab" id="sub-btn-civ" data-sub="civ">Civil Law</button>
-<button onclick="switchNotesSubject('tax')" class="notes-sub-tab" id="sub-btn-tax" data-sub="tax">Commercial Law</button>
-<button onclick="switchNotesSubject('poli')" class="notes-sub-tab active" id="sub-btn-poli" data-sub="poli">Political Law</button>
+<button onclick="switchNotesSubject('rem')" class="notes-sub-tab" id="sub-btn-rem" data-sub="rem" style="background-color: #674ea7; color: white;">Remedial Law</button>
+<button onclick="switchNotesSubject('crim')" class="notes-sub-tab" id="sub-btn-crim" data-sub="crim" style="background-color: #b33a3a; color: white;">Criminal Law</button>
+<button onclick="switchNotesSubject('lab')" class="notes-sub-tab" id="sub-btn-lab" data-sub="lab" style="background-color: #38761d; color: white;">Labor Law</button>
+<button onclick="switchNotesSubject('civ')" class="notes-sub-tab" id="sub-btn-civ" data-sub="civ" style="background-color: #1e3a8a; color: white;">Civil Law</button>
+<button onclick="switchNotesSubject('tax')" class="notes-sub-tab" id="sub-btn-tax" data-sub="tax" style="background-color: #eab308; color: black;">Commercial Law</button>
+<button onclick="switchNotesSubject('poli')" class="notes-sub-tab" id="sub-btn-poli" data-sub="poli" style="background-color: #795548; color: white;">Political Law</button>
 </div>
 
 <div id="notes-container" class="space-y-4"></div>
@@ -1889,17 +1836,17 @@ Add Topic
 <div id="tab-todo" class="tab-content">
 <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden flex flex-col min-h-[700px]">
 <div class="header-bg p-4 flex flex-col md:flex-row justify-between items-center gap-4">
-<div class="flex items-center gap-4">
-<button onclick="navigateTodo(-1)" class="p-2 hover:bg-white/10 rounded-full text-white">
-<i data-lucide="chevron-left"></i>
-</button>
-<div class="text-white text-center md:text-left min-w-[180px]">
-<h2 id="todo-view-title" class="header-font text-2xl tracking-widest uppercase">Agenda</h2>
-<p id="todo-date-display" class="text-[10px] font-bold uppercase opacity-80"></p>
-</div>
-<button onclick="navigateTodo(1)" class="p-2 hover:bg-white/10 rounded-full text-white">
-<i data-lucide="chevron-right"></i>
-</button>
+    <div class="flex items-center gap-4">
+        <button onclick="navigateTodo(-1)" class="p-2 hover:bg-white/10 rounded-full text-white">
+            <i data-lucide="chevron-left"></i>
+        </button>
+        <div class="text-white text-center md:text-left min-w-[180px]">
+            <h2 id="todo-view-title" class="header-font text-2xl tracking-widest uppercase">To-Do List</h2>
+            <p id="todo-date-display" class="text-[10px] font-bold uppercase opacity-80"></p>
+        </div>
+        <button onclick="navigateTodo(1)" class="p-2 hover:bg-white/10 rounded-full text-white">
+            <i data-lucide="chevron-right"></i>
+        </button>
 
 <div class="flex items-center ml-2 bg-[#B266FF] rounded-lg overflow-hidden border border-white/20 shadow-sm">
 <button onclick="jumpToToday()" class="px-3 py-1.5 text-[10px] font-black uppercase text-white hover:bg-white hover:text-[#330066] transition-all border-r border-white/20">
@@ -5571,14 +5518,10 @@ if (tabId === 'tab-todo') renderTodoView();
 if (tabId === 'tab-links') renderLinks();
 if (tabId === 'tab-materials') renderMaterials();
 
-// 4. Special handling for Review Notes tab
-if (tabId === 'tab-notes') {
-const container = document.getElementById('notes-container');
-// Only trigger a subject switch if the container is currently empty
-if (!container.innerHTML.trim() || container.innerHTML.includes('loader-2')) {
-switchNotesSubject('rem');
-}
-}
+// Special handling for Review Notes tab to ensure Remedial Law loads first
+    if (tabId === 'tab-notes') {
+        switchNotesSubject('rem');
+    }
 }
 
 const loadedScripts = new Set();
@@ -5647,40 +5590,26 @@ script.onerror = () => {
 }
 
 function switchNotesSubject(sub) {
-const searchInput = document.getElementById('notes-search');
-if (searchInput) searchInput.value = '';
-document.querySelectorAll('.notes-sub-tab').forEach(b => b.classList.remove('active'));
-const activeBtn = document.getElementById('sub-btn-' + sub);
-if (activeBtn) activeBtn.classList.add('active');
+    const searchInput = document.getElementById('notes-search');
+    if (searchInput) searchInput.value = '';
+    
+    document.querySelectorAll('.notes-sub-tab').forEach(b => b.classList.remove('active'));
+    const activeBtn = document.getElementById('sub-btn-' + sub);
+    if (activeBtn) activeBtn.classList.add('active');
 
-lazyLoadSubject(sub, () => {
-    const container = document.getElementById('notes-container');
-    const syllabus = NOTES_SYLLABUS[sub];
-    if (!container || !syllabus) return;
+    lazyLoadSubject(sub, () => {
+        const container = document.getElementById('notes-container');
+        const syllabus = NOTES_SYLLABUS[sub];
+        if (!container || !syllabus) return;
 
-    const subjectTitle = activeBtn.innerText.replace(/\s*\(\d+%\)\s*/g, "").replace(/\s*\d+%\s*$/g, "").trim();
-    const activeColor = getActiveThemeColor(sub);
+        const subjectTitle = activeBtn.innerText.split('\n')[0].trim();
+        const activeColor = getActiveThemeColor(sub);
 
-// Map specific icons based on subject name
-const iconMap = { poli: 'landmark', lab: 'handshake', civ: 'building-2', tax: 'banknote', crim: 'shield', rem: 'gavel' };
-const icon = iconMap[sub] || 'book';
-
-// Calculate Stats for the Header
-let total = 0, done = 0;
-syllabus.forEach((item, index) => {
-if (item.depth === 2) {
-total++;
-const parent = syllabus.slice(0, index).reverse().find(i => i.depth === 1);
-if (localStorage.getItem(`note_${sub}_${parent ? parent.topic : ''}_${item.topic}`)?.trim()) done++;
-}
-});
-const percent = total === 0 ? 0 : Math.round((done / total) * 100);
-
-// Premium Subject Header themed after the Materials Tracker
-const isTax = sub === 'tax'; // Commercial Law check
-const textColor = isTax ? '#000000' : '#FFFFFF'; // Updated to your requested #000000
-const mutedColor = isTax ? 'rgba(51, 0, 102, 0.6)' : 'rgba(255, 255, 255, 0.6)';
-const btnBg = isTax ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.2)';
+        // PINPOINTED FIX: Handle Tax Visibility in Header
+        const isTax = (sub === 'tax');
+        const textColor = isTax ? '#000000' : '#FFFFFF';
+        const mutedColor = isTax ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.6)';
+        const btnBg = isTax ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.2)';
 
 container.innerHTML = `
 <div class="rounded-xl overflow-hidden mb-6 shadow-md border border-gray-100 transition-all duration-500">
@@ -5748,54 +5677,39 @@ setTimeout(setupNotesLiveUpdate, 500);
 }
 
 function renderSubTopics(detailsElement, sub, startIndex) {
-    const contentArea = detailsElement.querySelector('.sub-content-area');
-    if (contentArea.dataset.loaded === "true") return;
+const contentArea = detailsElement.querySelector('.sub-content-area');
+if (contentArea.dataset.loaded === "true") return;
 
-    const syllabus = NOTES_SYLLABUS[sub];
-    const fragment = document.createDocumentFragment();
-    let i = startIndex + 1;
-    const editorsToInit = [];
+const syllabus = NOTES_SYLLABUS[sub];
+const fragment = document.createDocumentFragment();
+let i = startIndex + 1;
 
-    while (i < syllabus.length && syllabus[i].depth > 1) {
-        const item = syllabus[i];
-        const parent = syllabus.slice(0, i).reverse().find(s => s.depth === 1);
-        const storageKey = `note_${sub}_${parent ? parent.topic : ''}_${item.topic}`;
-        const divId = `editor-${storageKey.replace(/\s+/g, '_')}`;
+while (i < syllabus.length && syllabus[i].depth > 1) {
+const item = syllabus[i];
+const parent = syllabus.slice(0, i).reverse().find(s => s.depth === 1);
+const storageKey = `note_${sub}_${parent ? parent.topic : ''}_${item.topic}`;
 
-        const div = document.createElement('div');
-        div.className = "mb-6 ml-4";
-        
-        div.innerHTML = `
-            <label class="block text-[10px] font-black text-[#B266FF] uppercase mb-1 tracking-widest">${item.topic}</label>
-            <div class="bg-white rounded-xl border border-purple-100 shadow-sm overflow-hidden">
-                <div id="${divId}" class="rich-note-editor min-h-[100px] text-[14px]">
-                    ${localStorage.getItem(storageKey) || ''}
-                </div>
-            </div>`;
-        
-        fragment.appendChild(div);
-        editorsToInit.push({ id: divId, key: storageKey });
-        i++;
-    }
+const div = document.createElement('div');
+div.className = "bg-white p-4 rounded-lg border border-purple-100 shadow-inner mb-3 ml-4";
+div.innerHTML = `
+<label class="block text-[10px] font-black text-[#B266FF] uppercase mb-2 tracking-widest">${item.topic}</label>
+<textarea class="auto-expand w-full bg-transparent border-none outline-none resize-none overflow-hidden text-[13px]"
+placeholder="Take notes..."
+oninput="autoExpand(this); saveNoteRecursive('${storageKey}', this.value); debounceUpdateProgressAndSave()"
+>${localStorage.getItem(storageKey) || ''}</textarea>`;
+fragment.appendChild(div);
+i++;
+}
 
-    contentArea.innerHTML = '';
-    contentArea.appendChild(fragment);
-    contentArea.dataset.loaded = "true";
+contentArea.innerHTML = '';
+contentArea.appendChild(fragment);
+contentArea.dataset.loaded = "true";
+setTimeout(setupNotesLiveUpdate, 100);
 
-    // Immediately turn them into Rich Text Editors
-    editorsToInit.forEach(ed => {
-        const quill = new Quill(`#${ed.id}`, {
-            theme: 'bubble',
-            placeholder: 'Start typing notes...',
-            modules: {
-                toolbar: [['bold', 'italic', 'underline'], [{ 'list': 'bullet' }, { 'list': 'ordered' }], ['clean']]
-            }
-        });
-        quill.on('text-change', () => {
-            saveNoteRecursive(ed.key, quill.root.innerHTML);
-            debounceUpdateProgressAndSave();
-        });
-    });
+setTimeout(() => {
+contentArea.querySelectorAll('textarea').forEach(autoExpand);
+lucide.createIcons();
+}, 10);
 }
 
 // Global helper for the recursion
@@ -5816,21 +5730,18 @@ let subCount = 0;
 let subDone = 0;
 
 syllabus.forEach((item, index) => {
-            if (item.depth === 2) {
-                totalSubtopics++;
-                subCount++;
-                const parent = syllabus.slice(0, index).reverse().find(i => i.depth === 1);
-                
-                // FIX: Check for HTML content instead of just textarea value
-                const savedContent = localStorage.getItem(`note_${sub}_${parent ? parent.topic : ''}_${item.topic}`);
-                
-                // Quill saves empty notes as "<p><br></p>", so we check for actual text
-                if (savedContent && savedContent.replace(/<[^>]*>/g, '').trim().length > 0) {
-                    completedSubtopics++;
-                    subDone++;
-                }
-            }
-        });
+if (item.depth === 2) {
+totalSubtopics++;
+subCount++;
+const parent = syllabus.slice(0, index).reverse().find(i => i.depth === 1);
+// Topic is DONE only if note exists and is not just whitespace
+const savedContent = localStorage.getItem(`note_${sub}_${parent ? parent.topic : ''}_${item.topic}`);
+if (savedContent && savedContent.trim().length > 0) {
+completedSubtopics++;
+subDone++;
+}
+}
+});
 
 const percent = Math.round((subDone / subCount) * 100) || 0;
 const btn = document.getElementById('sub-btn-' + sub);
@@ -5844,24 +5755,26 @@ if (btn) {
         lab: 'Labor Law',
         tax: 'Commercial Law'
     };
-    const cleanName = subjectNames[sub] || sub.toUpperCase();
-
+const cleanName = subjectNames[sub] || sub.toUpperCase();
     const percent = Math.round((subDone / subCount) * 100) || 0;
+    
+// PINPOINTED FIX: Dynamic text color for the percentage label within the pill
+    const pillTextColor = (sub === 'tax') ? 'text-black' : 'text-white';
 
-btn.innerHTML = `
-    <div class="flex items-center justify-between gap-2">
-        <span class="font-black text-[10px] tracking-tighter truncate">${cleanName}</span>
-        <div class="flex items-center gap-1">
-            <div class="w-16 bg-gray-200 h-1.5 rounded-full overflow-hidden flex-shrink-0">
-                <div class="h-full transition-all duration-500" 
-                     style="width: ${percent}%; background-color: ${getActiveThemeColor(sub)}">
+    btn.innerHTML = `
+        <div class="flex items-center justify-between gap-2">
+            <span class="font-black text-[10px] tracking-tighter truncate">${cleanName}</span>
+            <div class="flex items-center gap-1">
+                <div class="w-16 bg-black/20 h-1.5 rounded-full overflow-hidden flex-shrink-0">
+                    <div class="h-full transition-all duration-500" 
+                         style="width: ${percent}%; background-color: white">
+                    </div>
                 </div>
+                <span class="text-[9px] font-black min-w-[24px] text-right ${pillTextColor}">
+                    ${percent}%
+                </span>
             </div>
-            <span class="text-[9px] font-bold min-w-[24px] text-right ${sub === 'tax' ? 'text-gray-800' : 'text-white'}">
-                ${percent}%
-            </span>
-        </div>
-    </div>`;
+        </div>`;
 
     // Keep the active tab highlighted
     if (document.querySelector('.notes-sub-tab.active') === btn) {
@@ -6539,31 +6452,33 @@ currentD = syllabus[j].depth;
 }
 }
 const key = `note_${sub}_${path.join('_')}_${item.topic}`;
-            let rawNote = localStorage.getItem(key) || "";
-            const isEmpty = rawNote.replace(/<[^>]*>/g, '').trim() === "";
+let rawNote = localStorage.getItem(key) || "";
+const isEmpty = rawNote.trim() === "";
 
-            printTemplate += `
-            <div style="
-                display: block;
-                width: auto;
-                margin-left: ${indent + 20}px;
-                margin-top: 5px;
-                margin-bottom: 15px;
-                padding-left: 15px;
-                border-left: 2px solid #e5e7eb;
-                font-family: 'Inter', sans-serif;
-                min-height: ${isEmpty ? '40px' : 'auto'};
-            ">
-                <div style="
-                    font-size: 13px;
-                    line-height: 1.6;
-                    color: #1f2937;
-                    word-wrap: break-word;
-                    overflow-wrap: break-word;
-                ">
-                    ${isEmpty ? '' : rawNote} 
-                </div>
-            </div>`;
+// LOGIC: If empty, show a blank space with a min-height for handwriting
+printTemplate += `
+<div style="
+display: block;
+width: auto;
+margin-left: ${indent + 20}px;
+margin-top: 5px;
+margin-bottom: 15px;
+padding-left: 15px;
+border-left: 2px solid #e5e7eb;
+font-family: 'Inter', sans-serif;
+min-height: ${isEmpty ? '40px' : 'auto'};
+">
+<div style="
+white-space: pre-wrap;
+font-size: 13px;
+line-height: 1.6;
+color: #1f2937;
+word-wrap: break-word;
+overflow-wrap: break-word;
+">
+${isEmpty ? '' : escapeHtml(rawNote)}
+</div>
+</div>`;
 }
 });
 
@@ -7066,63 +6981,6 @@ function setupNotesLiveUpdate() {
             updateProgress();
             updateLastSaved();
         });
-    });
-}
-
-// Function to handle the formatting commands
-function formatNote(command) {
-    document.execCommand(command, false, null);
-    
-    // Keep focus on the note after clicking a button
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-        const container = selection.getRangeAt(0).commonAncestorContainer;
-        const editor = container.nodeType === 3 ? container.parentNode : container;
-        if (editor.closest('.rich-note-editor')) {
-            editor.focus();
-        }
-    }
-}
-
-// Add styles for the editor and bullet points
-const style = document.createElement('style');
-style.innerHTML = `
-    .rich-note-editor {
-        padding: 10px;
-        line-height: 1.6;
-        min-height: 100px;
-    }
-    .rich-note-editor ul {
-        list-style-type: disc !important;
-        padding-left: 25px !important;
-        margin: 10px 0;
-    }
-    .rich-note-editor b, .rich-note-editor strong { font-weight: bold; }
-    .rich-note-editor i, .rich-note-editor em { font-style: italic; }
-`;
-document.head.appendChild(style);
-
-// This function only loads Quill when you actually click a box
-function initEditorOnDemand(el, storageKey) {
-    if (el.classList.contains('ql-initialized')) return; // Already loaded
-    
-    // Clear the placeholder if it exists
-    if (el.innerHTML.includes('Click to start writing...')) el.innerHTML = '';
-
-    const quill = new Quill(el, {
-        theme: 'bubble',
-        placeholder: 'Type your legal notes here...',
-        modules: {
-            toolbar: [['bold', 'italic', 'underline'], [{ 'list': 'ordered'}, { 'list': 'bullet' }], ['clean']]
-        }
-    });
-
-    el.classList.add('ql-initialized');
-    quill.focus();
-
-    quill.on('text-change', () => {
-        saveNoteRecursive(storageKey, quill.root.innerHTML);
-        debounceUpdateProgressAndSave();
     });
 }
 
