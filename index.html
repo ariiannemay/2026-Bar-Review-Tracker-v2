@@ -673,9 +673,12 @@ text-align: center;
 
 /* Match the color coding of your #AweSAMBar2026 brand */
 .notes-sub-tab.active {
-    color: white !important;
-    box-shadow: 0 4px 6px -1px rgba(178, 102, 255, 0.2);
+background: var(--color-primary-dark); /* #330066 */
+color: white;
+border-color: var(--color-secondary-gold); /* #B266FF */
+box-shadow: 0 4px 6px -1px rgba(178, 102, 255, 0.2);
 }
+
 .notes-sub-tab:hover:not(.active) {
 background: #f3e8ff;
 border-color: #d8b4fe;
@@ -5719,13 +5722,12 @@ i++;
 contentArea.innerHTML = '';
 contentArea.appendChild(fragment);
 contentArea.dataset.loaded = "true";
+setTimeout(setupNotesLiveUpdate, 100);
+
 setTimeout(() => {
-        contentArea.querySelectorAll('textarea').forEach(el => {
-            el.style.height = 'inherit';
-            el.style.height = el.scrollHeight + 'px';
-        });
-        if (window.lucide) lucide.createIcons();
-    }, 10);
+contentArea.querySelectorAll('textarea').forEach(autoExpand);
+lucide.createIcons();
+}, 10);
 }
 
 // Global helper for the recursion
